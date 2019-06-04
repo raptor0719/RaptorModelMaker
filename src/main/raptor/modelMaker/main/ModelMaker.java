@@ -130,9 +130,9 @@ public class ModelMaker {
 		frameSelectionPanel_constraints.gridx = 2;
 		frameSelectionPanel_constraints.gridy = 2;
 		frameSelectionPanel_constraints.gridwidth = 1;
-		frameSelectionPanel_constraints.gridheight = 1;
+		frameSelectionPanel_constraints.gridheight = 2;
 		frameSelectionPanel_constraints.weightx = 0.1;
-		frameSelectionPanel_constraints.weighty = 0.0;
+		frameSelectionPanel_constraints.weighty = 0.7;
 		frameSelectionPanel_constraints.fill = GridBagConstraints.BOTH;
 		frameSelectionPanel_constraints.anchor = GridBagConstraints.PAGE_START;
 
@@ -147,15 +147,6 @@ public class ModelMaker {
 		frameSelectionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		frameSelectionTable.setCellSelectionEnabled(false);
 		frameSelectionTable.setRowSelectionAllowed(true);
-
-		frameSelectionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-			@Override
-			public void valueChanged(ListSelectionEvent arg0) {
-				System.out.println(frameSelectionTable.getSelectedRow());
-			}
-
-		});
 
 		frameSelection_setPortionButton.addActionListener(new ActionListener() {
 			@Override
@@ -219,21 +210,42 @@ public class ModelMaker {
 		pointSelectionPanel_constraints.gridwidth = 1;
 		pointSelectionPanel_constraints.gridheight = 2;
 		pointSelectionPanel_constraints.weightx = 0.1;
-		pointSelectionPanel_constraints.weighty = 0.7;
+		pointSelectionPanel_constraints.weighty = 0.3;
 		pointSelectionPanel_constraints.fill = GridBagConstraints.BOTH;
 		pointSelectionPanel_constraints.anchor = GridBagConstraints.PAGE_START;
 
 		final JLabel pointSelectionHeader = new JLabel("Points");
 		final JTable pointSelectionTable = new JTable();
 		final JScrollPane pointSelectionTable_scroller = new JScrollPane(pointSelectionTable);
+		final JTextField pointSelection_valueInput = new JTextField();
+		pointSelection_valueInput.setMaximumSize(new Dimension(1000, 100));
+		final JButton pointSelection_commitValut = new JButton("Set Value");
+		final JSlider directionSlider = new JSlider();
+		directionSlider.setValue(0);
+		directionSlider.setMinimum(0);
+		directionSlider.setMaximum(model.getWireModel().getDirectionCount() - 1);
+		directionSlider.setPaintTicks(true);
+		directionSlider.setMajorTickSpacing(1);
 
 		pointSelectionTable_scroller.setPreferredSize(new Dimension(100, 100));
 		pointSelectionTable_scroller.setBorder(BorderFactory.createEmptyBorder());
 
+		frameSelectionTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				if (frameSelectionTable.getSelectedRow() > -1) {
+					pointSelectionTable.setModel(createPointTableModel(wireModel.getAnimations().get(animationSelection.getSelectedIndex()).getFrames().get(frameSelectionTable.getSelectedRow()).getDirections()[directionSlider.getValue()]));;
+				}
+			}
+		});
 
+		//TODO: Add direction slider listener, add commitValut listener
 
 		pointSelectionPanel.add(pointSelectionHeader);
 		pointSelectionPanel.add(pointSelectionTable_scroller);
+		pointSelectionPanel.add(pointSelection_valueInput);
+		pointSelectionPanel.add(pointSelection_commitValut);
+		pointSelectionPanel.add(directionSlider);
 
 		pointSelectionPanel.setVisible(true);
 
@@ -247,7 +259,7 @@ public class ModelMaker {
 		frameModifierPanel_constraints.gridx = 0;
 		frameModifierPanel_constraints.gridy = 1;
 		frameModifierPanel_constraints.gridwidth = 1;
-		frameModifierPanel_constraints.gridheight = 2;
+		frameModifierPanel_constraints.gridheight = 3;
 		frameModifierPanel_constraints.weightx = 1.0;
 		frameModifierPanel_constraints.weighty = 1.0;
 		frameModifierPanel_constraints.fill = GridBagConstraints.BOTH;
@@ -262,7 +274,7 @@ public class ModelMaker {
 		final JPanel controlsPanel = new JPanel();
 		final GridBagConstraints controlsPanel_constraints = new GridBagConstraints();
 		controlsPanel_constraints.gridx = 0;
-		controlsPanel_constraints.gridy = 3;
+		controlsPanel_constraints.gridy = 4;
 		controlsPanel_constraints.gridwidth = 1;
 		controlsPanel_constraints.gridheight = 2;
 		controlsPanel_constraints.weightx = 0.0;
@@ -271,12 +283,10 @@ public class ModelMaker {
 		controlsPanel_constraints.anchor = GridBagConstraints.CENTER;
 
 		final JSlider framesSlider = new JSlider();
-		final JSlider directionSlider = new JSlider();
 		final JTextField frameCountInput = new JTextField();
 		final JButton playButton = new JButton("Play");
 
 		controlsPanel.add(framesSlider);
-		controlsPanel.add(directionSlider);
 		controlsPanel.add(frameCountInput);
 		controlsPanel.add(playButton);
 
