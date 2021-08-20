@@ -1,4 +1,4 @@
-package raptor.modelMaker.main;
+package raptor.modelMaker.main.components;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;

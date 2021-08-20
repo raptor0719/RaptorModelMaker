@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import raptor.modelMaker.main.components.TopMenuBar;
+
 public class ModelMaker {
 	public ModelMaker() {
 		// Setup
