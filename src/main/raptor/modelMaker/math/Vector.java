@@ -6,15 +6,11 @@ public class Vector {
 	private final double[] vector;
 
 	public Vector() {
-		this(0, 0, 0, 0);
+		this(0, 0, 0);
 	}
 
 	public Vector(final double x, final double y, final double z) {
-		this.vector = new double[] {x, y, z, 0};
-	}
-
-	public Vector(final double x, final double y, final double z, final double w) {
-		this.vector = new double[] {x, y, z, w};
+		this.vector = new double[] {x, y, z};
 	}
 
 	public double[] getRaw() {
@@ -39,20 +35,13 @@ public class Vector {
 
 		resultRaw[0] = resultRaw[0]*transformRaw[0][0] +
 				resultRaw[1]*transformRaw[1][0] +
-				resultRaw[2]*transformRaw[2][0] +
-				resultRaw[3]*transformRaw[3][0];
+				resultRaw[2]*transformRaw[2][0];
 		resultRaw[1] = resultRaw[0]*transformRaw[0][1] +
 				resultRaw[1]*transformRaw[1][1] +
-				resultRaw[2]*transformRaw[2][1] +
-				resultRaw[3]*transformRaw[3][1];
+				resultRaw[2]*transformRaw[2][1];
 		resultRaw[2] = resultRaw[0]*transformRaw[0][2] +
 				resultRaw[1]*transformRaw[1][2] +
-				resultRaw[2]*transformRaw[2][2] +
-				resultRaw[3]*transformRaw[3][2];
-		resultRaw[3] = resultRaw[0]*transformRaw[0][3] +
-				resultRaw[1]*transformRaw[1][3] +
-				resultRaw[2]*transformRaw[2][3] +
-				resultRaw[3]*transformRaw[3][3];
+				resultRaw[2]*transformRaw[2][2];
 
 		return this;
 	}
@@ -62,11 +51,11 @@ public class Vector {
 	}
 
 	public Vector scale(final double scale) {
-		return new Vector(get(0) * scale, get(1) * scale, get(2) * scale, get(3) * scale);
+		return new Vector(get(0) * scale, get(1) * scale, get(2) * scale);
 	}
 
 	public double dot(final Vector v) {
-		return get(0)*v.get(0) + get(1)*v.get(1) + get(2)*v.get(2) + get(3)*v.get(3);
+		return get(0)*v.get(0) + get(1)*v.get(1) + get(2)*v.get(2);
 	}
 
 	public double magnitude() {
@@ -82,7 +71,7 @@ public class Vector {
 
 	@Override
 	public String toString() {
-		return String.format("Vector[x=%s, y=%s, z=%s, w=%s]", vector[0], vector[1], vector[2], vector[3]);
+		return String.format("Vector[x=%s, y=%s, z=%s]", vector[0], vector[1], vector[2]);
 	}
 
 	@Override
@@ -113,16 +102,15 @@ public class Vector {
 		final double magnitude = calculateMagnitude(v);
 
 		if (magnitude == 0.0)
-			return new Vector(0, 0, 0, 0);
+			return new Vector(0, 0, 0);
 
 		final double[] raw = v.getRaw();
 
 		final double unitX = raw[0] / magnitude;
 		final double unitY = raw[1] / magnitude;
 		final double unitZ = raw[2] / magnitude;
-		final double unitW = raw[3] / magnitude;
 
-		return new Vector(unitX, unitY, unitZ, unitW);
+		return new Vector(unitX, unitY, unitZ);
 	}
 
 	private static double calculateMagnitude(final Vector v) {
@@ -131,8 +119,7 @@ public class Vector {
 		final double xSquared = raw[0] * raw[0];
 		final double ySquared = raw[1] * raw[1];
 		final double zSquared = raw[2] * raw[2];
-		final double wSquared = raw[3] * raw[3];
 
-		return Math.sqrt(xSquared + ySquared + zSquared + wSquared);
+		return Math.sqrt(xSquared + ySquared + zSquared);
 	}
 }
