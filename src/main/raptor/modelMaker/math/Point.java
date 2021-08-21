@@ -57,6 +57,10 @@ public class Point {
 		return this;
 	}
 
+	public Vector vectorTo(final Point point) {
+		return new Vector(point.get(0) - get(0), point.get(1) - get(1), point.get(2) - get(2));
+	}
+
 	@Override
 	public String toString() {
 		return String.format("Point[x=%s, y=%s, z=%s]", point[0], point[1], point[2]);
