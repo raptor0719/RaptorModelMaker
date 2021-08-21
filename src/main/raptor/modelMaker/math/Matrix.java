@@ -98,11 +98,11 @@ public class Matrix {
 
 		translationRaw[1][0] = 0;
 		translationRaw[1][1] = Math.cos(radians);
-		translationRaw[1][2] = -Math.sin(radians);
+		translationRaw[1][2] = Math.sin(radians);
 		translationRaw[1][3] = 0;
 
 		translationRaw[2][0] = 0;
-		translationRaw[2][1] = Math.sin(radians);
+		translationRaw[2][1] = -Math.sin(radians);
 		translationRaw[2][2] = Math.cos(radians);
 		translationRaw[2][3] = 0;
 
@@ -122,7 +122,7 @@ public class Matrix {
 
 		translationRaw[0][0] = Math.cos(radians);
 		translationRaw[0][1] = 0;
-		translationRaw[0][2] = Math.sin(radians);
+		translationRaw[0][2] = -Math.sin(radians);
 		translationRaw[0][3] = 0;
 
 		translationRaw[1][0] = 0;
@@ -130,7 +130,7 @@ public class Matrix {
 		translationRaw[1][2] = 0;
 		translationRaw[1][3] = 0;
 
-		translationRaw[2][0] = -Math.sin(radians);
+		translationRaw[2][0] = Math.sin(radians);
 		translationRaw[2][1] = 0;
 		translationRaw[2][2] = Math.cos(radians);
 		translationRaw[2][3] = 0;
@@ -150,11 +150,11 @@ public class Matrix {
 		final double radians = Math.toRadians(angle);
 
 		translationRaw[0][0] = Math.cos(radians);
-		translationRaw[0][1] = -Math.sin(radians);
+		translationRaw[0][1] = Math.sin(radians);
 		translationRaw[0][2] = 0;
 		translationRaw[0][3] = 0;
 
-		translationRaw[1][0] = Math.sin(radians);
+		translationRaw[1][0] = -Math.sin(radians);
 		translationRaw[1][1] = Math.cos(radians);
 		translationRaw[1][2] = 0;
 		translationRaw[1][3] = 0;
