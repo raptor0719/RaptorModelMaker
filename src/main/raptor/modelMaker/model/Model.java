@@ -24,6 +24,12 @@ public class Model {
 		return name;
 	}
 
+	public void addHardpoint(final String name) {
+		if (getHardpointByName(name) != null)
+			throw new IllegalArgumentException("Hardpoint with that name already exists");
+		hardpoints.add(new Hardpoint(name));
+	}
+
 	public Hardpoint getHardpoint(final String name) {
 		return getHardpointByName(name);
 	}
