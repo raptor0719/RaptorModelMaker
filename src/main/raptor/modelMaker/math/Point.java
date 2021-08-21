@@ -54,6 +54,11 @@ public class Point {
 	}
 
 	@Override
+	public String toString() {
+		return String.format("Point[x=%s, y=%s, z=%s]", point[0], point[1], point[2]);
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

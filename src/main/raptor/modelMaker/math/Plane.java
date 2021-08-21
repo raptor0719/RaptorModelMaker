@@ -39,6 +39,11 @@ public class Plane {
 	}
 
 	@Override
+	public String toString() {
+		return String.format("Plane[origin=%s, normal=%s, yAxisNormal=%s, xAxisNormal=%s]", origin.toString(), normal.toString(), xAxisNormal.toString(), yAxisNormal.toString());
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

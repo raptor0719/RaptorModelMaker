@@ -9,6 +9,10 @@ public class Vector {
 		this(0, 0, 0, 0);
 	}
 
+	public Vector(final double x, final double y, final double z) {
+		this.vector = new double[] {x, y, z, 0};
+	}
+
 	public Vector(final double x, final double y, final double z, final double w) {
 		this.vector = new double[] {x, y, z, w};
 	}
@@ -74,6 +78,11 @@ public class Vector {
 		final double magnitudeV = v.magnitude();
 
 		return v.scale(scalarProjection / magnitudeV * magnitudeV);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Vector[x=%s, y=%s, z=%s, w=%s]", vector[0], vector[1], vector[2], vector[3]);
 	}
 
 	@Override
