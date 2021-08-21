@@ -40,7 +40,7 @@ public class Plane {
 
 	@Override
 	public String toString() {
-		return String.format("Plane[origin=%s, normal=%s, yAxisNormal=%s, xAxisNormal=%s]", origin.toString(), normal.toString(), xAxisNormal.toString(), yAxisNormal.toString());
+		return String.format("Plane[origin=%s, normal=%s, xAxisNormal=%s, yAxisNormal=%s]", origin.toString(), normal.toString(), xAxisNormal.toString(), yAxisNormal.toString());
 	}
 
 	@Override
