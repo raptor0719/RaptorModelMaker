@@ -3,7 +3,7 @@ package raptor.modelMaker.math;
 import java.util.Arrays;
 
 public class Point {
-	private final double[] point;
+	private double[] point;
 
 	public Point() {
 		this(0, 0, 0);
@@ -34,21 +34,25 @@ public class Point {
 	}
 
 	public Point transform(final Matrix transformMatrix) {
-		final double[] resultRaw = this.getRaw();
+		final double[] raw = this.getRaw();
 		final double[][] transformRaw = transformMatrix.getRaw();
 
-		resultRaw[0] = resultRaw[0]*transformRaw[0][0] +
-				resultRaw[1]*transformRaw[1][0] +
-				resultRaw[2]*transformRaw[2][0] +
+		final double[] result = new double[3];
+
+		result[0] = raw[0]*transformRaw[0][0] +
+				raw[1]*transformRaw[1][0] +
+				raw[2]*transformRaw[2][0] +
 				transformRaw[3][0];
-		resultRaw[1] = resultRaw[0]*transformRaw[0][1] +
-				resultRaw[1]*transformRaw[1][1] +
-				resultRaw[2]*transformRaw[2][1] +
+		result[1] = raw[0]*transformRaw[0][1] +
+				raw[1]*transformRaw[1][1] +
+				raw[2]*transformRaw[2][1] +
 				transformRaw[3][1];
-		resultRaw[2] = resultRaw[0]*transformRaw[0][2] +
-				resultRaw[1]*transformRaw[1][2] +
-				resultRaw[2]*transformRaw[2][2] +
+		result[2] = raw[0]*transformRaw[0][2] +
+				raw[1]*transformRaw[1][2] +
+				raw[2]*transformRaw[2][2] +
 				transformRaw[3][2];
+
+		point = result;
 
 		return this;
 	}
