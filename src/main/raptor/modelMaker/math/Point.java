@@ -39,16 +39,16 @@ public class Point {
 
 		resultRaw[0] = resultRaw[0]*transformRaw[0][0] +
 				resultRaw[1]*transformRaw[1][0] +
-				resultRaw[2]*transformRaw[2][0];
+				resultRaw[2]*transformRaw[2][0] +
+				transformRaw[3][0];
 		resultRaw[1] = resultRaw[0]*transformRaw[0][1] +
 				resultRaw[1]*transformRaw[1][1] +
-				resultRaw[2]*transformRaw[2][1];
+				resultRaw[2]*transformRaw[2][1] +
+				transformRaw[3][1];
 		resultRaw[2] = resultRaw[0]*transformRaw[0][2] +
 				resultRaw[1]*transformRaw[1][2] +
-				resultRaw[2]*transformRaw[2][2];
-		resultRaw[3] = resultRaw[0]*transformRaw[0][3] +
-				resultRaw[1]*transformRaw[1][3] +
-				resultRaw[2]*transformRaw[2][3];
+				resultRaw[2]*transformRaw[2][2] +
+				transformRaw[3][2];
 
 		return this;
 	}
