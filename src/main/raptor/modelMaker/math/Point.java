@@ -33,6 +33,26 @@ public class Point {
 		return new Point(get(0) - v.get(0), get(1) - v.get(1), get(2) - v.get(2));
 	}
 
+	public Point transform(final Matrix transformMatrix) {
+		final double[] resultRaw = this.getRaw();
+		final double[][] transformRaw = transformMatrix.getRaw();
+
+		resultRaw[0] = resultRaw[0]*transformRaw[0][0] +
+				resultRaw[1]*transformRaw[1][0] +
+				resultRaw[2]*transformRaw[2][0];
+		resultRaw[1] = resultRaw[0]*transformRaw[0][1] +
+				resultRaw[1]*transformRaw[1][1] +
+				resultRaw[2]*transformRaw[2][1];
+		resultRaw[2] = resultRaw[0]*transformRaw[0][2] +
+				resultRaw[1]*transformRaw[1][2] +
+				resultRaw[2]*transformRaw[2][2];
+		resultRaw[3] = resultRaw[0]*transformRaw[0][3] +
+				resultRaw[1]*transformRaw[1][3] +
+				resultRaw[2]*transformRaw[2][3];
+
+		return this;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
