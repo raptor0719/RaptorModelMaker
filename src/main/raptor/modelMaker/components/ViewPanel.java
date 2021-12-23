@@ -2,7 +2,10 @@ package raptor.modelMaker.components;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import raptor.modelMaker.math.Matrix;
@@ -21,6 +24,8 @@ public class ViewPanel extends JPanel {
 		this.model = startModel;
 		this.viewPlane = new Plane(new Point(50, 0, 0), new Vector(-1, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, 1));
 		this.pointDrawDiameter = 10;
+
+		this.addMouseListener(new ViewPanelFocus(this));
 	}
 
 	@Override
@@ -87,5 +92,38 @@ public class ViewPanel extends JPanel {
 
 	public Plane getViewPlane() {
 		return viewPlane;
+	}
+
+	private static class ViewPanelFocus implements MouseListener {
+		final JComponent component;
+
+		public ViewPanelFocus(final JComponent component) {
+			this.component = component;
+		}
+
+		@Override
+		public void mouseClicked(final MouseEvent e) {
+			component.requestFocus();
+		}
+
+		@Override
+		public void mouseEntered(final MouseEvent e) {
+			// No-op
+		}
+
+		@Override
+		public void mouseExited(final MouseEvent e) {
+			// No-op
+		}
+
+		@Override
+		public void mousePressed(final MouseEvent e) {
+			// No-op
+		}
+
+		@Override
+		public void mouseReleased(final MouseEvent e) {
+			// No-op
+		}
 	}
 }
