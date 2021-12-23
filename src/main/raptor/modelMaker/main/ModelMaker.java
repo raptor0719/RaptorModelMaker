@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import raptor.modelMaker.components.HardpointEditor;
 import raptor.modelMaker.components.TopMenuBar;
 import raptor.modelMaker.components.ViewPanel;
 import raptor.modelMaker.model.Model;
@@ -97,11 +98,26 @@ public class ModelMaker {
 					frameModifierPanel.rotateZ(15);
 				}
 				frameModifierPanel.repaint();
-				System.out.println(frameModifierPanel.getViewPlane());
 			}
 		});
 
 		panel.add(frameModifierPanel, frameModifierPanel_constraints);
+
+		// Hardpoint Editor
+		final HardpointEditor hardpointEditor = new HardpointEditor(model, frameModifierPanel);
+		final GridBagConstraints hardpointEditor_constraints = new GridBagConstraints();
+		hardpointEditor_constraints.gridx = 1;
+		hardpointEditor_constraints.gridy = 1;
+		hardpointEditor_constraints.gridwidth = 1;
+		hardpointEditor_constraints.gridheight = 3;
+		hardpointEditor_constraints.weightx = 0.0;
+		hardpointEditor_constraints.weighty = 1.0;
+		hardpointEditor_constraints.fill = GridBagConstraints.BOTH;
+		hardpointEditor_constraints.anchor = GridBagConstraints.CENTER;
+
+		hardpointEditor.setVisible(true);
+
+		panel.add(hardpointEditor, hardpointEditor_constraints);
 
 		// Final
 		frame.add(panel);
