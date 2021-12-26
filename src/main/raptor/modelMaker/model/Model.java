@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class Model {
-	// TODO: Integrate pointframes and add getters, setters, and such
-
 	private final List<Hardpoint> hardpoints;
 
 	private String name;
