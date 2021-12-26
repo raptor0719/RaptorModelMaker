@@ -8,12 +8,12 @@ import javax.swing.table.AbstractTableModel;
 import raptor.modelMaker.model.Hardpoint;
 import raptor.modelMaker.model.Model;
 
-public class HardpointEditor extends JTable {
+public class HardpointTable extends JTable {
 	private final JComponent redrawOnChange;
 
 	private ModelTableModel tableModel;
 
-	public HardpointEditor(final Model model, final JComponent redrawOnChange) {
+	public HardpointTable(final Model model, final JComponent redrawOnChange) {
 		this.tableModel = new ModelTableModel(model);
 		this.setModel(tableModel);
 

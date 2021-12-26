@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import raptor.modelMaker.components.HardpointEditor;
+import raptor.modelMaker.components.HardpointTable;
 import raptor.modelMaker.components.TopMenuBar;
 import raptor.modelMaker.components.ViewPanel;
 import raptor.modelMaker.model.Model;
@@ -104,7 +104,7 @@ public class ModelMaker {
 		panel.add(frameModifierPanel, frameModifierPanel_constraints);
 
 		// Hardpoint Editor
-		final HardpointEditor hardpointEditor = new HardpointEditor(model, frameModifierPanel);
+		final HardpointTable hardpointEditor = new HardpointTable(model, frameModifierPanel);
 		final GridBagConstraints hardpointEditor_constraints = new GridBagConstraints();
 		hardpointEditor_constraints.gridx = 1;
 		hardpointEditor_constraints.gridy = 1;
