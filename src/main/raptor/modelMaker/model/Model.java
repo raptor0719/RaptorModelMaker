@@ -24,10 +24,10 @@ public class Model {
 		return name;
 	}
 
-	public void addHardpoint(final String name) {
+	public void addHardpoint(final String name, final int rotation) {
 		if (getHardpointByName(name) != null)
 			throw new IllegalArgumentException("Hardpoint with that name already exists");
-		hardpoints.add(new Hardpoint(name));
+		hardpoints.add(new Hardpoint(name, rotation));
 	}
 
 	public Hardpoint getHardpoint(final String name) {

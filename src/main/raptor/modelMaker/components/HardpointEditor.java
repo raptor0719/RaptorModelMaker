@@ -42,8 +42,8 @@ public class HardpointEditor extends JTable {
 
 		@Override
 		public int getColumnCount() {
-			// name, x, y, z
-			return 4;
+			// name, x, y, z, rot
+			return 5;
 		}
 
 		@Override
@@ -62,6 +62,8 @@ public class HardpointEditor extends JTable {
 					return h.getPoint().get(1);
 				case 3:
 					return h.getPoint().get(2);
+				case 4:
+					return h.getRotation();
 				default:
 					return h.getName();
 			}
@@ -86,6 +88,9 @@ public class HardpointEditor extends JTable {
 					break;
 				case 3:
 					h.getPoint().getRaw()[2] = Double.parseDouble(stringVal);
+					break;
+				case 4:
+					h.setRotation(Integer.parseInt(stringVal));
 					break;
 				default:
 					h.setName(stringVal);

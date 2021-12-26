@@ -19,9 +19,9 @@ public class ModelMaker {
 
 	public ModelMaker() {
 		this.model = new Model("default_name");
-		model.addHardpoint("test1");
-		model.addHardpoint("test2");
-		model.addHardpoint("test3");
+		model.addHardpoint("test1", 0);
+		model.addHardpoint("test2", 0);
+		model.addHardpoint("test3", 0);
 
 		final double[] test1Raw = model.getHardpoint("test1").getPoint().getRaw();
 		test1Raw[0] = 50.0;
