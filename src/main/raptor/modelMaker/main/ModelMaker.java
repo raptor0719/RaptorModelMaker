@@ -8,8 +8,9 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
-import raptor.modelMaker.components.HardpointTable;
+import raptor.modelMaker.components.FrameEditorPanel;
 import raptor.modelMaker.components.TopMenuBar;
 import raptor.modelMaker.components.ViewPanel;
 import raptor.modelMaker.model.Model;
@@ -103,21 +104,25 @@ public class ModelMaker {
 
 		panel.add(frameModifierPanel, frameModifierPanel_constraints);
 
-		// Hardpoint Editor
-		final HardpointTable hardpointEditor = new HardpointTable(model, frameModifierPanel);
-		final GridBagConstraints hardpointEditor_constraints = new GridBagConstraints();
-		hardpointEditor_constraints.gridx = 1;
-		hardpointEditor_constraints.gridy = 1;
-		hardpointEditor_constraints.gridwidth = 1;
-		hardpointEditor_constraints.gridheight = 3;
-		hardpointEditor_constraints.weightx = 0.0;
-		hardpointEditor_constraints.weighty = 1.0;
-		hardpointEditor_constraints.fill = GridBagConstraints.BOTH;
-		hardpointEditor_constraints.anchor = GridBagConstraints.CENTER;
+		// Editor Panels
+		final FrameEditorPanel frameEditorPanel = new FrameEditorPanel(model, frameModifierPanel);
+		frameEditorPanel.setVisible(true);
 
-		hardpointEditor.setVisible(true);
+		final JTabbedPane editorPanes = new JTabbedPane();
+		final GridBagConstraints editorPanes_constraints = new GridBagConstraints();
+		editorPanes_constraints.gridx = 1;
+		editorPanes_constraints.gridy = 1;
+		editorPanes_constraints.gridwidth = 1;
+		editorPanes_constraints.gridheight = 3;
+		editorPanes_constraints.weightx = 0.0;
+		editorPanes_constraints.weighty = 1.0;
+		editorPanes_constraints.fill = GridBagConstraints.BOTH;
+		editorPanes_constraints.anchor = GridBagConstraints.CENTER;
+		editorPanes.setVisible(true);
 
-		panel.add(hardpointEditor, hardpointEditor_constraints);
+		editorPanes.addTab("Frames", frameEditorPanel);
+
+		panel.add(editorPanes, editorPanes_constraints);
 
 		// Final
 		frame.add(panel);

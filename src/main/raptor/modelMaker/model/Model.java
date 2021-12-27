@@ -45,6 +45,10 @@ public class Model {
 		hardpoints.remove(h);
 	}
 
+	public boolean isHardpointWithName(final String name) {
+		return getHardpointByName(name) != null;
+	}
+
 	/* INTERNAL */
 
 	private Hardpoint getHardpointByName(final String name) {

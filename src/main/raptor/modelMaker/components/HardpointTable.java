@@ -2,6 +2,7 @@ package raptor.modelMaker.components;
 
 import javax.swing.JComponent;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 
@@ -18,6 +19,8 @@ public class HardpointTable extends JTable {
 		this.setModel(tableModel);
 
 		this.redrawOnChange = redrawOnChange;
+
+		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
 
 	public void setModel(final Model model) {
@@ -31,6 +34,10 @@ public class HardpointTable extends JTable {
 
 		if (redrawOnChange != null)
 			redrawOnChange.repaint();
+	}
+
+	public void modelChanged() {
+		tableModel.fireTableDataChanged();
 	}
 
 	private static class ModelTableModel extends AbstractTableModel {
