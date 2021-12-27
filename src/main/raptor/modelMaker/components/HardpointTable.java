@@ -10,6 +10,8 @@ import raptor.modelMaker.model.Hardpoint;
 import raptor.modelMaker.model.Model;
 
 public class HardpointTable extends JTable {
+	private static final String[] COLUMN_NAMES = new String[] {"Name", "x", "y", "z", "rot"};
+
 	private final JComponent redrawOnChange;
 
 	private ModelTableModel tableModel;
@@ -104,6 +106,11 @@ public class HardpointTable extends JTable {
 			}
 
 			fireTableCellUpdated(row, col);
+		}
+
+		@Override
+		public String getColumnName(final int col) {
+			return COLUMN_NAMES[col];
 		}
 
 		public void setModel(final Model model) {
