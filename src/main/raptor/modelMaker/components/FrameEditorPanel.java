@@ -1,5 +1,6 @@
 package raptor.modelMaker.components;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -8,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import raptor.modelMaker.model.Model;
@@ -24,18 +26,22 @@ public class FrameEditorPanel extends JPanel {
 
 		// Create components
 		this.hardpointTable = new HardpointTable(model, redrawOnChange);
-		final GridBagConstraints hardpointTable_constraints = new GridBagConstraints();
-		hardpointTable_constraints.gridx = 0;
-		hardpointTable_constraints.gridy = 0;
-		hardpointTable_constraints.gridwidth = 10;
-		hardpointTable_constraints.gridheight = 10;
-		hardpointTable_constraints.weightx = 1.0;
-		hardpointTable_constraints.weighty = 1.0;
-		hardpointTable_constraints.fill = GridBagConstraints.BOTH;
-		hardpointTable_constraints.anchor = GridBagConstraints.CENTER;
 		hardpointTable.setVisible(true);
 
-		add(hardpointTable, hardpointTable_constraints);
+		final JScrollPane hardpointTableScroller = new JScrollPane(hardpointTable);
+		final GridBagConstraints hardpointTableScroller_constraints = new GridBagConstraints();
+		hardpointTableScroller_constraints.gridx = 0;
+		hardpointTableScroller_constraints.gridy = 0;
+		hardpointTableScroller_constraints.gridwidth = 10;
+		hardpointTableScroller_constraints.gridheight = 10;
+		hardpointTableScroller_constraints.weightx = 1.0;
+		hardpointTableScroller_constraints.weighty = 1.0;
+		hardpointTableScroller_constraints.fill = GridBagConstraints.BOTH;
+		hardpointTableScroller_constraints.anchor = GridBagConstraints.CENTER;
+		hardpointTableScroller.setPreferredSize(new Dimension(400, 100));
+		hardpointTableScroller.setVisible(true);
+
+		add(hardpointTableScroller, hardpointTableScroller_constraints);
 
 		final JButton hardpointDeleteButton = new JButton("Delete");
 		hardpointDeleteButton.addActionListener(new HardpointDeleteActionListener());
