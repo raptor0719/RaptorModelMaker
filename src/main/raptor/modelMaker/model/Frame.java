@@ -69,6 +69,11 @@ public class Frame {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return getName();
+	}
+
 	public static class SavedHardpointPosition {
 		private final double x;
 		private final double y;

@@ -3,6 +3,8 @@ package raptor.modelMaker.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import raptor.modelMaker.math.Point;
+
 public class Model {
 	private final List<Hardpoint> hardpoints;
 	private final List<Frame> frames;
@@ -26,7 +28,13 @@ public class Model {
 	public void addHardpoint(final String name, final int rotation) {
 		if (getHardpointByName(name) != null)
 			throw new IllegalArgumentException("Hardpoint with that name already exists");
-		hardpoints.add(new Hardpoint(name, rotation));
+
+		final Hardpoint newHardpoint = new Hardpoint(name, rotation);
+
+		hardpoints.add(newHardpoint);
+
+		for (final Frame f : frames)
+			f.saveHardpoint(newHardpoint);
 	}
 
 	public Hardpoint getHardpoint(final String name) {
@@ -44,6 +52,9 @@ public class Model {
 			return;
 
 		hardpoints.remove(h);
+
+		for (final Frame f : frames)
+			f.removeHardpoint(h.getName());
 	}
 
 	public boolean isHardpointWithName(final String name) {
@@ -65,8 +76,40 @@ public class Model {
 		frames.remove(f);
 	}
 
+	public void saveHardpointsToFrame(final String name) {
+		final Frame frame = getFrameByName(name);
+
+		if (frame == null)
+			return;
+
+		for (final Hardpoint h : hardpoints)
+			frame.saveHardpoint(h);
+	}
+
 	public List<Frame> getFrames() {
 		return frames;
+	}
+
+	public boolean isFrameWithName(final String name) {
+		return getFrameByName(name) != null;
+	}
+
+	public void loadFrame(final String name) {
+		final Frame frame = getFrameByName(name);
+
+		if (frame == null)
+			return;
+
+		for (final Hardpoint h : hardpoints) {
+			final Frame.SavedHardpointPosition saved = frame.getSavedPosition(h.getName());
+
+			final Point p = h.getPoint();
+			p.set(0, saved.getX());
+			p.set(1, saved.getY());
+			p.set(2, saved.getZ());
+
+			h.setRotation(saved.getRot());
+		}
 	}
 
 	/* INTERNAL */

@@ -37,6 +37,8 @@ public class ModelMaker {
 		test3Raw[1] = 22.5;
 		test3Raw[2] = 22.5;
 
+		model.addFrame("testFrame1");
+
 		// Setup
 		final JFrame frame = new JFrame();
 		final JPanel panel = new JPanel();
