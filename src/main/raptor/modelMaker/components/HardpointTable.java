@@ -1,10 +1,14 @@
 package raptor.modelMaker.components;
 
+import java.awt.Component;
+import java.util.EventObject;
+
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.text.JTextComponent;
 
 import raptor.modelMaker.model.Hardpoint;
 import raptor.modelMaker.model.Model;
@@ -27,7 +31,6 @@ public class HardpointTable extends JTable {
 
 	public void setModel(final Model model) {
 		tableModel.setModel(model);
-		this.setModel(tableModel);
 	}
 
 	@Override
@@ -40,6 +43,18 @@ public class HardpointTable extends JTable {
 
 	public void modelChanged() {
 		tableModel.fireTableDataChanged();
+	}
+
+	@Override
+	public boolean editCellAt(final int row, final int col, final EventObject event) {
+		final boolean result = super.editCellAt(row, col, event);
+
+		final Component editor = getEditorComponent();
+
+		if (editor != null)
+			((JTextComponent)editor).selectAll();
+
+		return result;
 	}
 
 	private static class ModelTableModel extends AbstractTableModel {
