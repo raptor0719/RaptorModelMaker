@@ -39,7 +39,7 @@ public class FrameEditorPanel extends JPanel {
 		hardpointTableScroller_constraints.gridwidth = 10;
 		hardpointTableScroller_constraints.gridheight = 10;
 		hardpointTableScroller_constraints.weightx = 1.0;
-		hardpointTableScroller_constraints.weighty = 1.0;
+		hardpointTableScroller_constraints.weighty = 0.5;
 		hardpointTableScroller_constraints.fill = GridBagConstraints.BOTH;
 		hardpointTableScroller_constraints.anchor = GridBagConstraints.CENTER;
 		hardpointTableScroller.setPreferredSize(new Dimension(400, 100));
@@ -93,18 +93,21 @@ public class FrameEditorPanel extends JPanel {
 		add(hardpointAddButton, hardpointAddButton_constraints);
 
 		this.frameChooser = new FrameChooser(model);
-		final GridBagConstraints frameChooser_constraints = new GridBagConstraints();
-		frameChooser_constraints.gridx = 0;
-		frameChooser_constraints.gridy = 13;
-		frameChooser_constraints.gridwidth = 7;
-		frameChooser_constraints.gridheight = 12;
-		frameChooser_constraints.weightx = 1.0;
-		frameChooser_constraints.weighty = 1.0;
-		frameChooser_constraints.fill = GridBagConstraints.BOTH;
-		frameChooser_constraints.anchor = GridBagConstraints.CENTER;
 		frameChooser.setVisible(true);
 
-		add(frameChooser, frameChooser_constraints);
+		final JScrollPane frameChooserScroller = new JScrollPane(frameChooser);
+		final GridBagConstraints frameChooserScroller_constraints = new GridBagConstraints();
+		frameChooserScroller_constraints.gridx = 0;
+		frameChooserScroller_constraints.gridy = 13;
+		frameChooserScroller_constraints.gridwidth = 7;
+		frameChooserScroller_constraints.gridheight = 12;
+		frameChooserScroller_constraints.weightx = 1.0;
+		frameChooserScroller_constraints.weighty = 0.5;
+		frameChooserScroller_constraints.fill = GridBagConstraints.BOTH;
+		frameChooserScroller_constraints.anchor = GridBagConstraints.CENTER;
+		frameChooserScroller.setVisible(true);
+
+		add(frameChooserScroller, frameChooserScroller_constraints);
 
 		final JTextField frameAddNameField = new JTextField();
 		final GridBagConstraints frameAddNameField_constraints = new GridBagConstraints();
