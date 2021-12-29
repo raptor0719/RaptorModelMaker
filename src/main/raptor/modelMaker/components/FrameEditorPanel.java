@@ -228,6 +228,8 @@ public class FrameEditorPanel extends JPanel {
 			model.addHardpoint(name, 0);
 
 			hardpointTable.modelChanged();
+
+			nameField.setText("");
 		}
 	}
 
@@ -251,6 +253,8 @@ public class FrameEditorPanel extends JPanel {
 			model.addFrame(name);
 
 			frameChooser.modelChanged();
+
+			nameField.setText("");
 		}
 	}
 
