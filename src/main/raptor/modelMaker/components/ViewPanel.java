@@ -2,11 +2,16 @@ package raptor.modelMaker.components;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -40,17 +45,48 @@ public class ViewPanel extends JPanel {
 	private Plane viewPlane;
 	private int pointDrawDiameter;
 
+	private final JButton[] directionalButtons;
 	private int directionIndex;
 
 	public ViewPanel(final Model startModel) {
+		super(null);
+
 		this.model = startModel;
 		this.viewPlane = new Plane();
 		this.pointDrawDiameter = 10;
-		this.directionIndex = 0;
 
 		this.addMouseListener(new ViewPanelFocus(this));
 
-		viewPlane.set(ViewDirection.values()[directionIndex].getParameters());
+		final Font directionalButtonFont = new Font("Arial", Font.BOLD, 10);
+		final Insets directionalButtonInsets = new Insets(0, 0, 0, 0);
+		final Point2D[] directionalButtonLocations = new Point2D[] {
+			new Point2D(50, 0),
+			new Point2D(75, 25),
+			new Point2D(100, 50),
+			new Point2D(75, 75),
+			new Point2D(50, 100),
+			new Point2D(25, 75),
+			new Point2D(0, 50),
+			new Point2D(25, 25)
+		};
+		directionalButtons = new JButton[ViewDirection.values().length];
+
+		for (int i = 0; i < directionalButtons.length; i++) {
+			final JButton button = new SetViewDirectionButton(ViewDirection.values()[i], this, directionalButtons);
+			button.setBackground(Color.WHITE);
+			button.setFont(directionalButtonFont);
+			button.setMargin(directionalButtonInsets);
+			button.setRolloverEnabled(false);
+
+			final Point2D location = directionalButtonLocations[i];
+			button.setBounds(location.getX(), location.getY(), 25, 25);
+
+			directionalButtons[i] = button;
+			this.add(button);
+		}
+
+		this.directionIndex = 0;
+		directionalButtons[directionIndex].doClick();
 	}
 
 	@Override
@@ -95,11 +131,13 @@ public class ViewPanel extends JPanel {
 		if (directionIndex < 0)
 			directionIndex = ViewDirection.values().length + directionIndex;
 
-		viewPlane.set(ViewDirection.values()[directionIndex].getParameters());
+		directionalButtons[directionIndex].doClick();
 	}
 
 	public void setDirection(final ViewDirection direction) {
-
+		directionIndex = direction.ordinal();
+		viewPlane.set(direction.getParameters());
+		repaint();
 	}
 
 	public Plane getViewPlane() {
@@ -136,6 +174,25 @@ public class ViewPanel extends JPanel {
 		final double centerTransform = pointDrawDiameter / 2;
 
 		return new Point2D((int)Math.round(xCoordinateOnViewport - centerTransform), (int)Math.round(yCoordinateOnViewport - centerTransform));
+	}
+
+	private static class SetViewDirectionButton extends JButton {
+		public SetViewDirectionButton(final ViewDirection direction, final ViewPanel viewPanel, final JButton[] clearHighlight) {
+			super(direction.getAbbreviation());
+
+			this.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(final ActionEvent e) {
+					for (final JButton button : clearHighlight)
+						button.setBackground(Color.WHITE);
+
+					setBackground(Color.GREEN);
+
+					viewPanel.setDirection(direction);
+					viewPanel.requestFocus();
+				}
+			});
+		}
 	}
 
 	private static class ViewPanelFocus implements MouseListener {
