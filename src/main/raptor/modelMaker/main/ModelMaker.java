@@ -91,14 +91,10 @@ public class ModelMaker {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getExtendedKeyCode() == KeyEvent.VK_UP) {
-					frameModifierPanel.rotateY(15);
-				} else if (e.getExtendedKeyCode() == KeyEvent.VK_DOWN) {
-					frameModifierPanel.rotateY(-15);
-				} else if (e.getExtendedKeyCode() == KeyEvent.VK_LEFT) {
-					frameModifierPanel.rotateX(-15);
+				if (e.getExtendedKeyCode() == KeyEvent.VK_LEFT) {
+					frameModifierPanel.rotateX(true);
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_RIGHT) {
-					frameModifierPanel.rotateX(15);
+					frameModifierPanel.rotateX(false);
 				}
 				frameModifierPanel.repaint();
 			}

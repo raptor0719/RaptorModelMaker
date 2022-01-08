@@ -36,16 +36,56 @@ public class ViewPanel extends JPanel {
 		};
 	}
 
+	private static final Plane NORTH_PARAMETERS;
+	private static final Plane NORTHEAST_PARAMETERS;
+	private static final Plane EAST_PARAMETERS;
+	private static final Plane SOUTHEAST_PARAMETERS;
+	private static final Plane SOUTH_PARAMETERS;
+	private static final Plane SOUTHWEST_PARAMETERS;
+	private static final Plane WEST_PARAMETERS;
+	private static final Plane NORTHWEST_PARAMETERS;
+	private static final Plane[] VIEW_PLANE_DIRECTION_PARAMETERS;
+	static {
+		final Plane viewPlaneStart = new Plane(new Point(0, 0, 0), new Vector(-1, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, 1));
+
+		NORTH_PARAMETERS = buildCameraPlane(viewPlaneStart, 0, 45);
+		NORTHEAST_PARAMETERS = buildCameraPlane(viewPlaneStart, 45, 45);
+		EAST_PARAMETERS = buildCameraPlane(viewPlaneStart, 90, 45);
+		SOUTHEAST_PARAMETERS = buildCameraPlane(viewPlaneStart, 135, 45);
+		SOUTH_PARAMETERS = buildCameraPlane(viewPlaneStart, 180, 45);
+		SOUTHWEST_PARAMETERS = buildCameraPlane(viewPlaneStart, 225, 45);
+		WEST_PARAMETERS = buildCameraPlane(viewPlaneStart, 270, 45);
+		NORTHWEST_PARAMETERS = buildCameraPlane(viewPlaneStart, 315, 45);
+
+		VIEW_PLANE_DIRECTION_PARAMETERS = new Plane[] {
+			NORTH_PARAMETERS,
+			NORTHEAST_PARAMETERS,
+			EAST_PARAMETERS,
+			SOUTHEAST_PARAMETERS,
+			SOUTH_PARAMETERS,
+			SOUTHWEST_PARAMETERS,
+			WEST_PARAMETERS,
+			NORTHWEST_PARAMETERS
+		};
+	}
+
 	private Model model;
 	private Plane viewPlane;
 	private int pointDrawDiameter;
 
+	private int directionIndex;
+
 	public ViewPanel(final Model startModel) {
 		this.model = startModel;
-		this.viewPlane = new Plane(new Point(0, 0, 0), new Vector(-1, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, 1));
+		this.viewPlane = new Plane();
 		this.pointDrawDiameter = 10;
+		this.directionIndex = 0;
 
 		this.addMouseListener(new ViewPanelFocus(this));
+
+		viewPlane.set(VIEW_PLANE_DIRECTION_PARAMETERS[directionIndex]);
+
+//		final JButton
 	}
 
 	@Override
@@ -84,12 +124,14 @@ public class ViewPanel extends JPanel {
 		this.model = model;
 	}
 
-	public void rotateX(final double degrees) {
-		viewPlane.transform(Matrix.getRotationMatrixAroundAxis(viewPlane.getyAxisNormal(), degrees));
-	}
+	public void rotateX(final boolean otherWay) {
+		directionIndex = ((otherWay) ? directionIndex - 1 : directionIndex + 1) % VIEW_PLANE_DIRECTION_PARAMETERS.length;
 
-	public void rotateY(final double degrees) {
-		viewPlane.transform(Matrix.getRotationMatrixAroundAxis(viewPlane.getxAxisNormal(), degrees));
+		if (directionIndex < 0)
+			directionIndex = VIEW_PLANE_DIRECTION_PARAMETERS.length + directionIndex;
+
+		viewPlane.set(VIEW_PLANE_DIRECTION_PARAMETERS[directionIndex]);
+
 	}
 
 	public Plane getViewPlane() {
@@ -126,6 +168,16 @@ public class ViewPanel extends JPanel {
 		final double centerTransform = pointDrawDiameter / 2;
 
 		return new Point2D((int)Math.round(xCoordinateOnViewport - centerTransform), (int)Math.round(yCoordinateOnViewport - centerTransform));
+	}
+
+	private static Plane buildCameraPlane(final Plane start, final int xDegrees, final int yDegrees) {
+		final Plane newPlane = new Plane();
+		newPlane.set(start);
+
+		newPlane.transform(Matrix.getRotationMatrixAroundAxis(newPlane.getyAxisNormal(), xDegrees));
+		newPlane.transform(Matrix.getRotationMatrixAroundAxis(newPlane.getxAxisNormal(), yDegrees));
+
+		return newPlane;
 	}
 
 	private static class ViewPanelFocus implements MouseListener {
