@@ -25,14 +25,16 @@ import raptor.modelMaker.model.ViewDirection;
 
 public class ViewPanel extends JPanel {
 	private static final Point ORIGIN;
+	private static final int AXIS_MARKER_ENDPOINT_LENGTH;
 	private static final Point[] AXIS_MARKER_ENDPOINTS;
 	private static final Color[] AXIS_MARKER_COLORS;
 	static {
 		ORIGIN = new Point(0, 0, 0);
+		AXIS_MARKER_ENDPOINT_LENGTH = 20;
 		AXIS_MARKER_ENDPOINTS = new Point[] {
-			new Point(20, 0, 0),
-			new Point(0, 20, 0),
-			new Point(0, 0, 20)
+			new Point(AXIS_MARKER_ENDPOINT_LENGTH, 0, 0),
+			new Point(0, AXIS_MARKER_ENDPOINT_LENGTH, 0),
+			new Point(0, 0, AXIS_MARKER_ENDPOINT_LENGTH)
 		};
 		AXIS_MARKER_COLORS = new Color[] {
 			Color.BLUE,
@@ -113,7 +115,8 @@ public class ViewPanel extends JPanel {
 		for (int i = 0; i < AXIS_MARKER_ENDPOINTS.length; i++) {
 			final Point2D endpoint = toDrawPoint(AXIS_MARKER_ENDPOINTS[i], viewPlane, planeOriginXOnViewport, planeOriginYOnViewport);
 			g2.setColor(AXIS_MARKER_COLORS[i]);
-			g2.drawLine(origin.getX(), origin.getY(), endpoint.getX(), endpoint.getY());
+			g2.drawLine(origin.getX() + panelWidth/2 - AXIS_MARKER_ENDPOINT_LENGTH - 5, origin.getY() - panelHeight/2 + AXIS_MARKER_ENDPOINT_LENGTH + 5,
+					endpoint.getX() + panelWidth/2 - AXIS_MARKER_ENDPOINT_LENGTH - 5, endpoint.getY() - panelHeight/2 + AXIS_MARKER_ENDPOINT_LENGTH + 5);
 		}
 	}
 
