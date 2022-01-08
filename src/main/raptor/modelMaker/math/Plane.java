@@ -13,6 +13,10 @@ public class Plane {
 		this.yAxisNormal = yAxis.unitVector();
 	}
 
+	public Plane() {
+		this(new Point(), new Vector(), new Vector(), new Vector());
+	}
+
 	public Point getOrigin() {
 		return origin;
 	}
@@ -36,6 +40,13 @@ public class Plane {
 		yAxisNormal.transform(transform);
 
 		return this;
+	}
+
+	public void set(final Plane plane) {
+		origin.set(plane.getOrigin());
+		normal.set(plane.getNormal());
+		xAxisNormal.set(plane.getxAxisNormal());
+		yAxisNormal.set(plane.getyAxisNormal());
 	}
 
 	@Override

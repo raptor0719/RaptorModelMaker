@@ -25,6 +25,11 @@ public class Point {
 		point[index] = val;
 	}
 
+	public void set(final Point p) {
+		for (int i = 0; i < point.length; i++)
+			point[i] = p.get(i);
+	}
+
 	public Point subtract(final Point p) {
 		return new Point(get(0) - p.get(0), get(1) - p.get(1), get(2) - p.get(2));
 	}

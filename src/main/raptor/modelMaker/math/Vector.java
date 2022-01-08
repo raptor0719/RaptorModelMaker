@@ -29,6 +29,11 @@ public class Vector {
 		vector[index] = val;
 	}
 
+	public void set(final Vector v) {
+		for (int i = 0; i < vector.length; i++)
+			vector[i] = v.get(i);
+	}
+
 	public Vector transform(final Matrix transformMatrix) {
 		final double[] raw = this.getRaw();
 		final double[][] transformRaw = transformMatrix.getRaw();
