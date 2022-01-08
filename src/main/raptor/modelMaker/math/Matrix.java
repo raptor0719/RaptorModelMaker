@@ -172,6 +172,41 @@ public class Matrix {
 		return translation;
 	}
 
+	public static Matrix getRotationMatrixAroundAxis(final Vector axis, final double angle) {
+		final Matrix translation = new Matrix();
+		final double[][] translationRaw = translation.getRaw();
+
+		final double radians = Math.toRadians(angle);
+
+		final Vector axisUnitVector = axis.unitVector();
+
+		final double x = axisUnitVector.get(0);
+		final double y = axisUnitVector.get(1);
+		final double z = axisUnitVector.get(2);
+
+		translationRaw[0][0] = Math.cos(radians) + Math.pow(x, 2)*(1 - Math.cos(radians));
+		translationRaw[0][1] = x*y*(1 - Math.cos(radians)) - z*Math.sin(radians);
+		translationRaw[0][2] = x*z*(1 - Math.cos(radians)) + y*Math.sin(radians);
+		translationRaw[0][3] = 0;
+
+		translationRaw[1][0] = y*x*(1 - Math.cos(radians)) + z*Math.sin(radians);
+		translationRaw[1][1] = Math.cos(radians) + Math.pow(y, 2)*(1 - Math.cos(radians));
+		translationRaw[1][2] = y*z*(1 - Math.cos(radians)) - x*Math.sin(radians);
+		translationRaw[1][3] = 0;
+
+		translationRaw[2][0] = z*x*(1 - Math.cos(radians)) - y*Math.sin(radians);
+		translationRaw[2][1] = z*y*(1 - Math.cos(radians)) + x*Math.sin(radians);
+		translationRaw[2][2] = Math.cos(radians) + Math.pow(z, 2)*(1 - Math.cos(radians));
+		translationRaw[2][3] = 0;
+
+		translationRaw[3][0] = 0;
+		translationRaw[3][1] = 0;
+		translationRaw[3][2] = 0;
+		translationRaw[3][3] = 1;
+
+		return translation;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

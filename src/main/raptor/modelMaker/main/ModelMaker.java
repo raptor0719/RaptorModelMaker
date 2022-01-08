@@ -96,9 +96,9 @@ public class ModelMaker {
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_DOWN) {
 					frameModifierPanel.rotateY(-15);
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_LEFT) {
-					frameModifierPanel.rotateZ(-15);
+					frameModifierPanel.rotateX(-15);
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_RIGHT) {
-					frameModifierPanel.rotateZ(15);
+					frameModifierPanel.rotateX(15);
 				}
 				frameModifierPanel.repaint();
 			}
