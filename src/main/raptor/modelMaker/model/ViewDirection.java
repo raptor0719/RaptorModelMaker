@@ -6,14 +6,14 @@ import raptor.modelMaker.math.Point;
 import raptor.modelMaker.math.Vector;
 
 public enum ViewDirection {
-	NORTH(buildCameraPlane(0, 45), "N"),
-	NORTHEAST(buildCameraPlane(45, 45), "NE"),
+	NORTH(buildCameraPlane(180, 45), "N"),
+	NORTHEAST(buildCameraPlane(135, 45), "NE"),
 	EAST(buildCameraPlane(90, 45), "E"),
-	SOUTHEAST(buildCameraPlane(135, 45), "SE"),
-	SOUTH(buildCameraPlane(180, 45), "S"),
-	SOUTHWEST(buildCameraPlane(225, 45), "SW"),
+	SOUTHEAST(buildCameraPlane(45, 45), "SE"),
+	SOUTH(buildCameraPlane(0, 45), "S"),
+	SOUTHWEST(buildCameraPlane(315, 45), "SW"),
 	WEST(buildCameraPlane(270, 45), "W"),
-	NORTHWEST(buildCameraPlane(315, 45), "NW");
+	NORTHWEST(buildCameraPlane(225, 45), "NW");
 
 	private final Plane parameters;
 	private final String abbreviation;
