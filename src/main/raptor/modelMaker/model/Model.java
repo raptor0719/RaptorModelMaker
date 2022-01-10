@@ -8,12 +8,14 @@ import raptor.modelMaker.math.Point;
 public class Model {
 	private final List<Hardpoint> hardpoints;
 	private final List<Frame> frames;
+	private final List<Animation> animations;
 
 	private String name;
 
 	public Model(final String name) {
 		this.hardpoints = new ArrayList<>();
 		this.frames = new ArrayList<>();
+		this.animations = new ArrayList<>();
 		this.name = name;
 	}
 
@@ -112,6 +114,29 @@ public class Model {
 		}
 	}
 
+	public void addAnimation(final String name) {
+		if (getAnimationByName(name) != null)
+			throw new IllegalArgumentException("Animation with that name already exists");
+		animations.add(new Animation(name));
+	}
+
+	public Animation getAnimation(final String name) {
+		return getAnimationByName(name);
+	}
+
+	public List<Animation> getAnimations() {
+		return animations;
+	}
+
+	public void removeAnimation(final String name) {
+		final Animation a = getAnimationByName(name);
+
+		if (a == null)
+			return;
+
+		animations.remove(a);
+	}
+
 	/* INTERNAL */
 
 	private Hardpoint getHardpointByName(final String name) {
@@ -125,6 +150,13 @@ public class Model {
 		for (final Frame f : frames)
 			if (f.getName().equals(name))
 				return f;
+		return null;
+	}
+
+	private Animation getAnimationByName(final String name) {
+		for (final Animation a : animations)
+			if (a.getName().equals(name))
+				return a;
 		return null;
 	}
 }

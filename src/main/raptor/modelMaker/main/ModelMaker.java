@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import raptor.modelMaker.components.AnimationEditorPanel;
 import raptor.modelMaker.components.FrameEditorPanel;
 import raptor.modelMaker.components.TopMenuBar;
 import raptor.modelMaker.components.ViewPanel;
@@ -106,6 +107,9 @@ public class ModelMaker {
 		final FrameEditorPanel frameEditorPanel = new FrameEditorPanel(model, frameModifierPanel);
 		frameEditorPanel.setVisible(true);
 
+		final AnimationEditorPanel animationEditorPanel = new AnimationEditorPanel();
+		animationEditorPanel.setVisible(true);
+
 		final JTabbedPane editorPanes = new JTabbedPane();
 		final GridBagConstraints editorPanes_constraints = new GridBagConstraints();
 		editorPanes_constraints.gridx = 1;
@@ -119,6 +123,7 @@ public class ModelMaker {
 		editorPanes.setVisible(true);
 
 		editorPanes.addTab("Frames", frameEditorPanel);
+		editorPanes.addTab("Animations", animationEditorPanel);
 
 		panel.add(editorPanes, editorPanes_constraints);
 
