@@ -107,7 +107,7 @@ public class ModelMaker {
 		final FrameEditorPanel frameEditorPanel = new FrameEditorPanel(model, frameModifierPanel);
 		frameEditorPanel.setVisible(true);
 
-		final AnimationEditorPanel animationEditorPanel = new AnimationEditorPanel();
+		final AnimationEditorPanel animationEditorPanel = new AnimationEditorPanel(model);
 		animationEditorPanel.setVisible(true);
 
 		final JTabbedPane editorPanes = new JTabbedPane();

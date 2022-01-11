@@ -1,30 +1,119 @@
 package raptor.modelMaker.components;
 
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.ListDataListener;
 
 import raptor.modelMaker.model.Animation;
 import raptor.modelMaker.model.Model;
 
 public class AnimationEditorPanel extends JPanel {
+	private final JComboBox<Animation> animationChooser;
+
 	private Model model;
 
 	public AnimationEditorPanel(final Model model) {
 		super();
 
+		this.model = model;
 
 		this.setLayout(new GridBagLayout());
 
-		final JComboBox<Animation> animationChooser = new JComboBox<>();
-		animationChooser.
+		this.animationChooser = new JComboBox<>();
+		animationChooser.setModel(new AnimationChooserComboBoxModel(model));
+
+		add(animationChooser);
+
+		final JTextField addAnimationNameField = new JTextField();
+
+		add(addAnimationNameField);
+
+		final JButton addAnimationButton = new JButton("Add");
+		addAnimationButton.addActionListener(new AddAnimationActionListener(addAnimationNameField));
+
+		add(addAnimationButton);
+
+		final JButton deleteAnimationButton = new JButton("Delete");
+		deleteAnimationButton.addActionListener(new DeleteAnimationActionListener());
+
+		add(deleteAnimationButton);
+
+		final JButton renameAnimationButton = new JButton("Rename");
+		renameAnimationButton.addActionListener(new RenameAnimationActionListener(addAnimationNameField));
+
+		add(renameAnimationButton);
+
+		final JButton selectAnimationButton = new JButton("Select");
+
+		add(selectAnimationButton);
 	}
 
-	private void setModel(final Model newModel) {
+	public void setModel(final Model newModel) {
 		this.model = newModel;
+		refresh();
+	}
+
+	private void refresh() {
+		animationChooser.setModel(new AnimationChooserComboBoxModel(model));
+	}
+
+	private class AddAnimationActionListener implements ActionListener {
+		private final JTextField addAnimationNameField;
+
+		public AddAnimationActionListener(final JTextField addAnimationNameField) {
+			this.addAnimationNameField = addAnimationNameField;
+		}
+
+		@Override
+		public void actionPerformed(final ActionEvent event) {
+			final String text = addAnimationNameField.getText();
+
+			if (text == null || text.isEmpty())
+				return;
+
+			model.addAnimation(text);
+			refresh();
+		}
+	}
+
+	private class DeleteAnimationActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(final ActionEvent event) {
+			final Animation animation = (Animation)animationChooser.getSelectedItem();
+
+			if (animation == null)
+				return;
+
+			model.removeAnimation(animation.getName());
+			refresh();
+		}
+	}
+
+	private class RenameAnimationActionListener implements ActionListener {
+		private final JTextField renameAnimationNameField;
+
+		public RenameAnimationActionListener(final JTextField renameAnimationNameField) {
+			this.renameAnimationNameField = renameAnimationNameField;
+		}
+
+		@Override
+		public void actionPerformed(final ActionEvent event) {
+			final Animation animation = (Animation)animationChooser.getSelectedItem();
+			final String newName = renameAnimationNameField.getText();
+
+			if (animation == null || newName == null || newName.isEmpty())
+				return;
+
+			animation.setName(newName);
+			refresh();
+		}
 	}
 
 	private static class AnimationChooserComboBoxModel implements ComboBoxModel<Animation> {
@@ -61,12 +150,12 @@ public class AnimationEditorPanel extends JPanel {
 
 		@Override
 		public void addListDataListener(final ListDataListener listDataListener) {
-			throw new UnsupportedOperationException();
+			return;
 		}
 
 		@Override
 		public void removeListDataListener(final ListDataListener listDataListener) {
-			throw new UnsupportedOperationException();
+			return;
 		}
 	}
 }
