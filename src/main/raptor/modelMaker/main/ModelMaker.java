@@ -9,6 +9,8 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import raptor.modelMaker.components.AnimationEditorPanel;
 import raptor.modelMaker.components.FrameEditorPanel;
@@ -124,6 +126,15 @@ public class ModelMaker {
 
 		editorPanes.addTab("Frames", frameEditorPanel);
 		editorPanes.addTab("Animations", animationEditorPanel);
+
+		editorPanes.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(final ChangeEvent event) {
+				if (editorPanes.getSelectedIndex() == 1) {
+					animationEditorPanel.refresh();
+				}
+			}
+		});
 
 		panel.add(editorPanes, editorPanes_constraints);
 
