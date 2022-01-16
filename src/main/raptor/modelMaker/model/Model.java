@@ -76,6 +76,9 @@ public class Model {
 			return;
 
 		frames.remove(f);
+
+		for (final Animation a : animations)
+			a.removeFrame(name);
 	}
 
 	public void saveHardpointsToFrame(final String name) {
