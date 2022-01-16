@@ -29,9 +29,54 @@ public class Animation {
 		holds.set(index, newHolds);
 	}
 
+	public int shiftFrameUp(final int index) {
+		if (index <= 0)
+			return index;
+
+		final String frameName = frameNames.remove(index);
+		final Integer hold = holds.remove(index);
+
+		final int targetIndex = index - 1;
+
+		frameNames.add(targetIndex, frameName);
+		holds.add(targetIndex, hold);
+
+		return targetIndex;
+	}
+
+	public int shiftFrameDown(final int index) {
+		if (index >= frameNames.size() - 1)
+			return index;
+
+		final String frameName = frameNames.remove(index);
+		final Integer hold = holds.remove(index);
+
+		final int targetIndex = index + 1;
+
+		frameNames.add(targetIndex, frameName);
+		holds.add(targetIndex, hold);
+
+		return targetIndex;
+	}
+
 	public void removeFrame(final int index) {
 		frameNames.remove(index);
 		holds.remove(index);
+	}
+
+	public void removeFrame(final String frameName) {
+		final int maxIndex = frameNames.size();
+
+		for (int i = 0; i < maxIndex; i++) {
+			if (i >= frameNames.size())
+				break;
+
+			if (frameNames.get(i).equals(frameName)) {
+				frameNames.remove(i);
+				holds.remove(i);
+				i--;
+			}
+		}
 	}
 
 	public String getFrame(final int index) {
