@@ -6,11 +6,15 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -91,6 +95,8 @@ public class ViewPanel extends JPanel {
 		directionalButtons[directionIndex].doClick();
 	}
 
+	private int _rotmod = 0;
+
 	@Override
 	public void paintComponent(final Graphics g) {
 		final Graphics2D g2 = (Graphics2D) g;
@@ -104,6 +110,31 @@ public class ViewPanel extends JPanel {
 		g2.clearRect(0, 0, panelWidth, panelHeight);
 		g2.setColor(Color.BLACK);
 		g2.setStroke(new BasicStroke(1));
+
+		// TODO: DELETE START
+//		g2.fillOval(200, 200, 5, 5);
+//		g2.fillOval(400, 200, 5, 5);
+
+		final int _pointSize = 6;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+		try {
+			final BufferedImage start = ImageIO.read(new File("C:\\Users\\short\\Documents\\GitHub\\RaptorModelMaker\\test-image10x20.png"));
+			final BufferedImage _TESTIMG = _enlargeImage(start);
+			final Point2D _TEST_point = _enlargePoint(new Point2D(5, 5), start, _TESTIMG);
+			g2.drawRect(200, 200, _TESTIMG.getWidth(), _TESTIMG.getHeight());
+			g2.drawImage(_TESTIMG, 200, 200, null);
+			g2.fillOval(200 + _TEST_point.getX() - _pointSize/2, 200 + _TEST_point.getY() - _pointSize/2, _pointSize, _pointSize);
+
+			final int _rot = -20 + (_rotmod+=10);
+			final Point2D translatePoint = _TEST_rotatePoint(_TEST_point, new Point2D(_TESTIMG.getWidth()/2, _TESTIMG.getHeight()/2), _rot);
+			final BufferedImage _rotatedImage = _TEST_rotate(_TESTIMG, _rot);
+			g2.drawRect(400, 200, _rotatedImage.getWidth(), _rotatedImage.getHeight());
+			g2.drawImage(_rotatedImage, 400 - (_rotatedImage.getWidth() - _TESTIMG.getWidth()), 200 - (_rotatedImage.getHeight() - _TESTIMG.getHeight()), null);
+			g2.fillOval(400 + translatePoint.getX() - _pointSize/2, 200 + translatePoint.getY() - _pointSize/2, 5, 5);
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		// TODO: DELETE END
 
 		for (final Hardpoint hardpoint : model.getHardpoints()) {
 			final Point2D translated = toDrawPoint(hardpoint.getPoint(), viewPlane, planeOriginXOnViewport, planeOriginYOnViewport);
@@ -119,6 +150,67 @@ public class ViewPanel extends JPanel {
 					endpoint.getX() + panelWidth/2 - AXIS_MARKER_ENDPOINT_LENGTH - 5, endpoint.getY() - panelHeight/2 + AXIS_MARKER_ENDPOINT_LENGTH + 5);
 		}
 	}
+
+	// TODO: DELETE START
+	private BufferedImage _enlargeImage(final BufferedImage image) {
+		final double coefficient = 1.2;
+
+		final int largest = (image.getWidth() > image.getHeight()) ? image.getWidth() : image.getHeight();
+
+		final int newWidth = (int)(largest * coefficient);
+		final int newHeight = (int)(largest * coefficient);
+
+		final BufferedImage enlarged = new BufferedImage(newWidth, newHeight, image.getType());
+
+		final Graphics2D g = enlarged.createGraphics();
+		g.translate((newWidth - image.getWidth())/2, (newHeight - image.getHeight())/2);
+
+		g.drawImage(image, null, 0, 0);
+
+		g.dispose();
+
+		return enlarged;
+	}
+
+	private Point2D _enlargePoint(final Point2D point, final BufferedImage startImage, final BufferedImage enlargedImage) {
+		final int widthCoefficient = (enlargedImage.getWidth() - startImage.getWidth())/2;
+		final int heightCoefficient = (enlargedImage.getHeight() - startImage.getHeight())/2;
+
+		return new Point2D(point.getX() + widthCoefficient, point.getY() + heightCoefficient);
+	}
+
+	private BufferedImage _TEST_rotate(final BufferedImage image, final int degrees) {
+		final int width = image.getWidth();
+		final int height = image.getHeight();
+
+		final double radians = Math.toRadians(degrees);
+
+		final BufferedImage rotated = new BufferedImage(width, height, image.getType());
+
+		final Graphics2D g = rotated.createGraphics();
+
+		g.rotate(radians, width/2, height/2);
+		g.drawImage(image, null, 0, 0);
+
+		return rotated;
+	}
+
+	private Point2D _TEST_rotatePoint(final Point2D point, final Point2D pivot, final int degrees) {
+		final double sin = Math.sin(Math.toRadians(degrees));
+		final double cos = Math.cos(Math.toRadians(degrees));
+
+		final int tX = point.getX() - pivot.getX();
+		final int tY = point.getY() - pivot.getY();
+
+		final double newX = tX * cos - tY * sin;
+		final double newY = tX * sin + tY * cos;
+
+		final double x = newX + pivot.getX();
+		final double y = newY + pivot.getY();
+
+		return new Point2D(x, y);
+	}
+	// TODO: DELETE END
 
 	public Model getModel() {
 		return model;
