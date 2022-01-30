@@ -16,6 +16,7 @@ import raptor.modelMaker.components.AnimationEditorPanel;
 import raptor.modelMaker.components.FrameEditorPanel;
 import raptor.modelMaker.components.TopMenuBar;
 import raptor.modelMaker.components.ViewPanel;
+import raptor.modelMaker.controller.AnimationPreviewController;
 import raptor.modelMaker.model.Model;
 
 public class ModelMaker {
@@ -41,6 +42,14 @@ public class ModelMaker {
 		test3Raw[2] = 22.5;
 
 		model.addFrame("testFrame1");
+		test1Raw[0] = 40.0;
+		test1Raw[1] = -40.0;
+		test1Raw[2] = 40.0;
+		model.addFrame("testFrame2");
+		test1Raw[0] = 30.0;
+		test1Raw[1] = -30.0;
+		test1Raw[2] = 30.0;
+		model.addFrame("testFrame3");
 
 		// Setup
 		final JFrame frame = new JFrame();
@@ -96,10 +105,11 @@ public class ModelMaker {
 			public void keyPressed(KeyEvent e) {
 				if (e.getExtendedKeyCode() == KeyEvent.VK_LEFT) {
 					frameModifierPanel.rotateX(true);
+					frameModifierPanel.repaint();
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_RIGHT) {
 					frameModifierPanel.rotateX(false);
+					frameModifierPanel.repaint();
 				}
-				frameModifierPanel.repaint();
 			}
 		});
 
@@ -137,6 +147,39 @@ public class ModelMaker {
 		});
 
 		panel.add(editorPanes, editorPanes_constraints);
+
+		// Animation Preview Control
+		// TODO Create separate panel with appropriate buttons
+		final AnimationPreviewController animationPreviewController = new AnimationPreviewController(animationEditorPanel, frameModifierPanel, model);
+
+		frameModifierPanel.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(final KeyEvent e) {
+				if (e.getExtendedKeyCode() == KeyEvent.VK_L) {
+					animationPreviewController.play();
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_P) {
+					animationPreviewController.pause();
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_O) {
+					animationPreviewController.stop();
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_OPEN_BRACKET) {
+					animationPreviewController.stepBackward();
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_CLOSE_BRACKET) {
+					animationPreviewController.stepForward();
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_B) {
+					animationPreviewController.goToStart();
+				}
+			}
+
+			@Override
+			public void keyReleased(final KeyEvent e) {
+				/* no-op */
+			}
+
+			@Override
+			public void keyTyped(final KeyEvent e) {
+				/* no-op */
+			}
+		});
 
 		// Final
 		frame.add(panel);
