@@ -12,7 +12,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import raptor.modelMaker.components.AnimationEditorPanel;
+import raptor.modelMaker.components.AnimationPanel;
 import raptor.modelMaker.components.FrameEditorPanel;
 import raptor.modelMaker.components.TopMenuBar;
 import raptor.modelMaker.components.ViewPanel;
@@ -119,7 +119,7 @@ public class ModelMaker {
 		final FrameEditorPanel frameEditorPanel = new FrameEditorPanel(model, frameModifierPanel);
 		frameEditorPanel.setVisible(true);
 
-		final AnimationEditorPanel animationEditorPanel = new AnimationEditorPanel(model);
+		final AnimationPanel animationEditorPanel = new AnimationPanel(model);
 		animationEditorPanel.setVisible(true);
 
 		final JTabbedPane editorPanes = new JTabbedPane();

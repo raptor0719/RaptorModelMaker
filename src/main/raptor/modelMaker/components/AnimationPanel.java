@@ -16,13 +16,13 @@ import javax.swing.event.ListDataListener;
 import raptor.modelMaker.model.Animation;
 import raptor.modelMaker.model.Model;
 
-public class AnimationEditorPanel extends JPanel {
+public class AnimationPanel extends JPanel {
 	private final JComboBox<Animation> animationChooser;
 	private final AnimationEditor animationEditor;
 
 	private Model model;
 
-	public AnimationEditorPanel(final Model model) {
+	public AnimationPanel(final Model model) {
 		super();
 
 		this.model = model;

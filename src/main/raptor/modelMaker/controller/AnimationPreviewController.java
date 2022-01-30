@@ -4,18 +4,18 @@ import java.util.List;
 
 import javax.swing.JComponent;
 
-import raptor.modelMaker.components.AnimationEditorPanel;
+import raptor.modelMaker.components.AnimationPanel;
 import raptor.modelMaker.model.Animation;
 import raptor.modelMaker.model.Model;
 
 public class AnimationPreviewController {
-	private final AnimationEditorPanel animationEditorPanel;
+	private final AnimationPanel animationEditorPanel;
 	private final JComponent redrawOnChange;
 
 	private Model model;
 	private AnimationPreviewThread animationPreviewThread;
 
-	public AnimationPreviewController(final AnimationEditorPanel animationEditorPanel, final JComponent redrawOnChange, final Model model) {
+	public AnimationPreviewController(final AnimationPanel animationEditorPanel, final JComponent redrawOnChange, final Model model) {
 		this.animationEditorPanel = animationEditorPanel;
 		this.redrawOnChange = redrawOnChange;
 
