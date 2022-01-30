@@ -8,17 +8,20 @@ public class Animation {
 	private final List<Integer> holds;
 
 	private String name;
+	private int totalFrameCount;
 
 	public Animation(final String name) {
 		this.frameNames = new ArrayList<>();
 		this.holds = new ArrayList<>();
 
 		this.name = name;
+		this.totalFrameCount = 0;
 	}
 
 	public void addFrame(final String frameName, final int holdCount) {
 		frameNames.add(frameName);
 		holds.add(holdCount);
+		totalFrameCount += holdCount;
 	}
 
 	public void setFrame(final int index, final String newFrameName) {
@@ -26,7 +29,9 @@ public class Animation {
 	}
 
 	public void setHolds(final int index, final int newHolds) {
+		final int oldHolds = holds.get(index);
 		holds.set(index, newHolds);
+		totalFrameCount += (newHolds - oldHolds);
 	}
 
 	public int shiftFrameUp(final int index) {
@@ -60,8 +65,10 @@ public class Animation {
 	}
 
 	public void removeFrame(final int index) {
+		final int frameHolds = holds.get(index);
 		frameNames.remove(index);
 		holds.remove(index);
+		totalFrameCount -= frameHolds;
 	}
 
 	public void removeFrame(final String frameName) {
@@ -72,8 +79,7 @@ public class Animation {
 				break;
 
 			if (frameNames.get(i).equals(frameName)) {
-				frameNames.remove(i);
-				holds.remove(i);
+				removeFrame(i);
 				i--;
 			}
 		}
@@ -89,6 +95,20 @@ public class Animation {
 
 	public int size() {
 		return frameNames.size();
+	}
+
+	public int totalFramesCount() {
+		return totalFrameCount;
+	}
+
+	public List<String> getTotalFrames() {
+		final List<String> frames = new ArrayList<String>();
+
+		for (int i = 0; i < frameNames.size(); i++)
+			for (int j = 0; j < holds.get(i); j++)
+				frames.add(frameNames.get(i));
+
+		return frames;
 	}
 
 	public String getName() {
