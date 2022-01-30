@@ -149,6 +149,14 @@ public class AnimationEditorPanel extends JPanel {
 		animationEditor.setModel(model, (Animation)animationChooser.getSelectedItem());
 	}
 
+	public Animation getSelectedAnimation() {
+		return (Animation)animationChooser.getSelectedItem();
+	}
+
+	public void setSelectedFrameTableIndex(final int index) {
+		animationEditor.setSelectedFrameTableIndex(index);
+	}
+
 	private class AddAnimationActionListener implements ActionListener {
 		private final JTextField addAnimationNameField;
 

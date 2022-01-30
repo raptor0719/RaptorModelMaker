@@ -42,6 +42,10 @@ public class AnimationEditorTable extends JTable {
 		animationTableModel.fireTableDataChanged();
 	}
 
+	public void setSelectedIndex(final int index) {
+		changeSelection(index, 0, false, false);
+	}
+
 	private static class AnimationTableModel extends AbstractTableModel {
 		private Animation animation;
 

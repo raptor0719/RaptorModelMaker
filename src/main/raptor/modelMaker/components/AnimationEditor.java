@@ -162,6 +162,10 @@ public class AnimationEditor extends JPanel {
 		animationTable.setAnimation(selectedAnimation);
 	}
 
+	public void setSelectedFrameTableIndex(final int index) {
+		animationTable.setSelectedIndex(index);
+	}
+
 	private class AddFrameToAnimationButtonActionListener implements ActionListener {
 		private final JComboBox<Frame> frameSelection;
 
