@@ -118,7 +118,7 @@ public class ViewPanel extends JPanel {
 		final int _pointSize = 6;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 		try {
-			final BufferedImage start = ImageIO.read(new File("C:\\Users\\short\\Documents\\GitHub\\RaptorModelMaker\\test-image10x20.png"));
+			final BufferedImage start = ImageIO.read(new File("test-image10x20.png"));
 			final BufferedImage _TESTIMG = _enlargeImage(start);
 			final Point2D _TEST_point = _enlargePoint(new Point2D(5, 5), start, _TESTIMG);
 			g2.drawRect(200, 200, _TESTIMG.getWidth(), _TESTIMG.getHeight());
