@@ -14,6 +14,7 @@ Tool for creating models for the RaptorEngine.
 		- Sprite Library Name
 		- Sprite Collection Count
 		- Sprite Collections
+			- Collection Name
 			- Sprite (One for each view direction, 8 total)
 				- Attach Point
 - Sprite Panel
