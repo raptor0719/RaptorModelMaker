@@ -26,7 +26,14 @@ public class SpriteLibraryManager {
 
 			spriteLibraryFile.createNewFile();
 
-			save(spriteLibrary, new BufferedOutputStream(new FileOutputStream(spriteLibraryFile)));
+			OutputStream ostream = null;
+			try {
+				ostream = new BufferedOutputStream(new FileOutputStream(spriteLibraryFile));
+				save(spriteLibrary, ostream);
+			} finally {
+				if (ostream != null)
+					ostream.close();
+			}
 		} catch (final IOException e) {
 			throw new RuntimeException("Failed to save sprite library.", e);
 		}
