@@ -34,6 +34,7 @@ public class SpriteLibrary {
 			final SpriteCollection spriteCollection = spriteCollections.get(i);
 			if (spriteCollection.getName().equals(name)) {
 				spriteCollections.remove(i);
+				return;
 			}
 		}
 	}
