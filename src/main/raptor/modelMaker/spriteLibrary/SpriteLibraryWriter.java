@@ -57,7 +57,7 @@ public class SpriteLibraryWriter {
 			dos.write(serializeString(spriteCollection.getName()));
 
 			for (final ViewDirection viewDirection : ViewDirection.values()) {
-				final Point2D attachmentPoint = spriteCollection.getAttachmentPoint(viewDirection);
+				final Point2D attachmentPoint = spriteCollection.getSprite(viewDirection).getAttachmentPoint();
 
 				dos.writeInt(attachmentPoint.getX());
 				dos.writeInt(attachmentPoint.getY());

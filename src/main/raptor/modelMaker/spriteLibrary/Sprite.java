@@ -29,4 +29,8 @@ public class Sprite {
 	public void setAttachmentPoint(final int attachX, final int attachY) {
 		attachmentPoint = new Point2D(attachX, attachY);
 	}
+
+	public void unsetAttachmentPoint() {
+		setAttachmentPoint(0, 0);
+	}
 }
