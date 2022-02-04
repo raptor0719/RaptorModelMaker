@@ -1,6 +1,7 @@
 package raptor.modelMaker.spriteLibrary;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,11 +12,11 @@ import java.util.List;
 import raptor.modelMaker.math.Point2D;
 import raptor.modelMaker.model.ViewDirection;
 
-public class SpriteLibraryManager {
-	private static final byte[] MAGIC_NUMBER = new byte[] {'s', 'p', 'r', 'i', 't', 'e'};
-	private static final String FILE_EXTENSION = "sl";
+public class SpriteLibraryWriter {
+	protected static final byte[] MAGIC_NUMBER = new byte[] {'s', 'p', 'r', 'i', 't', 'e'};
+	protected static final String FILE_EXTENSION = "sl";
 
-	public static void saveSpriteLibrary(final SpriteLibrary spriteLibrary, final String locationPath) {
+	public static void write(final SpriteLibrary spriteLibrary, final String locationPath) {
 		try {
 			final File directoryToSaveTo = new File(locationPath);
 
@@ -29,7 +30,7 @@ public class SpriteLibraryManager {
 			OutputStream ostream = null;
 			try {
 				ostream = new BufferedOutputStream(new FileOutputStream(spriteLibraryFile));
-				save(spriteLibrary, ostream);
+				write(spriteLibrary, ostream);
 			} finally {
 				if (ostream != null)
 					ostream.close();
@@ -37,21 +38,14 @@ public class SpriteLibraryManager {
 		} catch (final IOException e) {
 			throw new RuntimeException("Failed to save sprite library.", e);
 		}
-
 	}
 
-	public static SpriteLibrary loadSpriteLibrary(final String path) {
-		return null;
-	}
-
-	/* INTERNAL */
-
-	private static void save(final SpriteLibrary spriteLibrary, final OutputStream outputStream) throws IOException {
+	private static void write(final SpriteLibrary spriteLibrary, final OutputStream outputStream) throws IOException {
 		final DataOutputStream dos = new DataOutputStream(outputStream);
 
 		dos.write(MAGIC_NUMBER);
 
-		dos.writeChars(spriteLibrary.getName());
+		dos.write(serializeString(spriteLibrary.getName()));
 
 		final List<SpriteCollection> spriteCollections = spriteLibrary.getSpriteCollections();
 
@@ -60,13 +54,34 @@ public class SpriteLibraryManager {
 		for (int i = 0; i < spriteCollections.size(); i++) {
 			final SpriteCollection spriteCollection = spriteCollections.get(i);
 
-			dos.writeChars(spriteCollection.getName());
+			dos.write(serializeString(spriteCollection.getName()));
 
 			for (final ViewDirection viewDirection : ViewDirection.values()) {
 				final Point2D attachmentPoint = spriteCollection.getAttachmentPoint(viewDirection);
 
 				dos.writeInt(attachmentPoint.getX());
 				dos.writeInt(attachmentPoint.getY());
+			}
+		}
+	}
+
+	private static byte[] serializeString(final String str) throws IOException {
+		final ByteArrayOutputStream os = new ByteArrayOutputStream(str.length()*2 + 4);
+		final DataOutputStream dos = new DataOutputStream(os);
+
+		try {
+			dos.writeInt(str.length());
+			dos.writeChars(str);
+
+			return os.toByteArray();
+		} catch (final IOException e) {
+			throw e;
+		} finally {
+			try {
+				os.close();
+				dos.close();
+			} catch (Throwable t) {
+				/* SWALLOW */
 			}
 		}
 	}
