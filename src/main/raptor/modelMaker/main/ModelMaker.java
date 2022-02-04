@@ -77,21 +77,21 @@ public class ModelMaker {
 		panel.add(new TopMenuBar(), topMenuBarPanel_constraints);
 
 		// Frame Modifier
-		final ViewPanel frameModifierPanel = new ViewPanel(model);
-		final GridBagConstraints frameModifierPanel_constraints = new GridBagConstraints();
-		frameModifierPanel_constraints.gridx = 0;
-		frameModifierPanel_constraints.gridy = 1;
-		frameModifierPanel_constraints.gridwidth = 1;
-		frameModifierPanel_constraints.gridheight = 3;
-		frameModifierPanel_constraints.weightx = 1.0;
-		frameModifierPanel_constraints.weighty = 1.0;
-		frameModifierPanel_constraints.fill = GridBagConstraints.BOTH;
-		frameModifierPanel_constraints.anchor = GridBagConstraints.CENTER;
+		final ViewPanel viewPanel = new ViewPanel(model);
+		final GridBagConstraints viewPanel_constraints = new GridBagConstraints();
+		viewPanel_constraints.gridx = 0;
+		viewPanel_constraints.gridy = 1;
+		viewPanel_constraints.gridwidth = 1;
+		viewPanel_constraints.gridheight = 3;
+		viewPanel_constraints.weightx = 1.0;
+		viewPanel_constraints.weighty = 1.0;
+		viewPanel_constraints.fill = GridBagConstraints.BOTH;
+		viewPanel_constraints.anchor = GridBagConstraints.CENTER;
 
-		frameModifierPanel.setBackground(Color.white);
-		frameModifierPanel.setVisible(true);
+		viewPanel.setBackground(Color.white);
+		viewPanel.setVisible(true);
 
-		frameModifierPanel.addKeyListener(new KeyListener() {
+		viewPanel.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 			}
@@ -104,19 +104,19 @@ public class ModelMaker {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getExtendedKeyCode() == KeyEvent.VK_LEFT) {
-					frameModifierPanel.rotateX(true);
-					frameModifierPanel.repaint();
+					viewPanel.rotateX(true);
+					viewPanel.repaint();
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_RIGHT) {
-					frameModifierPanel.rotateX(false);
-					frameModifierPanel.repaint();
+					viewPanel.rotateX(false);
+					viewPanel.repaint();
 				}
 			}
 		});
 
-		panel.add(frameModifierPanel, frameModifierPanel_constraints);
+		panel.add(viewPanel, viewPanel_constraints);
 
 		// Editor Panels
-		final FrameEditorPanel frameEditorPanel = new FrameEditorPanel(model, frameModifierPanel);
+		final FrameEditorPanel frameEditorPanel = new FrameEditorPanel(model, viewPanel);
 		frameEditorPanel.setVisible(true);
 
 		final AnimationPanel animationEditorPanel = new AnimationPanel(model);
@@ -150,9 +150,9 @@ public class ModelMaker {
 
 		// Animation Preview Control
 		// TODO Create separate panel with appropriate buttons
-		final AnimationPreviewController animationPreviewController = new AnimationPreviewController(animationEditorPanel, frameModifierPanel, model);
+		final AnimationPreviewController animationPreviewController = new AnimationPreviewController(animationEditorPanel, viewPanel, model);
 
-		frameModifierPanel.addKeyListener(new KeyListener() {
+		viewPanel.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(final KeyEvent e) {
 				if (e.getExtendedKeyCode() == KeyEvent.VK_L) {
@@ -186,6 +186,6 @@ public class ModelMaker {
 		panel.setVisible(true);
 		frame.setVisible(true);
 
-		frameModifierPanel.requestFocus();
+		viewPanel.requestFocus();
 	}
 }
