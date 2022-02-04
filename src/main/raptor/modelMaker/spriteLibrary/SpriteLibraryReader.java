@@ -1,6 +1,6 @@
 package raptor.modelMaker.spriteLibrary;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,7 +48,7 @@ public class SpriteLibraryReader {
 			final Map<ViewDirection, Sprite> sprites = new HashMap<ViewDirection, Sprite>();
 
 			for (final ViewDirection viewDirection : ViewDirection.values()) {
-				final Image image = readImage(spriteLibraryDirectory, getSpriteImageFileName(spriteCollectionName, viewDirection));
+				final BufferedImage image = readImage(spriteLibraryDirectory, getSpriteImageFileName(spriteCollectionName, viewDirection));
 
 				final int attachX = dis.readInt();
 				final int attachY = dis.readInt();
@@ -62,7 +62,7 @@ public class SpriteLibraryReader {
 		return spriteLibrary;
 	}
 
-	private static Image readImage(final File spriteLibraryDirectory, final String fileNameWithoutExtension) throws IOException {
+	private static BufferedImage readImage(final File spriteLibraryDirectory, final String fileNameWithoutExtension) throws IOException {
 		final File[] files = spriteLibraryDirectory.listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(final File dir, final String fileName) {

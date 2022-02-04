@@ -1,24 +1,24 @@
 package raptor.modelMaker.spriteLibrary;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import raptor.modelMaker.math.Point2D;
 
 public class Sprite {
-	private final Image image;
+	private final BufferedImage image;
 
 	private Point2D attachmentPoint;
 
-	public Sprite(final Image image) {
+	public Sprite(final BufferedImage image) {
 		this(image, 0, 0);
 	}
 
-	public Sprite(final Image image, final int attachX, final int attachY) {
+	public Sprite(final BufferedImage image, final int attachX, final int attachY) {
 		this.image = image;
 		this.attachmentPoint = new Point2D(attachX, attachY);
 	}
 
-	public Image getImage() {
+	public BufferedImage getImage() {
 		return image;
 	}
 
