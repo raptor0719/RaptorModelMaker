@@ -5,8 +5,7 @@ import java.awt.image.BufferedImage;
 import raptor.modelMaker.math.Point2D;
 
 public class Sprite {
-	private final BufferedImage image;
-
+	private BufferedImage image;
 	private Point2D attachmentPoint;
 
 	public Sprite(final BufferedImage image) {
@@ -20,6 +19,10 @@ public class Sprite {
 
 	public BufferedImage getImage() {
 		return image;
+	}
+
+	public void setImage(final BufferedImage image) {
+		this.image = image;
 	}
 
 	public Point2D getAttachmentPoint() {
