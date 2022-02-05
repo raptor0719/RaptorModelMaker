@@ -7,8 +7,10 @@ import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -40,8 +42,7 @@ public class SpriteLibraryReader {
 
 		final String spriteLibraryName = deserializeString(dis);
 
-		final SpriteLibrary spriteLibrary = new SpriteLibrary(spriteLibraryName);
-
+		final List<SpriteCollection> spriteCollections = new ArrayList<SpriteCollection>();
 		final int spriteCollectionCount = dis.readInt();
 		for (int i = 0; i < spriteCollectionCount; i++) {
 			final String spriteCollectionName = deserializeString(dis);
@@ -56,10 +57,31 @@ public class SpriteLibraryReader {
 				sprites.put(viewDirection, new Sprite(image, attachX, attachY));
 			}
 
-			spriteLibrary.addSpriteCollection(new SpriteCollection(spriteCollectionName, sprites));
+			spriteCollections.add(new SpriteCollection(spriteCollectionName, sprites));
 		}
 
-		return spriteLibrary;
+		return new SpriteLibrary(spriteLibraryName, spriteLibraryDirectory.getAbsolutePath(), spriteCollections);
+	}
+
+	public static Map<ViewDirection, BufferedImage> loadImages(final String spriteCollectionName, final String location) {
+		final File directory = new File(location);
+
+		if (!directory.isDirectory() || !directory.exists())
+			throw new IllegalArgumentException(String.format("Given location '%s' was not a directory or did not exist.", location));
+
+		try {
+			final Map<ViewDirection, BufferedImage> images = new HashMap<ViewDirection, BufferedImage>();
+
+			for (final ViewDirection viewDirection : ViewDirection.values()) {
+				final BufferedImage image = readImage(directory, getSpriteImageFileName(spriteCollectionName, viewDirection));
+
+				images.put(viewDirection, image);
+			}
+
+			return images;
+		} catch (final IOException e) {
+			throw new RuntimeException("Error reading images.", e);
+		}
 	}
 
 	private static BufferedImage readImage(final File spriteLibraryDirectory, final String fileNameWithoutExtension) throws IOException {
