@@ -31,6 +31,11 @@ public enum ViewDirection {
 		return abbreviation;
 	}
 
+	@Override
+	public String toString() {
+		return this.name();
+	}
+
 	private static Plane buildCameraPlane(final int xDegrees, final int yDegrees) {
 		final Plane newPlane = new Plane(new Point(0, 0, 0), new Vector(-1, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, 1));
 
