@@ -27,6 +27,11 @@ public class SpriteViewPanel extends JPanel {
 		final int centerX = viewportWidth / 2;
 		final int centerY = viewportHeight / 2;
 
+		g2.clearRect(0, 0, viewportWidth, viewportHeight);
+
+		if (sprite == null)
+			return;
+
 		final BufferedImage spriteImage = sprite.getImage();
 
 		final int offsetX = spriteImage.getWidth() / 2;

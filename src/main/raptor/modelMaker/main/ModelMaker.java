@@ -16,10 +16,17 @@ import raptor.modelMaker.components.AnimationPanel;
 import raptor.modelMaker.components.FrameEditorPanel;
 import raptor.modelMaker.components.TopMenuBar;
 import raptor.modelMaker.components.ViewPanel;
+import raptor.modelMaker.components.spriteLibrary.SpriteLibraryPanel;
 import raptor.modelMaker.controller.AnimationPreviewController;
 import raptor.modelMaker.model.Model;
 
 public class ModelMaker {
+	private static JFrame PARENT_FRAME;
+
+	public static JFrame getParentFrame() {
+		return PARENT_FRAME;
+	}
+
 	private Model model;
 
 	public ModelMaker() {
@@ -53,6 +60,7 @@ public class ModelMaker {
 
 		// Setup
 		final JFrame frame = new JFrame();
+		PARENT_FRAME = frame;
 		final JPanel panel = new JPanel();
 
 		frame.setSize(1200, 800);
@@ -122,6 +130,9 @@ public class ModelMaker {
 		final AnimationPanel animationEditorPanel = new AnimationPanel(model);
 		animationEditorPanel.setVisible(true);
 
+		final SpriteLibraryPanel spriteLibraryPanel = new SpriteLibraryPanel(viewPanel);
+		spriteLibraryPanel.setVisible(true);
+
 		final JTabbedPane editorPanes = new JTabbedPane();
 		final GridBagConstraints editorPanes_constraints = new GridBagConstraints();
 		editorPanes_constraints.gridx = 1;
@@ -136,6 +147,7 @@ public class ModelMaker {
 
 		editorPanes.addTab("Frames", frameEditorPanel);
 		editorPanes.addTab("Animations", animationEditorPanel);
+		editorPanes.addTab("Sprite", spriteLibraryPanel);
 
 		editorPanes.addChangeListener(new ChangeListener() {
 			@Override

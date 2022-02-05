@@ -3,16 +3,22 @@ package raptor.modelMaker.components.spriteLibrary;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import raptor.modelMaker.main.ModelMaker;
 import raptor.modelMaker.spriteLibrary.SpriteLibrary;
+import raptor.modelMaker.spriteLibrary.SpriteLibraryReader;
 
 public class SpriteLibraryPanel extends JPanel {
+	private final SpriteLibraryEditorPanel spriteLibraryEditorPanel;
+
 	private SpriteLibrary spriteLibrary;
 
 	public SpriteLibraryPanel(final JComponent redrawOnChange) {
@@ -36,6 +42,7 @@ public class SpriteLibraryPanel extends JPanel {
 		add(spriteLibraryNameField, spriteLibraryNameField_constraints);
 
 		final JButton createNewSpriteLibraryButton = new JButton("Create New");
+		createNewSpriteLibraryButton.addActionListener(new CreateNewSpriteLibraryActionListener(spriteLibraryNameField));
 		final GridBagConstraints createNewSpriteLibraryButton_constraints = new GridBagConstraints();
 		createNewSpriteLibraryButton_constraints.gridx = 0;
 		createNewSpriteLibraryButton_constraints.gridy = 0;
@@ -51,6 +58,7 @@ public class SpriteLibraryPanel extends JPanel {
 		add(createNewSpriteLibraryButton, createNewSpriteLibraryButton_constraints);
 
 		final JButton renameSpriteLibraryButton = new JButton("Rename");
+		renameSpriteLibraryButton.addActionListener(new RenameSpriteLibraryActionListener(spriteLibraryNameField));
 		final GridBagConstraints renameSpriteLibraryButton_constraints = new GridBagConstraints();
 		renameSpriteLibraryButton_constraints.gridx = 0;
 		renameSpriteLibraryButton_constraints.gridy = 0;
@@ -66,6 +74,7 @@ public class SpriteLibraryPanel extends JPanel {
 		add(renameSpriteLibraryButton, renameSpriteLibraryButton_constraints);
 
 		final JButton loadSpriteLibraryButton = new JButton("Load");
+		loadSpriteLibraryButton.addActionListener(new LoadSpriteLibraryActionListener());
 		final GridBagConstraints loadSpriteLibraryButton_constraints = new GridBagConstraints();
 		loadSpriteLibraryButton_constraints.gridx = 0;
 		loadSpriteLibraryButton_constraints.gridy = 0;
@@ -80,40 +89,99 @@ public class SpriteLibraryPanel extends JPanel {
 
 		add(loadSpriteLibraryButton, loadSpriteLibraryButton_constraints);
 
-		final JLabel spriteLibraryNameTitle = new JLabel("");
-		final GridBagConstraints spriteLibraryNameTitle_constraints = new GridBagConstraints();
-		spriteLibraryNameTitle_constraints.gridx = 0;
-		spriteLibraryNameTitle_constraints.gridy = 0;
-		spriteLibraryNameTitle_constraints.gridwidth = 3;
-		spriteLibraryNameTitle_constraints.gridheight = 2;
-		spriteLibraryNameTitle_constraints.weightx = 0.0;
-		spriteLibraryNameTitle_constraints.weighty = 0.0;
-		spriteLibraryNameTitle_constraints.fill = GridBagConstraints.BOTH;
-		spriteLibraryNameTitle_constraints.anchor = GridBagConstraints.CENTER;
-		spriteLibraryNameTitle_constraints.insets = new Insets(3, 3, 3, 3);
-		spriteLibraryNameTitle.setVisible(true);
-
-		add(spriteLibraryNameTitle, spriteLibraryNameTitle_constraints);
-
-		final JButton saveSpriteLibraryButton = new JButton("Save");
-		final GridBagConstraints saveSpriteLibraryButton_constraints = new GridBagConstraints();
-		saveSpriteLibraryButton_constraints.gridx = 0;
-		saveSpriteLibraryButton_constraints.gridy = 0;
-		saveSpriteLibraryButton_constraints.gridwidth = 3;
-		saveSpriteLibraryButton_constraints.gridheight = 2;
-		saveSpriteLibraryButton_constraints.weightx = 0.0;
-		saveSpriteLibraryButton_constraints.weighty = 0.0;
-		saveSpriteLibraryButton_constraints.fill = GridBagConstraints.BOTH;
-		saveSpriteLibraryButton_constraints.anchor = GridBagConstraints.CENTER;
-		saveSpriteLibraryButton_constraints.insets = new Insets(3, 3, 3, 3);
-		saveSpriteLibraryButton.setVisible(true);
-
-		add(saveSpriteLibraryButton, saveSpriteLibraryButton_constraints);
-
 		// SpriteLibraryEditorPanel
+		this.spriteLibraryEditorPanel = new SpriteLibraryEditorPanel(redrawOnChange);
+		final GridBagConstraints spriteLibraryEditorPanel_constraints = new GridBagConstraints();
+		spriteLibraryEditorPanel_constraints.gridx = 0;
+		spriteLibraryEditorPanel_constraints.gridy = 0;
+		spriteLibraryEditorPanel_constraints.gridwidth = 3;
+		spriteLibraryEditorPanel_constraints.gridheight = 2;
+		spriteLibraryEditorPanel_constraints.weightx = 0.0;
+		spriteLibraryEditorPanel_constraints.weighty = 0.0;
+		spriteLibraryEditorPanel_constraints.fill = GridBagConstraints.BOTH;
+		spriteLibraryEditorPanel_constraints.anchor = GridBagConstraints.CENTER;
+		spriteLibraryEditorPanel_constraints.insets = new Insets(3, 3, 3, 3);
+		spriteLibraryEditorPanel.setVisible(true);
+
+		add(spriteLibraryEditorPanel, spriteLibraryEditorPanel_constraints);
+	}
+
+	public void setSpriteLibrary(final SpriteLibrary spriteLibrary) {
+		this.spriteLibrary = spriteLibrary;
+		spriteLibraryEditorPanel.setSpriteLibrary(spriteLibrary);
 	}
 
 	public SpriteLibrary getSpriteLibrary() {
 		return spriteLibrary;
+	}
+
+	private class CreateNewSpriteLibraryActionListener implements ActionListener {
+		private final JFileChooser fileChooser;
+		private final JTextField nameField;
+
+		public CreateNewSpriteLibraryActionListener(final JTextField nameField) {
+			this.fileChooser = new JFileChooser();
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+			this.nameField = nameField;
+		}
+
+		@Override
+		public void actionPerformed(final ActionEvent event) {
+			int fileChooserReturn = JFileChooser.ERROR_OPTION;
+
+			while (fileChooserReturn != JFileChooser.APPROVE_OPTION) {
+				fileChooserReturn = fileChooser.showDialog(ModelMaker.getParentFrame(), "Select");
+
+				if (fileChooserReturn == JFileChooser.CANCEL_OPTION)
+					return;
+			}
+
+			setSpriteLibrary(new SpriteLibrary(nameField.getName(), fileChooser.getSelectedFile().getAbsolutePath()));
+		}
+	}
+
+	private class RenameSpriteLibraryActionListener implements ActionListener {
+		private final JTextField nameField;
+
+		public RenameSpriteLibraryActionListener(final JTextField nameField) {
+			this.nameField = nameField;
+		}
+
+		@Override
+		public void actionPerformed(final ActionEvent event) {
+			final String newName = nameField.getText();
+
+			if (newName == null || newName.isEmpty())
+				return;
+
+			final SpriteLibrary spriteLibrary = getSpriteLibrary();
+			spriteLibrary.setName(newName);
+
+			setSpriteLibrary(spriteLibrary);
+		}
+	}
+
+	private class LoadSpriteLibraryActionListener implements ActionListener {
+		private final JFileChooser fileChooser;
+
+		public LoadSpriteLibraryActionListener() {
+			this.fileChooser = new JFileChooser();
+			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		}
+
+		@Override
+		public void actionPerformed(final ActionEvent event) {
+			int fileChooserReturn = JFileChooser.ERROR_OPTION;
+
+			while (fileChooserReturn != JFileChooser.APPROVE_OPTION) {
+				fileChooserReturn = fileChooser.showDialog(ModelMaker.getParentFrame(), "Load");
+
+				if (fileChooserReturn == JFileChooser.CANCEL_OPTION)
+					return;
+			}
+
+			setSpriteLibrary(SpriteLibraryReader.read(fileChooser.getSelectedFile().getAbsolutePath()));
+		}
 	}
 }

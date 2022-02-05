@@ -16,22 +16,40 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.ListDataListener;
 
+import raptor.modelMaker.main.ModelMaker;
 import raptor.modelMaker.model.ViewDirection;
 import raptor.modelMaker.spriteLibrary.Sprite;
 import raptor.modelMaker.spriteLibrary.SpriteCollection;
+import raptor.modelMaker.spriteLibrary.SpriteLibraryReader;
 
 public class SpriteCollectionEditorPanel extends JPanel {
+	private final JLabel spriteCollectionNameTitle;
 	private final JComboBox<ViewDirection> viewDirectionChooser;
 	private final SpriteViewPanel spriteViewPanel;
 
 	private SpriteCollection spriteCollection;
 
-	public SpriteCollectionEditorPanel(final JComponent redrawOnChange) {
+	public SpriteCollectionEditorPanel(final SpriteLibraryEditorPanel spriteLibraryEditorPanel, final JComponent redrawOnChange) {
 		super();
 
 		spriteCollection = null;
 
 		this.setLayout(new GridBagLayout());
+
+		this.spriteCollectionNameTitle = new JLabel("");
+		final GridBagConstraints spriteCollectionNameTitle_constraints = new GridBagConstraints();
+		spriteCollectionNameTitle_constraints.gridx = 0;
+		spriteCollectionNameTitle_constraints.gridy = 0;
+		spriteCollectionNameTitle_constraints.gridwidth = 3;
+		spriteCollectionNameTitle_constraints.gridheight = 2;
+		spriteCollectionNameTitle_constraints.weightx = 0.0;
+		spriteCollectionNameTitle_constraints.weighty = 0.0;
+		spriteCollectionNameTitle_constraints.fill = GridBagConstraints.BOTH;
+		spriteCollectionNameTitle_constraints.anchor = GridBagConstraints.CENTER;
+		spriteCollectionNameTitle_constraints.insets = new Insets(3, 3, 3, 3);
+		spriteCollectionNameTitle.setVisible(true);
+
+		add(spriteCollectionNameTitle, spriteCollectionNameTitle_constraints);
 
 		this.viewDirectionChooser = new JComboBox<ViewDirection>();
 		viewDirectionChooser.setModel(new ViewDirectionComboBoxModel());
@@ -65,7 +83,7 @@ public class SpriteCollectionEditorPanel extends JPanel {
 		add(viewDirectionNameTitle, viewDirectionNameTitle_constraints);
 
 		final JButton selectViewDirectionButton = new JButton("Select");
-		selectViewDirectionButton.addActionListener(new SelectViewDirectionActionListener(viewDirectionChooser, viewDirectionNameTitle));
+		selectViewDirectionButton.addActionListener(new SelectViewDirectionActionListener(viewDirectionNameTitle));
 		final GridBagConstraints selectViewDirectionButton_constraints = new GridBagConstraints();
 		selectViewDirectionButton_constraints.gridx = 0;
 		selectViewDirectionButton_constraints.gridy = 0;
@@ -110,22 +128,6 @@ public class SpriteCollectionEditorPanel extends JPanel {
 
 		add(yAttachmentPointField, yAttachmentPointField_constraints);
 
-		final JButton setAttachmentPointButton = new JButton("Set");
-		setAttachmentPointButton.addActionListener(new SetAttachmentPointActionListener(xAttachmentPointField, yAttachmentPointField, this));
-		final GridBagConstraints setAttachmentPointButton_constraints = new GridBagConstraints();
-		setAttachmentPointButton_constraints.gridx = 0;
-		setAttachmentPointButton_constraints.gridy = 0;
-		setAttachmentPointButton_constraints.gridwidth = 3;
-		setAttachmentPointButton_constraints.gridheight = 2;
-		setAttachmentPointButton_constraints.weightx = 0.0;
-		setAttachmentPointButton_constraints.weighty = 0.0;
-		setAttachmentPointButton_constraints.fill = GridBagConstraints.BOTH;
-		setAttachmentPointButton_constraints.anchor = GridBagConstraints.CENTER;
-		setAttachmentPointButton_constraints.insets = new Insets(3, 3, 3, 3);
-		setAttachmentPointButton.setVisible(true);
-
-		add(setAttachmentPointButton, setAttachmentPointButton_constraints);
-
 		this.spriteViewPanel = new SpriteViewPanel();
 		final GridBagConstraints spriteViewPanel_constraints = new GridBagConstraints();
 		spriteViewPanel_constraints.gridx = 0;
@@ -140,11 +142,50 @@ public class SpriteCollectionEditorPanel extends JPanel {
 		spriteViewPanel.setVisible(true);
 
 		add(spriteViewPanel, spriteViewPanel_constraints);
+
+		final JButton reloadViewDirectionButton = new JButton("Reload");
+		reloadViewDirectionButton.addActionListener(new ReloadSpriteCollectionActionListener(spriteLibraryEditorPanel, spriteViewPanel, redrawOnChange));
+		final GridBagConstraints reloadViewDirectionButton_constraints = new GridBagConstraints();
+		reloadViewDirectionButton_constraints.gridx = 0;
+		reloadViewDirectionButton_constraints.gridy = 0;
+		reloadViewDirectionButton_constraints.gridwidth = 3;
+		reloadViewDirectionButton_constraints.gridheight = 2;
+		reloadViewDirectionButton_constraints.weightx = 0.0;
+		reloadViewDirectionButton_constraints.weighty = 0.0;
+		reloadViewDirectionButton_constraints.fill = GridBagConstraints.BOTH;
+		reloadViewDirectionButton_constraints.anchor = GridBagConstraints.CENTER;
+		reloadViewDirectionButton_constraints.insets = new Insets(3, 3, 3, 3);
+		reloadViewDirectionButton.setVisible(true);
+
+		add(reloadViewDirectionButton, reloadViewDirectionButton_constraints);
+
+		final JButton setAttachmentPointButton = new JButton("Set");
+		setAttachmentPointButton.addActionListener(new SetAttachmentPointActionListener(xAttachmentPointField, yAttachmentPointField, spriteViewPanel, redrawOnChange));
+		final GridBagConstraints setAttachmentPointButton_constraints = new GridBagConstraints();
+		setAttachmentPointButton_constraints.gridx = 0;
+		setAttachmentPointButton_constraints.gridy = 0;
+		setAttachmentPointButton_constraints.gridwidth = 3;
+		setAttachmentPointButton_constraints.gridheight = 2;
+		setAttachmentPointButton_constraints.weightx = 0.0;
+		setAttachmentPointButton_constraints.weighty = 0.0;
+		setAttachmentPointButton_constraints.fill = GridBagConstraints.BOTH;
+		setAttachmentPointButton_constraints.anchor = GridBagConstraints.CENTER;
+		setAttachmentPointButton_constraints.insets = new Insets(3, 3, 3, 3);
+		setAttachmentPointButton.setVisible(true);
+
+		add(setAttachmentPointButton, setAttachmentPointButton_constraints);
 	}
 
 	public void setSpriteCollection(final SpriteCollection spriteCollection) {
 		this.spriteCollection = spriteCollection;
+
+		if (spriteCollection == null) {
+			spriteCollectionNameTitle.setText("");
+			return;
+		}
+
 		spriteViewPanel.setSprite(spriteCollection.getSprite((ViewDirection)viewDirectionChooser.getSelectedItem()));
+		spriteCollectionNameTitle.setText(spriteCollection.getName());
 	}
 
 	public SpriteCollection getSpriteCollection() {
@@ -194,12 +235,32 @@ public class SpriteCollectionEditorPanel extends JPanel {
 		}
 	}
 
+	private class ReloadSpriteCollectionActionListener implements ActionListener {
+		private final SpriteLibraryEditorPanel spriteLibraryEditorPanel;
+		private final SpriteViewPanel spriteViewPanel;
+		private final JComponent redrawOnChange;
+
+		public ReloadSpriteCollectionActionListener(final SpriteLibraryEditorPanel spriteLibraryEditorPanel, final SpriteViewPanel spriteViewPanel, final JComponent redrawOnChange) {
+			this.spriteLibraryEditorPanel = spriteLibraryEditorPanel;
+			this.spriteViewPanel = spriteViewPanel;
+			this.redrawOnChange = redrawOnChange;
+		}
+
+		@Override
+		public void actionPerformed(final ActionEvent event) {
+			if (spriteCollection == null)
+				return;
+
+			spriteCollection.setSpriteImages(SpriteLibraryReader.loadImages(spriteCollection.getName(), spriteLibraryEditorPanel.getSpriteLibrary().getLocation()));
+			spriteViewPanel.repaint();
+			redrawOnChange.repaint();
+		}
+	}
+
 	private class SelectViewDirectionActionListener implements ActionListener {
-		private final JComboBox<ViewDirection> viewDirectionChooser;
 		private final JLabel viewDirectionNameTitle;
 
-		public SelectViewDirectionActionListener(final JComboBox<ViewDirection> viewDirectionChooser, final JLabel viewDirectionNameTitle) {
-			this.viewDirectionChooser = viewDirectionChooser;
+		public SelectViewDirectionActionListener(final JLabel viewDirectionNameTitle) {
 			this.viewDirectionNameTitle = viewDirectionNameTitle;
 		}
 
@@ -218,12 +279,14 @@ public class SpriteCollectionEditorPanel extends JPanel {
 	private class SetAttachmentPointActionListener implements ActionListener {
 		private final JTextField xField;
 		private final JTextField yField;
-		private final JComponent parent;
+		private final SpriteViewPanel spriteViewPanel;
+		private final JComponent redrawOnChange;
 
-		public SetAttachmentPointActionListener(final JTextField xField, final JTextField yField, final JComponent parent) {
+		public SetAttachmentPointActionListener(final JTextField xField, final JTextField yField, final SpriteViewPanel spriteViewPanel, final JComponent redrawOnChange) {
 			this.xField = xField;
 			this.yField = yField;
-			this.parent = parent;
+			this.spriteViewPanel = spriteViewPanel;
+			this.redrawOnChange = redrawOnChange;
 		}
 
 		@Override
@@ -241,13 +304,15 @@ public class SpriteCollectionEditorPanel extends JPanel {
 				attachY = Integer.parseInt(yField.getText());
 				succeeded = true;
 			} catch (final NumberFormatException e) {
-				JOptionPane.showMessageDialog(parent, "A given coordinate was not a number.", "Not a Number", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(ModelMaker.getParentFrame(), "A given coordinate was not a number.", "Not a Number", JOptionPane.ERROR_MESSAGE);
 			}
 
 			if (!succeeded)
 				return;
 
 			currentSprite.setAttachmentPoint(attachX, attachY);
+			spriteViewPanel.repaint();
+			redrawOnChange.repaint();
 		}
 	}
 }
