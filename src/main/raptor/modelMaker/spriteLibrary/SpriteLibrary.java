@@ -8,14 +8,17 @@ public class SpriteLibrary {
 	private final List<SpriteCollection> spriteCollections;
 
 	private String name;
+	private String location;
 
-	public SpriteLibrary(final String name) {
+	public SpriteLibrary(final String name, final String location) {
 		this.spriteCollections = new ArrayList<SpriteCollection>();
+		this.location = location;
 		this.name = name;
 	}
 
-	public SpriteLibrary(final String name, final List<SpriteCollection> spriteCollections) {
+	public SpriteLibrary(final String name, final String location, final List<SpriteCollection> spriteCollections) {
 		this.spriteCollections = spriteCollections;
+		this.location = location;
 		this.name = name;
 	}
 
@@ -49,6 +52,16 @@ public class SpriteLibrary {
 
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(final String location) {
+		if (this.location != null && location == null)
+			throw new IllegalArgumentException("Cannot unset sprite library location.");
+		this.location = location;
 	}
 
 	private SpriteCollection getSpriteCollectionByName(final String name) {
