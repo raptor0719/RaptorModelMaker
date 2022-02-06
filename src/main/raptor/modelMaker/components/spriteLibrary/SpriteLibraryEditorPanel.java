@@ -1,5 +1,6 @@
 package raptor.modelMaker.components.spriteLibrary;
 
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -38,12 +39,12 @@ public class SpriteLibraryEditorPanel extends JPanel {
 		spriteCollectionChooser.setModel(new SpriteCollectionComboBoxModel(null));
 		final GridBagConstraints spriteCollectionChooser_constraints = new GridBagConstraints();
 		spriteCollectionChooser_constraints.gridx = 0;
-		spriteCollectionChooser_constraints.gridy = 0;
-		spriteCollectionChooser_constraints.gridwidth = 3;
+		spriteCollectionChooser_constraints.gridy = 2;
+		spriteCollectionChooser_constraints.gridwidth = 5;
 		spriteCollectionChooser_constraints.gridheight = 2;
-		spriteCollectionChooser_constraints.weightx = 0.0;
+		spriteCollectionChooser_constraints.weightx = 1.0;
 		spriteCollectionChooser_constraints.weighty = 0.0;
-		spriteCollectionChooser_constraints.fill = GridBagConstraints.BOTH;
+		spriteCollectionChooser_constraints.fill = GridBagConstraints.HORIZONTAL;
 		spriteCollectionChooser_constraints.anchor = GridBagConstraints.CENTER;
 		spriteCollectionChooser_constraints.insets = new Insets(3, 3, 3, 3);
 		spriteCollectionChooser.setVisible(true);
@@ -52,14 +53,14 @@ public class SpriteLibraryEditorPanel extends JPanel {
 
 		final JTextField spriteCollectionNameField = new JTextField();
 		final GridBagConstraints spriteCollectionNameField_constraints = new GridBagConstraints();
-		spriteCollectionNameField_constraints.gridx = 0;
-		spriteCollectionNameField_constraints.gridy = 0;
-		spriteCollectionNameField_constraints.gridwidth = 3;
+		spriteCollectionNameField_constraints.gridx = 5;
+		spriteCollectionNameField_constraints.gridy = 2;
+		spriteCollectionNameField_constraints.gridwidth = 5;
 		spriteCollectionNameField_constraints.gridheight = 2;
-		spriteCollectionNameField_constraints.weightx = 0.0;
+		spriteCollectionNameField_constraints.weightx = 1.0;
 		spriteCollectionNameField_constraints.weighty = 0.0;
-		spriteCollectionNameField_constraints.fill = GridBagConstraints.BOTH;
-		spriteCollectionNameField_constraints.anchor = GridBagConstraints.CENTER;
+		spriteCollectionNameField_constraints.fill = GridBagConstraints.HORIZONTAL;
+		spriteCollectionNameField_constraints.anchor = GridBagConstraints.EAST;
 		spriteCollectionNameField_constraints.insets = new Insets(3, 3, 3, 3);
 		spriteCollectionNameField.setVisible(true);
 
@@ -69,13 +70,13 @@ public class SpriteLibraryEditorPanel extends JPanel {
 		deleteSpriteCollectionButton.addActionListener(new DeleteSpriteCollectionActionListener());
 		final GridBagConstraints deleteSpriteCollectionButton_constraints = new GridBagConstraints();
 		deleteSpriteCollectionButton_constraints.gridx = 0;
-		deleteSpriteCollectionButton_constraints.gridy = 0;
-		deleteSpriteCollectionButton_constraints.gridwidth = 3;
+		deleteSpriteCollectionButton_constraints.gridy = 4;
+		deleteSpriteCollectionButton_constraints.gridwidth = 1;
 		deleteSpriteCollectionButton_constraints.gridheight = 2;
-		deleteSpriteCollectionButton_constraints.weightx = 0.0;
+		deleteSpriteCollectionButton_constraints.weightx = 1.0;
 		deleteSpriteCollectionButton_constraints.weighty = 0.0;
-		deleteSpriteCollectionButton_constraints.fill = GridBagConstraints.BOTH;
-		deleteSpriteCollectionButton_constraints.anchor = GridBagConstraints.CENTER;
+		deleteSpriteCollectionButton_constraints.fill = GridBagConstraints.NONE;
+		deleteSpriteCollectionButton_constraints.anchor = GridBagConstraints.WEST;
 		deleteSpriteCollectionButton_constraints.insets = new Insets(3, 3, 3, 3);
 		deleteSpriteCollectionButton.setVisible(true);
 
@@ -84,14 +85,14 @@ public class SpriteLibraryEditorPanel extends JPanel {
 		final JButton selectSpriteCollectionButton = new JButton("Select");
 		selectSpriteCollectionButton.addActionListener(new SelectSpriteCollectionActionListener());
 		final GridBagConstraints selectSpriteCollectionButton_constraints = new GridBagConstraints();
-		selectSpriteCollectionButton_constraints.gridx = 0;
-		selectSpriteCollectionButton_constraints.gridy = 0;
-		selectSpriteCollectionButton_constraints.gridwidth = 3;
+		selectSpriteCollectionButton_constraints.gridx = 4;
+		selectSpriteCollectionButton_constraints.gridy = 4;
+		selectSpriteCollectionButton_constraints.gridwidth = 1;
 		selectSpriteCollectionButton_constraints.gridheight = 2;
-		selectSpriteCollectionButton_constraints.weightx = 0.0;
+		selectSpriteCollectionButton_constraints.weightx = 1.0;
 		selectSpriteCollectionButton_constraints.weighty = 0.0;
-		selectSpriteCollectionButton_constraints.fill = GridBagConstraints.BOTH;
-		selectSpriteCollectionButton_constraints.anchor = GridBagConstraints.CENTER;
+		selectSpriteCollectionButton_constraints.fill = GridBagConstraints.NONE;
+		selectSpriteCollectionButton_constraints.anchor = GridBagConstraints.EAST;
 		selectSpriteCollectionButton_constraints.insets = new Insets(3, 3, 3, 3);
 		selectSpriteCollectionButton.setVisible(true);
 
@@ -100,29 +101,30 @@ public class SpriteLibraryEditorPanel extends JPanel {
 		final JButton addSpriteCollectionButton = new JButton("Add");
 		addSpriteCollectionButton.addActionListener(new AddSpriteCollectionActionListener(spriteCollectionNameField));
 		final GridBagConstraints addSpriteCollectionButton_constraints = new GridBagConstraints();
-		addSpriteCollectionButton_constraints.gridx = 0;
-		addSpriteCollectionButton_constraints.gridy = 0;
-		addSpriteCollectionButton_constraints.gridwidth = 3;
+		addSpriteCollectionButton_constraints.gridx = 9;
+		addSpriteCollectionButton_constraints.gridy = 4;
+		addSpriteCollectionButton_constraints.gridwidth = 1;
 		addSpriteCollectionButton_constraints.gridheight = 2;
-		addSpriteCollectionButton_constraints.weightx = 0.0;
+		addSpriteCollectionButton_constraints.weightx = 1.0;
 		addSpriteCollectionButton_constraints.weighty = 0.0;
-		addSpriteCollectionButton_constraints.fill = GridBagConstraints.BOTH;
-		addSpriteCollectionButton_constraints.anchor = GridBagConstraints.CENTER;
+		addSpriteCollectionButton_constraints.fill = GridBagConstraints.NONE;
+		addSpriteCollectionButton_constraints.anchor = GridBagConstraints.EAST;
 		addSpriteCollectionButton_constraints.insets = new Insets(3, 3, 3, 3);
 		addSpriteCollectionButton.setVisible(true);
 
 		add(addSpriteCollectionButton, addSpriteCollectionButton_constraints);
 
 		this.spriteLibraryNameTitle = new JLabel("");
+		spriteLibraryNameTitle.setFont(new Font("Arial", Font.BOLD, 18));
 		final GridBagConstraints spriteLibraryNameTitle_constraints = new GridBagConstraints();
 		spriteLibraryNameTitle_constraints.gridx = 0;
 		spriteLibraryNameTitle_constraints.gridy = 0;
-		spriteLibraryNameTitle_constraints.gridwidth = 3;
+		spriteLibraryNameTitle_constraints.gridwidth = 4;
 		spriteLibraryNameTitle_constraints.gridheight = 2;
-		spriteLibraryNameTitle_constraints.weightx = 0.0;
+		spriteLibraryNameTitle_constraints.weightx = 1.0;
 		spriteLibraryNameTitle_constraints.weighty = 0.0;
-		spriteLibraryNameTitle_constraints.fill = GridBagConstraints.BOTH;
-		spriteLibraryNameTitle_constraints.anchor = GridBagConstraints.CENTER;
+		spriteLibraryNameTitle_constraints.fill = GridBagConstraints.HORIZONTAL;
+		spriteLibraryNameTitle_constraints.anchor = GridBagConstraints.WEST;
 		spriteLibraryNameTitle_constraints.insets = new Insets(3, 3, 3, 3);
 		spriteLibraryNameTitle.setVisible(true);
 
@@ -131,13 +133,13 @@ public class SpriteLibraryEditorPanel extends JPanel {
 		final JButton saveSpriteLibraryButton = new JButton("Save");
 		saveSpriteLibraryButton.addActionListener(new SaveSpriteLibraryActionListener());
 		final GridBagConstraints saveSpriteLibraryButton_constraints = new GridBagConstraints();
-		saveSpriteLibraryButton_constraints.gridx = 0;
+		saveSpriteLibraryButton_constraints.gridx = 5;
 		saveSpriteLibraryButton_constraints.gridy = 0;
-		saveSpriteLibraryButton_constraints.gridwidth = 3;
+		saveSpriteLibraryButton_constraints.gridwidth = 1;
 		saveSpriteLibraryButton_constraints.gridheight = 2;
 		saveSpriteLibraryButton_constraints.weightx = 0.0;
 		saveSpriteLibraryButton_constraints.weighty = 0.0;
-		saveSpriteLibraryButton_constraints.fill = GridBagConstraints.BOTH;
+		saveSpriteLibraryButton_constraints.fill = GridBagConstraints.HORIZONTAL;
 		saveSpriteLibraryButton_constraints.anchor = GridBagConstraints.CENTER;
 		saveSpriteLibraryButton_constraints.insets = new Insets(3, 3, 3, 3);
 		saveSpriteLibraryButton.setVisible(true);
@@ -147,11 +149,11 @@ public class SpriteLibraryEditorPanel extends JPanel {
 		this.spriteCollectionEditorPanel = new SpriteCollectionEditorPanel(this, redrawOnChange);
 		final GridBagConstraints spriteCollectionEditorPanel_constraints = new GridBagConstraints();
 		spriteCollectionEditorPanel_constraints.gridx = 0;
-		spriteCollectionEditorPanel_constraints.gridy = 0;
-		spriteCollectionEditorPanel_constraints.gridwidth = 3;
-		spriteCollectionEditorPanel_constraints.gridheight = 2;
-		spriteCollectionEditorPanel_constraints.weightx = 0.0;
-		spriteCollectionEditorPanel_constraints.weighty = 0.0;
+		spriteCollectionEditorPanel_constraints.gridy = 6;
+		spriteCollectionEditorPanel_constraints.gridwidth = 10;
+		spriteCollectionEditorPanel_constraints.gridheight = 14;
+		spriteCollectionEditorPanel_constraints.weightx = 1.0;
+		spriteCollectionEditorPanel_constraints.weighty = 1.0;
 		spriteCollectionEditorPanel_constraints.fill = GridBagConstraints.BOTH;
 		spriteCollectionEditorPanel_constraints.anchor = GridBagConstraints.CENTER;
 		spriteCollectionEditorPanel_constraints.insets = new Insets(3, 3, 3, 3);

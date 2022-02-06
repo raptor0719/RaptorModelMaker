@@ -1,5 +1,7 @@
 package raptor.modelMaker.components.spriteLibrary;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -10,7 +12,8 @@ import raptor.modelMaker.math.Point2D;
 import raptor.modelMaker.spriteLibrary.Sprite;
 
 public class SpriteViewPanel extends JPanel {
-	private static final int POINT_DRAW_DIAMETER = 10;
+	private static final int POINT_DRAW_DIAMETER = 6;
+	private static final AlphaComposite POINT_DRAW_ALPHA = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8F);
 
 	private Sprite sprite;
 
@@ -34,6 +37,9 @@ public class SpriteViewPanel extends JPanel {
 
 		final BufferedImage spriteImage = sprite.getImage();
 
+		if (spriteImage == null)
+			return;
+
 		final int offsetX = spriteImage.getWidth() / 2;
 		final int offsetY = spriteImage.getHeight() / 2;
 
@@ -50,10 +56,12 @@ public class SpriteViewPanel extends JPanel {
 		final int pointDrawX = imageDrawOriginX + attachmentPoint.getX() - pointOffsetX;
 		final int pointDrawY = imageDrawOriginY + attachmentPoint.getY() - pointOffsetY;
 
-		g2.fillOval(pointDrawX, pointDrawY, POINT_DRAW_DIAMETER, POINT_DRAW_DIAMETER);
-
 		final String currentAttachmentPointDisplayString = String.format("Current Attachment: (%s, %s)", attachmentPoint.getX(), attachmentPoint.getY());
 		g2.drawChars(currentAttachmentPointDisplayString.toCharArray(), 0, currentAttachmentPointDisplayString.length(), 20, 20);
+
+		g2.setComposite(POINT_DRAW_ALPHA);
+		g2.setColor(Color.RED);
+		g2.fillOval(pointDrawX, pointDrawY, POINT_DRAW_DIAMETER, POINT_DRAW_DIAMETER);
 	}
 
 	public Sprite getSprite() {
