@@ -14,7 +14,7 @@ import raptor.modelMaker.model.ViewDirection;
 
 public class SpriteLibraryWriter {
 	protected static final byte[] MAGIC_NUMBER = new byte[] {'s', 'p', 'r', 'i', 't', 'e'};
-	protected static final String FILE_EXTENSION = "sl";
+	public static final String FILE_EXTENSION = "sl";
 
 	public static void write(final SpriteLibrary spriteLibrary, final String locationPath) {
 		try {
