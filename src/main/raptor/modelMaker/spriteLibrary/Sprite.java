@@ -8,6 +8,10 @@ public class Sprite {
 	private BufferedImage image;
 	private Point2D attachmentPoint;
 
+	public Sprite() {
+		this(null, 0, 0);
+	}
+
 	public Sprite(final BufferedImage image) {
 		this(image, 0, 0);
 	}
