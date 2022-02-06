@@ -13,6 +13,8 @@ public class SpriteCollection {
 
 	public SpriteCollection(final String name) {
 		this.sprites = new HashMap<ViewDirection, Sprite>();
+		for (final ViewDirection viewDirection : ViewDirection.values())
+			sprites.put(viewDirection, new Sprite());
 		this.name = name;
 	}
 
