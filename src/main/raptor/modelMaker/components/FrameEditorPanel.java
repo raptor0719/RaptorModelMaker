@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -23,13 +22,13 @@ public class FrameEditorPanel extends JPanel {
 
 	private Model model;
 
-	public FrameEditorPanel(final Model model, final JComponent redrawOnChange) {
+	public FrameEditorPanel(final Model model, final ViewPanel viewPanel) {
 		this.model = model;
 
 		this.setLayout(new GridBagLayout());
 
 		// Create components
-		this.hardpointTable = new HardpointTable(model, redrawOnChange);
+		this.hardpointTable = new HardpointTable(model, viewPanel);
 		hardpointTable.setVisible(true);
 
 		final JScrollPane hardpointTableScroller = new JScrollPane(hardpointTable);
@@ -193,6 +192,10 @@ public class FrameEditorPanel extends JPanel {
 		hardpointTable.setModel(model);
 		frameChooser.setModel(model);
 		this.model = model;
+	}
+
+	public HardpointTable getHardpointTable() {
+		return hardpointTable;
 	}
 
 	private class HardpointDeleteActionListener implements ActionListener {

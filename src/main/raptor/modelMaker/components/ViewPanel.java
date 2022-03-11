@@ -6,15 +6,12 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -53,6 +50,8 @@ public class ViewPanel extends JPanel {
 
 	private final JButton[] directionalButtons;
 	private int directionIndex;
+
+	private Hardpoint selected;
 
 	public ViewPanel(final Model startModel) {
 		super(null);
@@ -93,9 +92,9 @@ public class ViewPanel extends JPanel {
 
 		this.directionIndex = 0;
 		directionalButtons[directionIndex].doClick();
-	}
 
-	private int _rotmod = 0;
+		this.selected = null;
+	}
 
 	@Override
 	public void paintComponent(final Graphics g) {
@@ -111,34 +110,16 @@ public class ViewPanel extends JPanel {
 		g2.setColor(Color.BLACK);
 		g2.setStroke(new BasicStroke(1));
 
-		// TODO: DELETE START
-//		g2.fillOval(200, 200, 5, 5);
-//		g2.fillOval(400, 200, 5, 5);
-
-		final int _pointSize = 6;
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-		try {
-			final BufferedImage start = ImageIO.read(new File("test-image10x20.png"));
-			final BufferedImage _TESTIMG = _enlargeImage(start);
-			final Point2D _TEST_point = _enlargePoint(new Point2D(5, 5), start, _TESTIMG);
-			g2.drawRect(200, 200, _TESTIMG.getWidth(), _TESTIMG.getHeight());
-			g2.drawImage(_TESTIMG, 200, 200, null);
-			g2.fillOval(200 + _TEST_point.getX() - _pointSize/2, 200 + _TEST_point.getY() - _pointSize/2, _pointSize, _pointSize);
-
-			final int _rot = -20 + (_rotmod+=10);
-			final Point2D translatePoint = _TEST_rotatePoint(_TEST_point, new Point2D(_TESTIMG.getWidth()/2, _TESTIMG.getHeight()/2), _rot);
-			final BufferedImage _rotatedImage = _TEST_rotate(_TESTIMG, _rot);
-			g2.drawRect(400, 200, _rotatedImage.getWidth(), _rotatedImage.getHeight());
-			g2.drawImage(_rotatedImage, 400 - (_rotatedImage.getWidth() - _TESTIMG.getWidth()), 200 - (_rotatedImage.getHeight() - _TESTIMG.getHeight()), null);
-			g2.fillOval(400 + translatePoint.getX() - _pointSize/2, 200 + translatePoint.getY() - _pointSize/2, 5, 5);
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
-		// TODO: DELETE END
-
 		for (final Hardpoint hardpoint : model.getHardpoints()) {
 			final Point2D translated = toDrawPoint(hardpoint.getPoint(), viewPlane, planeOriginXOnViewport, planeOriginYOnViewport);
-			g2.fillOval(translated.getX(), translated.getY(), pointDrawDiameter, pointDrawDiameter);
+
+			if (hardpoint.equals(selected)) {
+				g2.setColor(Color.GREEN);
+				g2.fillOval(translated.getX(), translated.getY(), pointDrawDiameter, pointDrawDiameter);
+				g2.setColor(Color.BLACK);
+			} else {
+				g2.fillOval(translated.getX(), translated.getY(), pointDrawDiameter, pointDrawDiameter);
+			}
 		}
 
 		final Point2D origin = toDrawPoint(ORIGIN, viewPlane, planeOriginXOnViewport, planeOriginYOnViewport);
@@ -237,6 +218,39 @@ public class ViewPanel extends JPanel {
 
 	public Plane getViewPlane() {
 		return viewPlane;
+	}
+
+	public int select(final int mouseX, final int mouseY) {
+		final int panelWidth = this.getWidth();
+		final int panelHeight = this.getHeight();
+		final double planeOriginXOnViewport = panelWidth / 2;
+		final double planeOriginYOnViewport = panelHeight / 2;
+
+		int index = 0;
+		for (final Hardpoint h : model.getHardpoints()) {
+			final Point2D hitbox = toDrawPoint(h.getPoint(), viewPlane, planeOriginXOnViewport, planeOriginYOnViewport);
+
+			if (mouseX >= hitbox.getX() && mouseX <= hitbox.getX() + pointDrawDiameter && mouseY >= hitbox.getY() && mouseY <= hitbox.getY() + pointDrawDiameter) {
+				selected = h;
+				return index;
+			}
+
+			index++;
+		}
+
+		return -1;
+	}
+
+	public void unselect() {
+		selected = null;
+	}
+
+	public void setSelected(final Hardpoint hardpoint) {
+		this.selected = hardpoint;
+	}
+
+	public Hardpoint getSelected() {
+		return selected;
 	}
 
 	private Point2D toDrawPoint(final Point point, final Plane viewPlane, final double planeOriginXOnViewport, final double planeOriginYOnViewport) {

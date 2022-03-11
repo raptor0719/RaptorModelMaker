@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -190,6 +192,44 @@ public class ModelMaker {
 			@Override
 			public void keyTyped(final KeyEvent e) {
 				/* no-op */
+			}
+		});
+
+		viewPanel.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(final MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mousePressed(final MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mouseExited(final MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mouseEntered(final MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mouseClicked(final MouseEvent e) {
+				if (e.getButton() == MouseEvent.BUTTON1) {
+					final int rowIndex = viewPanel.select(e.getX(), e.getY());
+
+					if (rowIndex >= 0) {
+						viewPanel.repaint();
+						frameEditorPanel.getHardpointTable().changeSelection(rowIndex, 0, false, false);
+					}
+				} else if (e.getButton() == MouseEvent.BUTTON3) {
+					viewPanel.unselect();
+					frameEditorPanel.getHardpointTable().clearSelection();
+					viewPanel.repaint();
+				}
 			}
 		});
 

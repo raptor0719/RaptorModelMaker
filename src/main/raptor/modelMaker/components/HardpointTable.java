@@ -6,6 +6,8 @@ import java.util.EventObject;
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.text.JTextComponent;
@@ -20,13 +22,15 @@ public class HardpointTable extends JTable {
 
 	private ModelTableModel tableModel;
 
-	public HardpointTable(final Model model, final JComponent redrawOnChange) {
+	public HardpointTable(final Model model, final ViewPanel viewPanel) {
 		this.tableModel = new ModelTableModel(model);
 		this.setModel(tableModel);
 
-		this.redrawOnChange = redrawOnChange;
+		this.redrawOnChange = viewPanel;
 
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		this.selectionModel.addListSelectionListener(new SelectHardpointInViewPanelListener(this, viewPanel));
 	}
 
 	public void setModel(final Model model) {
@@ -55,6 +59,32 @@ public class HardpointTable extends JTable {
 			((JTextComponent)editor).selectAll();
 
 		return result;
+	}
+
+	private static class SelectHardpointInViewPanelListener implements ListSelectionListener {
+		private final HardpointTable table;
+		private final ViewPanel viewPanel;
+
+		public SelectHardpointInViewPanelListener(final HardpointTable table, final ViewPanel viewPanel) {
+			this.table = table;
+			this.viewPanel = viewPanel;
+		}
+
+		@Override
+		public void valueChanged(final ListSelectionEvent e) {
+
+			final ModelTableModel tableModel = (ModelTableModel)table.getModel();
+			final Model model = tableModel.getModel();
+			final int rowIndex = table.getSelectedRow();
+
+			if (rowIndex < 0 || rowIndex >= model.getHardpoints().size())
+				return;
+
+			final Hardpoint selected = model.getHardpoint((String)tableModel.getValueAt(rowIndex, 0));
+			viewPanel.setSelected(selected);
+
+			viewPanel.repaint();
+		}
 	}
 
 	private static class ModelTableModel extends AbstractTableModel {
@@ -132,6 +162,10 @@ public class HardpointTable extends JTable {
 			this.model = model;
 
 			fireTableDataChanged();
+		}
+
+		public Model getModel() {
+			return model;
 		}
 	}
 }
