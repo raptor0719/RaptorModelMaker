@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,6 +22,8 @@ import raptor.modelMaker.components.TopMenuBar;
 import raptor.modelMaker.components.ViewPanel;
 import raptor.modelMaker.components.spriteLibrary.SpriteLibraryPanel;
 import raptor.modelMaker.controller.AnimationPreviewController;
+import raptor.modelMaker.controller.HardpointSelectionEditingController;
+import raptor.modelMaker.controller.HardpointSelectionEditingController.HardpointField;
 import raptor.modelMaker.model.Model;
 
 public class ModelMaker {
@@ -165,6 +169,7 @@ public class ModelMaker {
 		// Animation Preview Control
 		// TODO Create separate panel with appropriate buttons
 		final AnimationPreviewController animationPreviewController = new AnimationPreviewController(animationEditorPanel, viewPanel, model);
+		final HardpointSelectionEditingController hardpointSelectionEditingController = new HardpointSelectionEditingController(viewPanel, frameEditorPanel.getHardpointTable());
 
 		viewPanel.addKeyListener(new KeyListener() {
 			@Override
@@ -181,6 +186,14 @@ public class ModelMaker {
 					animationPreviewController.stepForward();
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_B) {
 					animationPreviewController.goToStart();
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_Q) {
+					hardpointSelectionEditingController.setField(HardpointField.X);
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_W) {
+					hardpointSelectionEditingController.setField(HardpointField.Y);
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_E) {
+					hardpointSelectionEditingController.setField(HardpointField.Z);
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_R) {
+					hardpointSelectionEditingController.setField(HardpointField.ROT);
 				}
 			}
 
@@ -230,6 +243,15 @@ public class ModelMaker {
 					frameEditorPanel.getHardpointTable().clearSelection();
 					viewPanel.repaint();
 				}
+			}
+		});
+
+		viewPanel.addMouseWheelListener(new MouseWheelListener() {
+			@Override
+			public void mouseWheelMoved(final MouseWheelEvent e) {
+				final int sign = (e.getUnitsToScroll() < 0) ? 1 : -1;
+
+				hardpointSelectionEditingController.addToField(1 * sign);
 			}
 		});
 
