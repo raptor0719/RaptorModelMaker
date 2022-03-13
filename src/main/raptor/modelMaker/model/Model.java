@@ -31,7 +31,7 @@ public class Model {
 		if (getHardpointByName(name) != null)
 			throw new IllegalArgumentException("Hardpoint with that name already exists");
 
-		final Hardpoint newHardpoint = new Hardpoint(name, rotation);
+		final Hardpoint newHardpoint = new Hardpoint(name, rotation, null);
 
 		hardpoints.add(newHardpoint);
 

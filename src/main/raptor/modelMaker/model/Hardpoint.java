@@ -6,11 +6,13 @@ public class Hardpoint {
 	private final Point p;
 	private int rotation;
 	private String name;
+	private String spriteCollectionName;
 
-	public Hardpoint(final String name, final int rotation) {
+	public Hardpoint(final String name, final int rotation, final String spriteCollectionName) {
 		this.p = new Point();
 		this.rotation = normalizeRotation(rotation);
 		this.name = name;
+		this.spriteCollectionName = spriteCollectionName;
 	}
 
 	public Point getPoint() {
@@ -31,6 +33,14 @@ public class Hardpoint {
 
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	public String getSpriteCollectionName() {
+		return spriteCollectionName;
+	}
+
+	public void setSpriteCollectionName(final String spriteCollectionName) {
+		this.spriteCollectionName = spriteCollectionName;
 	}
 
 	private int normalizeRotation(final int rotation) {

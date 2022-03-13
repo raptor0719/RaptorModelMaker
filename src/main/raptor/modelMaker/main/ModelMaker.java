@@ -64,6 +64,10 @@ public class ModelMaker {
 		test1Raw[2] = 30.0;
 		model.addFrame("testFrame3");
 
+		model.getHardpoint("test1").setSpriteCollectionName("numbers");
+		model.getHardpoint("test2").setSpriteCollectionName("numbers");
+		model.getHardpoint("test3").setSpriteCollectionName("numbers");
+
 		// Setup
 		final JFrame frame = new JFrame();
 		PARENT_FRAME = frame;
@@ -91,7 +95,7 @@ public class ModelMaker {
 		panel.add(new TopMenuBar(), topMenuBarPanel_constraints);
 
 		// Frame Modifier
-		final ViewPanel viewPanel = new ViewPanel(model);
+		final ViewPanel viewPanel = new ViewPanel(model, null);
 		final GridBagConstraints viewPanel_constraints = new GridBagConstraints();
 		viewPanel_constraints.gridx = 0;
 		viewPanel_constraints.gridy = 1;

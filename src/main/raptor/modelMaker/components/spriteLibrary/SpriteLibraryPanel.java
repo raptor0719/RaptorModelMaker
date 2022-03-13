@@ -8,12 +8,12 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import raptor.modelMaker.components.ViewPanel;
 import raptor.modelMaker.main.ModelMaker;
 import raptor.modelMaker.spriteLibrary.SpriteLibrary;
 import raptor.modelMaker.spriteLibrary.SpriteLibraryReader;
@@ -22,12 +22,16 @@ import raptor.modelMaker.spriteLibrary.SpriteLibraryWriter;
 public class SpriteLibraryPanel extends JPanel {
 	private static final FileNameExtensionFilter SPRITE_LIBRARY_EXTENSION_FILTER = new FileNameExtensionFilter("Sprite Library File", SpriteLibraryWriter.FILE_EXTENSION);
 
+	private final ViewPanel viewPanel;
+
 	private final SpriteLibraryEditorPanel spriteLibraryEditorPanel;
 
 	private SpriteLibrary spriteLibrary;
 
-	public SpriteLibraryPanel(final JComponent redrawOnChange) {
+	public SpriteLibraryPanel(final ViewPanel viewPanel) {
 		super();
+
+		this.viewPanel = viewPanel;
 
 		this.setLayout(new GridBagLayout());
 
@@ -95,7 +99,7 @@ public class SpriteLibraryPanel extends JPanel {
 		add(loadSpriteLibraryButton, loadSpriteLibraryButton_constraints);
 
 		// SpriteLibraryEditorPanel
-		this.spriteLibraryEditorPanel = new SpriteLibraryEditorPanel(redrawOnChange);
+		this.spriteLibraryEditorPanel = new SpriteLibraryEditorPanel(viewPanel);
 		final GridBagConstraints spriteLibraryEditorPanel_constraints = new GridBagConstraints();
 		spriteLibraryEditorPanel_constraints.gridx = 0;
 		spriteLibraryEditorPanel_constraints.gridy = 2;
@@ -114,6 +118,7 @@ public class SpriteLibraryPanel extends JPanel {
 	public void setSpriteLibrary(final SpriteLibrary spriteLibrary) {
 		this.spriteLibrary = spriteLibrary;
 		spriteLibraryEditorPanel.setSpriteLibrary(spriteLibrary);
+		viewPanel.setSpriteLibrary(spriteLibrary);
 	}
 
 	public SpriteLibrary getSpriteLibrary() {
