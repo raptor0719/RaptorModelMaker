@@ -11,7 +11,7 @@ import javax.swing.text.JTextComponent;
 import raptor.modelMaker.model.Animation;
 
 public class AnimationEditorTable extends JTable {
-	private static final String[] COLUMN_NAMES = new String[] {"Frame", "Holds"};
+	private static final String[] COLUMN_NAMES = new String[] {"Frame", "Holds", "isActivation"};
 
 	private AnimationTableModel animationTableModel;
 
@@ -55,7 +55,7 @@ public class AnimationEditorTable extends JTable {
 
 		@Override
 		public int getColumnCount() {
-			return 2;
+			return 3;
 		}
 
 		@Override
@@ -68,6 +68,8 @@ public class AnimationEditorTable extends JTable {
 			switch (col) {
 				case 1:
 					return animation.getHolds(row);
+				case 2:
+					return animation.isActivation(row);
 				default:
 					return animation.getFrame(row);
 			}
@@ -77,6 +79,8 @@ public class AnimationEditorTable extends JTable {
 		public boolean isCellEditable(final int row, final int col) {
 			switch (col) {
 				case 1:
+					return true;
+				case 2:
 					return true;
 				default:
 					return false;
@@ -93,6 +97,9 @@ public class AnimationEditorTable extends JTable {
 			switch (col) {
 				case 1:
 					animation.setHolds(row, Integer.parseInt(stringVal));
+					break;
+				case 2:
+					animation.setIsActivation(row, Boolean.parseBoolean(stringVal));
 					break;
 				default:
 					break;

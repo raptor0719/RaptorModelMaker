@@ -183,7 +183,7 @@ public class AnimationEditor extends JPanel {
 			if (selectedFrame == null)
 				return;
 
-			selectedAnimation.addFrame(selectedFrame.getName(), 1);
+			selectedAnimation.addFrame(selectedFrame.getName(), 1, false);
 
 			animationTable.animationChanged();
 			animationTable.setRowSelectionInterval(selectedAnimation.size()-1, selectedAnimation.size()-1);

@@ -6,6 +6,7 @@ import java.util.List;
 public class Animation {
 	private final List<String> frameNames;
 	private final List<Integer> holds;
+	private final List<Boolean> activations;
 
 	private String name;
 	private int totalFrameCount;
@@ -13,14 +14,16 @@ public class Animation {
 	public Animation(final String name) {
 		this.frameNames = new ArrayList<>();
 		this.holds = new ArrayList<>();
+		this.activations = new ArrayList<>();
 
 		this.name = name;
 		this.totalFrameCount = 0;
 	}
 
-	public void addFrame(final String frameName, final int holdCount) {
+	public void addFrame(final String frameName, final int holdCount, final boolean isActivation) {
 		frameNames.add(frameName);
 		holds.add(holdCount);
+		activations.add(isActivation);
 		totalFrameCount += holdCount;
 	}
 
@@ -34,17 +37,23 @@ public class Animation {
 		totalFrameCount += (newHolds - oldHolds);
 	}
 
+	public void setIsActivation(final int index, final boolean newActivation) {
+		activations.set(index, newActivation);
+	}
+
 	public int shiftFrameUp(final int index) {
 		if (index <= 0)
 			return index;
 
 		final String frameName = frameNames.remove(index);
 		final Integer hold = holds.remove(index);
+		final Boolean activation = activations.remove(index);
 
 		final int targetIndex = index - 1;
 
 		frameNames.add(targetIndex, frameName);
 		holds.add(targetIndex, hold);
+		activations.add(targetIndex, activation);
 
 		return targetIndex;
 	}
@@ -55,11 +64,13 @@ public class Animation {
 
 		final String frameName = frameNames.remove(index);
 		final Integer hold = holds.remove(index);
+		final Boolean activation = activations.remove(index);
 
 		final int targetIndex = index + 1;
 
 		frameNames.add(targetIndex, frameName);
 		holds.add(targetIndex, hold);
+		activations.add(targetIndex, activation);
 
 		return targetIndex;
 	}
@@ -68,6 +79,7 @@ public class Animation {
 		final int frameHolds = holds.get(index);
 		frameNames.remove(index);
 		holds.remove(index);
+		activations.remove(index);
 		totalFrameCount -= frameHolds;
 	}
 
@@ -91,6 +103,10 @@ public class Animation {
 
 	public int getHolds(final int index) {
 		return holds.get(index);
+	}
+
+	public boolean isActivation(final int index) {
+		return activations.get(index);
 	}
 
 	public int size() {
