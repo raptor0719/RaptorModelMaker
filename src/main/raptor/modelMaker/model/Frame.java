@@ -2,6 +2,7 @@ package raptor.modelMaker.model;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import raptor.modelMaker.math.Point;
 
@@ -34,6 +35,10 @@ public class Frame {
 
 	public SavedHardpointPosition getSavedPosition(final String hardpointName) {
 		return savedPositions.get(hardpointName);
+	}
+
+	public Map<String, SavedHardpointPosition> getSavedPositions() {
+		return savedPositions;
 	}
 
 	public String getName() {
