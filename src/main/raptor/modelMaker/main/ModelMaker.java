@@ -198,6 +198,10 @@ public class ModelMaker {
 					hardpointSelectionEditingController.setField(HardpointField.Z);
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_R) {
 					hardpointSelectionEditingController.setField(HardpointField.ROT);
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_UP) {
+					hardpointSelectionEditingController.addToField(1);
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_DOWN) {
+					hardpointSelectionEditingController.addToField(-1);
 				}
 			}
 
@@ -253,7 +257,7 @@ public class ModelMaker {
 		viewPanel.addMouseWheelListener(new MouseWheelListener() {
 			@Override
 			public void mouseWheelMoved(final MouseWheelEvent e) {
-				final int sign = (e.getUnitsToScroll() < 0) ? 1 : -1;
+				final int sign = (e.getPreciseWheelRotation() < 0) ? 1 : -1;
 
 				hardpointSelectionEditingController.addToField(1 * sign);
 			}
