@@ -59,6 +59,8 @@ public class ViewPanel extends JPanel {
 
 	private Hardpoint selected;
 
+	private boolean renderPoints;
+
 	public ViewPanel(final Model startModel, final SpriteLibrary spriteLibrary) {
 		super(null);
 
@@ -102,6 +104,7 @@ public class ViewPanel extends JPanel {
 		directionalButtons[directionIndex].doClick();
 
 		this.selected = null;
+		this.renderPoints = true;
 	}
 
 	@Override
@@ -134,14 +137,16 @@ public class ViewPanel extends JPanel {
 				}
 			}
 
-			final int centerTransform = pointDrawDiameter/2;
+			if (renderPoints) {
+				final int centerTransform = pointDrawDiameter/2;
 
-			if (hardpoint.equals(selected)) {
-				g2.setColor(Color.GREEN);
-				g2.fillOval(translated.getX() - centerTransform, translated.getY() - centerTransform, pointDrawDiameter, pointDrawDiameter);
-				g2.setColor(Color.BLACK);
-			} else {
-				g2.fillOval(translated.getX() - centerTransform, translated.getY() - centerTransform, pointDrawDiameter, pointDrawDiameter);
+				if (hardpoint.equals(selected)) {
+					g2.setColor(Color.GREEN);
+					g2.fillOval(translated.getX() - centerTransform, translated.getY() - centerTransform, pointDrawDiameter, pointDrawDiameter);
+					g2.setColor(Color.BLACK);
+				} else {
+					g2.fillOval(translated.getX() - centerTransform, translated.getY() - centerTransform, pointDrawDiameter, pointDrawDiameter);
+				}
 			}
 		}
 
@@ -222,6 +227,15 @@ public class ViewPanel extends JPanel {
 
 	public Hardpoint getSelected() {
 		return selected;
+	}
+
+	public boolean renderPoints() {
+		return renderPoints;
+	}
+
+	public void setRenderPoints(final boolean render) {
+		this.renderPoints = render;
+		repaint();
 	}
 
 	private Point2D toDrawPoint(final Point point, final Plane viewPlane, final double planeOriginXOnViewport, final double planeOriginYOnViewport) {
