@@ -194,11 +194,14 @@ public class ViewPanel extends JPanel {
 		final double planeOriginXOnViewport = panelWidth / 2;
 		final double planeOriginYOnViewport = panelHeight / 2;
 
+		final int centerTransform = pointDrawDiameter/2;
+
 		int index = 0;
 		for (final Hardpoint h : model.getHardpoints()) {
 			final Point2D hitbox = toDrawPoint(h.getPoint(), viewPlane, planeOriginXOnViewport, planeOriginYOnViewport);
 
-			if (mouseX >= hitbox.getX() && mouseX <= hitbox.getX() + pointDrawDiameter && mouseY >= hitbox.getY() && mouseY <= hitbox.getY() + pointDrawDiameter) {
+			if (mouseX >= hitbox.getX() - centerTransform && mouseX <= hitbox.getX() - centerTransform + pointDrawDiameter &&
+					mouseY >= hitbox.getY() - centerTransform && mouseY <= hitbox.getY() + pointDrawDiameter - centerTransform) {
 				selected = h;
 				return index;
 			}
