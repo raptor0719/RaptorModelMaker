@@ -65,7 +65,7 @@ public class ModelWriter {
 				dos.writeDouble(savedPosition.getX());
 				dos.writeDouble(savedPosition.getY());
 				dos.writeDouble(savedPosition.getZ());
-				dos.writeDouble(savedPosition.getRot());
+				dos.writeInt(savedPosition.getRot());
 			}
 		}
 	}
