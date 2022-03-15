@@ -61,11 +61,11 @@ public class ViewPanel extends JPanel {
 
 	private boolean renderPoints;
 
-	public ViewPanel(final Model startModel, final SpriteLibrary spriteLibrary) {
+	public ViewPanel() {
 		super(null);
 
-		this.model = startModel;
-		this.spriteLibrary = spriteLibrary;
+		this.model = null;
+		this.spriteLibrary = null;
 
 		this.viewPlane = new Plane();
 		this.pointDrawDiameter = 10;
@@ -111,13 +111,18 @@ public class ViewPanel extends JPanel {
 	public void paintComponent(final Graphics g) {
 		final Graphics2D g2 = (Graphics2D) g;
 
-		// Calculate plane origin on the viewport
 		final int panelWidth = this.getWidth();
 		final int panelHeight = this.getHeight();
+
+		g2.clearRect(0, 0, panelWidth, panelHeight);
+
+		if (model == null)
+			return;
+
+		// Calculate plane origin on the viewport
 		final double planeOriginXOnViewport = panelWidth / 2;
 		final double planeOriginYOnViewport = panelHeight / 2;
 
-		g2.clearRect(0, 0, panelWidth, panelHeight);
 		g2.setColor(Color.BLACK);
 		g2.setStroke(new BasicStroke(1));
 
@@ -194,6 +199,9 @@ public class ViewPanel extends JPanel {
 	}
 
 	public int select(final int mouseX, final int mouseY) {
+		if (model == null)
+			return -1;
+
 		final int panelWidth = this.getWidth();
 		final int panelHeight = this.getHeight();
 		final double planeOriginXOnViewport = panelWidth / 2;

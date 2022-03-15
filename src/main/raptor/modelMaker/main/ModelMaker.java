@@ -33,69 +33,30 @@ public class ModelMaker {
 		return PARENT_FRAME;
 	}
 
+	private final JFrame frame;
+	private final JPanel panel;
+	private final ViewPanel viewPanel;
+
 	private Model model;
 
+	private FrameEditorPanel frameEditorPanel;
+	private AnimationPanel animationEditorPanel;
+	private AnimationPreviewController animationPreviewController;
+
 	public ModelMaker() {
-		this.model = new Model("default_name");
-		model.addHardpoint("test1", 0);
-		model.addHardpoint("test2", 0);
-		model.addHardpoint("test3", 0);
-
-		final double[] test1Raw = model.getHardpoint("test1").getPoint().getRaw();
-		test1Raw[0] = 50.0;
-		test1Raw[1] = -50.0;
-		test1Raw[2] = 50.0;
-		final double[] test2Raw = model.getHardpoint("test2").getPoint().getRaw();
-		test2Raw[0] = 5.0;
-		test2Raw[1] = -5.0;
-		test2Raw[2] = 5.0;
-		final double[] test3Raw = model.getHardpoint("test3").getPoint().getRaw();
-		test3Raw[0] = -10;
-		test3Raw[1] = 22.5;
-		test3Raw[2] = 22.5;
-
-		model.addFrame("testFrame1");
-		test1Raw[0] = 40.0;
-		test1Raw[1] = -40.0;
-		test1Raw[2] = 40.0;
-		model.addFrame("testFrame2");
-		test1Raw[0] = 30.0;
-		test1Raw[1] = -30.0;
-		test1Raw[2] = 30.0;
-		model.addFrame("testFrame3");
-
-		model.getHardpoint("test1").setSpriteCollectionName("numbers");
-		model.getHardpoint("test2").setSpriteCollectionName("numbers");
-		model.getHardpoint("test3").setSpriteCollectionName("numbers");
-
 		// Setup
-		final JFrame frame = new JFrame();
+		this.frame = new JFrame();
 		PARENT_FRAME = frame;
-		final JPanel panel = new JPanel();
+
+		this.panel = new JPanel();
 
 		frame.setSize(1200, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		panel.setLayout(new GridBagLayout());
 
-		// Top Menu Bar
-		final JPanel topMenuBarPanel = new JPanel();
-		final GridBagConstraints topMenuBarPanel_constraints = new GridBagConstraints();
-		topMenuBarPanel_constraints.gridx = 0;
-		topMenuBarPanel_constraints.gridy = 0;
-		topMenuBarPanel_constraints.gridwidth = 3;
-		topMenuBarPanel_constraints.gridheight = 1;
-		topMenuBarPanel_constraints.weightx = 0.1;
-		topMenuBarPanel_constraints.weighty = 0.0;
-		topMenuBarPanel_constraints.fill = GridBagConstraints.BOTH;
-		topMenuBarPanel_constraints.anchor = GridBagConstraints.FIRST_LINE_START;
-
-		topMenuBarPanel.setVisible(true);
-
-		panel.add(new TopMenuBar(), topMenuBarPanel_constraints);
-
 		// Frame Modifier
-		final ViewPanel viewPanel = new ViewPanel(model, null);
+		this.viewPanel = new ViewPanel();
 		final GridBagConstraints viewPanel_constraints = new GridBagConstraints();
 		viewPanel_constraints.gridx = 0;
 		viewPanel_constraints.gridy = 1;
@@ -133,11 +94,44 @@ public class ModelMaker {
 
 		panel.add(viewPanel, viewPanel_constraints);
 
+		// Top Menu Bar
+		final JPanel topMenuBarPanel = new JPanel();
+		final GridBagConstraints topMenuBarPanel_constraints = new GridBagConstraints();
+		topMenuBarPanel_constraints.gridx = 0;
+		topMenuBarPanel_constraints.gridy = 0;
+		topMenuBarPanel_constraints.gridwidth = 3;
+		topMenuBarPanel_constraints.gridheight = 1;
+		topMenuBarPanel_constraints.weightx = 0.1;
+		topMenuBarPanel_constraints.weighty = 0.0;
+		topMenuBarPanel_constraints.fill = GridBagConstraints.BOTH;
+		topMenuBarPanel_constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+
+		topMenuBarPanel.setVisible(true);
+
+		panel.add(new TopMenuBar(this), topMenuBarPanel_constraints);
+
+		// Final
+		frame.add(panel);
+		panel.setVisible(true);
+		frame.setVisible(true);
+
+		viewPanel.requestFocus();
+	}
+
+	public void setup(final Model model) {
+		frame.setTitle(model.getName());
+		this.model = model;
+
+		if (frameEditorPanel != null) {
+			setModel(model);
+			return;
+		}
+
 		// Editor Panels
-		final FrameEditorPanel frameEditorPanel = new FrameEditorPanel(model, viewPanel);
+		this.frameEditorPanel = new FrameEditorPanel(model, viewPanel);
 		frameEditorPanel.setVisible(true);
 
-		final AnimationPanel animationEditorPanel = new AnimationPanel(model);
+		this.animationEditorPanel = new AnimationPanel(model);
 		animationEditorPanel.setVisible(true);
 
 		final SpriteLibraryPanel spriteLibraryPanel = new SpriteLibraryPanel(viewPanel);
@@ -172,7 +166,7 @@ public class ModelMaker {
 
 		// Animation Preview Control
 		// TODO Create separate panel with appropriate buttons
-		final AnimationPreviewController animationPreviewController = new AnimationPreviewController(animationEditorPanel, viewPanel, model);
+		this.animationPreviewController = new AnimationPreviewController(animationEditorPanel, viewPanel, model);
 		final HardpointSelectionEditingController hardpointSelectionEditingController = new HardpointSelectionEditingController(viewPanel, frameEditorPanel.getHardpointTable());
 
 		viewPanel.addKeyListener(new KeyListener() {
@@ -265,11 +259,18 @@ public class ModelMaker {
 			}
 		});
 
-		// Final
-		frame.add(panel);
-		panel.setVisible(true);
-		frame.setVisible(true);
+		panel.validate();
+		panel.repaint();
+	}
 
-		viewPanel.requestFocus();
+	public Model getModel() {
+		return model;
+	}
+
+	private void setModel(final Model model) {
+		viewPanel.setModel(model);
+		frameEditorPanel.setModel(model);
+		animationEditorPanel.setModel(model);
+		animationPreviewController.setModel(model);
 	}
 }

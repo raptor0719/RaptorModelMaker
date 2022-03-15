@@ -237,7 +237,7 @@ public class AnimationEditor extends JPanel {
 
 		public FrameSelectionComboBoxModel(final Model model) {
 			this.model = model;
-			this.selected = model.getFrames().get(0);
+			this.selected = (model.getFrames().size() <= 0) ? null : model.getFrames().get(0);
 		}
 
 		@Override
