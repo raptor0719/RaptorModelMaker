@@ -69,6 +69,10 @@ public class Model {
 		frames.add(new Frame(name, getHardpoints()));
 	}
 
+	public Frame getFrame(final String name) {
+		return getFrameByName(name);
+	}
+
 	public void removeFrame(final String name) {
 		final Frame f = getFrameByName(name);
 
