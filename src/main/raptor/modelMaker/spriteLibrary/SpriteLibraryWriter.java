@@ -65,7 +65,9 @@ public class SpriteLibraryWriter {
 		}
 	}
 
-	private static byte[] serializeString(final String str) throws IOException {
+	private static byte[] serializeString(final String input) throws IOException {
+		final String str = (input == null) ? "" : input;
+
 		final ByteArrayOutputStream os = new ByteArrayOutputStream(str.length()*2 + 4);
 		final DataOutputStream dos = new DataOutputStream(os);
 

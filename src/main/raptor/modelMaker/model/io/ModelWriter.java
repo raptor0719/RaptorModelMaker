@@ -15,6 +15,7 @@ import raptor.modelMaker.model.Hardpoint;
 import raptor.modelMaker.model.Model;
 
 public class ModelWriter {
+	public static final String MODEL_FILE_EXTENSION = "mmf";
 	public static final byte[] MAGIC_NUMBER = new byte[] {'m', 'o', 'd', 'e', 'l'};
 
 	public static void write(final Model model, final OutputStream ostream) throws IOException {
@@ -86,7 +87,9 @@ public class ModelWriter {
 		}
 	}
 
-	private static byte[] serializeString(final String str) throws IOException {
+	private static byte[] serializeString(final String input) throws IOException {
+		final String str = (input == null) ? "" : input;
+
 		final ByteArrayOutputStream os = new ByteArrayOutputStream(str.length()*2 + 4);
 		final DataOutputStream dos = new DataOutputStream(os);
 
