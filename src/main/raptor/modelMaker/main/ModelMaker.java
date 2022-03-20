@@ -127,6 +127,8 @@ public class ModelMaker {
 			return;
 		}
 
+		viewPanel.setModel(model);
+
 		// Editor Panels
 		this.frameEditorPanel = new FrameEditorPanel(model, viewPanel);
 		frameEditorPanel.setVisible(true);
