@@ -16,7 +16,7 @@ import raptor.modelMaker.model.Hardpoint;
 import raptor.modelMaker.model.Model;
 
 public class HardpointTable extends JTable {
-	private static final String[] COLUMN_NAMES = new String[] {"Name", "x", "y", "z", "rot", "Sprite Name"};
+	private static final String[] COLUMN_NAMES = new String[] {"Name", "x", "y", "z", "rot", "Phase", "Sprite Name"};
 
 	private final JComponent redrawOnChange;
 
@@ -96,8 +96,8 @@ public class HardpointTable extends JTable {
 
 		@Override
 		public int getColumnCount() {
-			// name, x, y, z, rot, sprite name
-			return 6;
+			// name, x, y, z, rot, phase, sprite name
+			return 7;
 		}
 
 		@Override
@@ -119,6 +119,8 @@ public class HardpointTable extends JTable {
 				case 4:
 					return h.getRotation();
 				case 5:
+					return h.getSpritePhase();
+				case 6:
 					return h.getSpriteCollectionName();
 				default:
 					return h.getName();
@@ -149,6 +151,9 @@ public class HardpointTable extends JTable {
 					h.setRotation(Integer.parseInt(stringVal));
 					break;
 				case 5:
+					h.setSpritePhase(stringVal);
+					break;
+				case 6:
 					h.setSpriteCollectionName(stringVal);
 					break;
 				default:

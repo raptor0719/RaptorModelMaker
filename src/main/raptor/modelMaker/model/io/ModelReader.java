@@ -40,6 +40,7 @@ public class ModelReader {
 			final double y = dis.readDouble();
 			final double z = dis.readDouble();
 			final int rot = dis.readInt();
+			final String spritePhase = deserializeString(dis);
 			final String spriteCollection = deserializeString(dis);
 
 			model.addHardpoint(name, rot);
@@ -51,6 +52,7 @@ public class ModelReader {
 			coordinates.set(1, y);
 			coordinates.set(2, z);
 
+			hardpoint.setSpritePhase(spritePhase);
 			hardpoint.setSpriteCollectionName(spriteCollection);
 		}
 	}
@@ -73,8 +75,9 @@ public class ModelReader {
 				final double y = dis.readDouble();
 				final double z = dis.readDouble();
 				final int rot = dis.readInt();
+				final String spritePhase = deserializeString(dis);
 
-				final Hardpoint savedPosition = new Hardpoint(hardpointName, rot, null);
+				final Hardpoint savedPosition = new Hardpoint(hardpointName, rot, null, spritePhase);
 
 				final Point coordinates = savedPosition.getPoint();
 				coordinates.set(0, x);

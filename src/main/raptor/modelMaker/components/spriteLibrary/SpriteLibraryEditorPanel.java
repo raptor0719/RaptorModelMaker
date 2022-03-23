@@ -20,7 +20,6 @@ import javax.swing.event.ListDataListener;
 
 import raptor.modelMaker.spriteLibrary.SpriteCollection;
 import raptor.modelMaker.spriteLibrary.SpriteLibrary;
-import raptor.modelMaker.spriteLibrary.SpriteLibraryReader;
 import raptor.modelMaker.spriteLibrary.SpriteLibraryWriter;
 
 public class SpriteLibraryEditorPanel extends JPanel {
@@ -265,7 +264,6 @@ public class SpriteLibraryEditorPanel extends JPanel {
 				return;
 
 			final SpriteCollection newSpriteCollection = new SpriteCollection(nameField.getText());
-			newSpriteCollection.setSpriteImages(SpriteLibraryReader.loadImages(newSpriteCollection.getName(), spriteLibrary.getLocation()));
 
 			spriteLibrary.addSpriteCollection(newSpriteCollection);
 			spriteCollectionChooser.setModel(new SpriteCollectionComboBoxModel(spriteLibrary.getSpriteCollections()));

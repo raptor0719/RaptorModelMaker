@@ -24,6 +24,7 @@ import raptor.modelMaker.model.Hardpoint;
 import raptor.modelMaker.model.Model;
 import raptor.modelMaker.model.ViewDirection;
 import raptor.modelMaker.render.RenderUtility;
+import raptor.modelMaker.spriteLibrary.DirectionalSprite;
 import raptor.modelMaker.spriteLibrary.Sprite;
 import raptor.modelMaker.spriteLibrary.SpriteCollection;
 import raptor.modelMaker.spriteLibrary.SpriteLibrary;
@@ -139,13 +140,17 @@ public class ViewPanel extends JPanel {
 				final SpriteCollection attachedSpriteCollection = spriteLibrary.getSpriteCollection(hardpoint.getSpriteCollectionName());
 
 				if (attachedSpriteCollection != null) {
-					if (attachedSpriteCollection.getSprite(getCurrentViewDirection()).getImage() != null) {
-						final Sprite translatedSprite = RenderUtility.translateSprite(attachedSpriteCollection.getSprite(getCurrentViewDirection()), hardpoint.getRotation());
+					final DirectionalSprite directionalSprite = attachedSpriteCollection.getSprite(hardpoint.getSpritePhase());
 
-						final BufferedImage image = translatedSprite.getImage();
-						final Point2D attachmentPoint = translatedSprite.getAttachmentPoint();
+					if (directionalSprite != null) {
+						if (directionalSprite.getSprite(getCurrentViewDirection()).getImage() != null) {
+							final Sprite translatedSprite = RenderUtility.translateSprite(directionalSprite.getSprite(getCurrentViewDirection()), hardpoint.getRotation());
 
-						g2.drawImage(image, translated.getX() - attachmentPoint.getX(), translated.getY() - attachmentPoint.getY(), image.getWidth(), image.getHeight(), null);
+							final BufferedImage image = translatedSprite.getImage();
+							final Point2D attachmentPoint = translatedSprite.getAttachmentPoint();
+
+							g2.drawImage(image, translated.getX() - attachmentPoint.getX(), translated.getY() - attachmentPoint.getY(), image.getWidth(), image.getHeight(), null);
+						}
 					}
 				}
 			}

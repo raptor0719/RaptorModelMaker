@@ -31,7 +31,7 @@ public class Model {
 		if (getHardpointByName(name) != null)
 			throw new IllegalArgumentException("Hardpoint with that name already exists");
 
-		final Hardpoint newHardpoint = new Hardpoint(name, rotation, null);
+		final Hardpoint newHardpoint = new Hardpoint(name, rotation, null, null);
 
 		hardpoints.add(newHardpoint);
 
@@ -116,6 +116,8 @@ public class Model {
 			p.set(0, saved.getX());
 			p.set(1, saved.getY());
 			p.set(2, saved.getZ());
+
+			h.setSpritePhase(saved.getSpritePhase());
 
 			h.setRotation(saved.getRot());
 		}

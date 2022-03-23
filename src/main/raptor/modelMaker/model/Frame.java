@@ -25,7 +25,7 @@ public class Frame {
 
 	public void saveHardpoint(final Hardpoint hardpoint) {
 		final Point position = hardpoint.getPoint();
-		final SavedHardpointPosition saved = new SavedHardpointPosition(position.get(0), position.get(1), position.get(2), hardpoint.getRotation());
+		final SavedHardpointPosition saved = new SavedHardpointPosition(position.get(0), position.get(1), position.get(2), hardpoint.getRotation(), hardpoint.getSpritePhase());
 		savedPositions.put(hardpoint.getName(), saved);
 	}
 
@@ -84,12 +84,14 @@ public class Frame {
 		private final double y;
 		private final double z;
 		private final int rot;
+		private final String spritePhase;
 
-		public SavedHardpointPosition(final double x, final double y, final double z, final int rot) {
+		public SavedHardpointPosition(final double x, final double y, final double z, final int rot, final String spritePhase) {
 			this.x = x;
 			this.y = y;
 			this.z = z;
 			this.rot = rot;
+			this.spritePhase = spritePhase;
 		}
 
 		public double getX() {
@@ -106,6 +108,10 @@ public class Frame {
 
 		public int getRot() {
 			return rot;
+		}
+
+		public String getSpritePhase() {
+			return spritePhase;
 		}
 	}
 }

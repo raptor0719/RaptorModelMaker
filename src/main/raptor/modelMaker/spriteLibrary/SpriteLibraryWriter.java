@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Set;
 
 import raptor.modelMaker.math.Point2D;
 import raptor.modelMaker.model.ViewDirection;
@@ -56,11 +57,19 @@ public class SpriteLibraryWriter {
 
 			dos.write(serializeString(spriteCollection.getName()));
 
-			for (final ViewDirection viewDirection : ViewDirection.values()) {
-				final Point2D attachmentPoint = spriteCollection.getSprite(viewDirection).getAttachmentPoint();
+			final Set<String> phases = spriteCollection.getPhases();
 
-				dos.writeInt(attachmentPoint.getX());
-				dos.writeInt(attachmentPoint.getY());
+			dos.writeInt(phases.size());
+
+			for (final String phase : phases) {
+				dos.write(serializeString(phase));
+
+				for (final ViewDirection viewDirection : ViewDirection.values()) {
+					final Point2D attachmentPoint = spriteCollection.getSprite(phase).getSprite(viewDirection).getAttachmentPoint();
+
+					dos.writeInt(attachmentPoint.getX());
+					dos.writeInt(attachmentPoint.getY());
+				}
 			}
 		}
 	}
