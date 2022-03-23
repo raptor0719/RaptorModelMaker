@@ -133,12 +133,14 @@ public class ViewPanel extends JPanel {
 				final SpriteCollection attachedSpriteCollection = spriteLibrary.getSpriteCollection(hardpoint.getSpriteCollectionName());
 
 				if (attachedSpriteCollection != null) {
-					final Sprite translatedSprite = RenderUtility.translateSprite(attachedSpriteCollection.getSprite(getCurrentViewDirection()), hardpoint.getRotation());
+					if (attachedSpriteCollection.getSprite(getCurrentViewDirection()).getImage() != null) {
+						final Sprite translatedSprite = RenderUtility.translateSprite(attachedSpriteCollection.getSprite(getCurrentViewDirection()), hardpoint.getRotation());
 
-					final BufferedImage image = translatedSprite.getImage();
-					final Point2D attachmentPoint = translatedSprite.getAttachmentPoint();
+						final BufferedImage image = translatedSprite.getImage();
+						final Point2D attachmentPoint = translatedSprite.getAttachmentPoint();
 
-					g2.drawImage(image, translated.getX() - attachmentPoint.getX(), translated.getY() - attachmentPoint.getY(), image.getWidth(), image.getHeight(), null);
+						g2.drawImage(image, translated.getX() - attachmentPoint.getX(), translated.getY() - attachmentPoint.getY(), image.getWidth(), image.getHeight(), null);
+					}
 				}
 			}
 

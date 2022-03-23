@@ -93,7 +93,7 @@ public class SpriteLibraryReader {
 		});
 
 		if (files.length < 1)
-			throw new IllegalArgumentException(String.format("No file named %s (excluding extension) in directory.", fileNameWithoutExtension));
+			return null;
 
 		return ImageIO.read(files[0]);
 	}
