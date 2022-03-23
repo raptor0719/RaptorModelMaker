@@ -125,7 +125,13 @@ public class ViewPanel extends JPanel {
 
 		g2.setColor(Color.BLACK);
 		g2.setStroke(new BasicStroke(1));
-
+		// TODO: Need to order these hardpoints by distance to the camera to get render order correct.
+		// To do this:
+		//  Each direction has a "camera point" that is the maximum for that specific direction.
+		//  We than measure distance of all hardpoints to this camera point. Longest distance is rendered first, etc.
+		//  Example Camera Point:
+		//   SW camera is in +X,+Y,+Z quadrant. So the camera points is: new Point(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE)
+		//   Note that the camera is always in +Z so the coordinate will always be Integer.MAX_VALUE
 		for (final Hardpoint hardpoint : model.getHardpoints()) {
 			final Point2D translated = toDrawPoint(hardpoint.getPoint(), viewPlane, planeOriginXOnViewport, planeOriginYOnViewport);
 
