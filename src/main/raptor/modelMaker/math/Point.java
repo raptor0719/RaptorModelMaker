@@ -62,6 +62,14 @@ public class Point {
 		return this;
 	}
 
+	public double distanceTo(final Point point) {
+		final double x = point.get(0) - get(0);
+		final double y = point.get(1) - get(1);
+		final double z = point.get(2) - get(2);
+
+		return Math.sqrt(x*x + y*y + z*z);
+	}
+
 	public Vector vectorTo(final Point point) {
 		return new Vector(point.get(0) - get(0), point.get(1) - get(1), point.get(2) - get(2));
 	}

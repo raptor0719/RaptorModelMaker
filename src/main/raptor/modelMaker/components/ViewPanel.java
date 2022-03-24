@@ -11,6 +11,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -126,14 +129,8 @@ public class ViewPanel extends JPanel {
 
 		g2.setColor(Color.BLACK);
 		g2.setStroke(new BasicStroke(1));
-		// TODO: Need to order these hardpoints by distance to the camera to get render order correct.
-		// To do this:
-		//  Each direction has a "camera point" that is the maximum for that specific direction.
-		//  We than measure distance of all hardpoints to this camera point. Longest distance is rendered first, etc.
-		//  Example Camera Point:
-		//   SW camera is in +X,+Y,+Z quadrant. So the camera points is: new Point(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE)
-		//   Note that the camera is always in +Z so the coordinate will always be Integer.MAX_VALUE
-		for (final Hardpoint hardpoint : model.getHardpoints()) {
+
+		for (final Hardpoint hardpoint : orderHardpointsToDisplayOrder(model.getHardpoints())) {
 			final Point2D translated = toDrawPoint(hardpoint.getPoint(), viewPlane, planeOriginXOnViewport, planeOriginYOnViewport);
 
 			if (spriteLibrary != null) {
@@ -289,8 +286,41 @@ public class ViewPanel extends JPanel {
 		return new Point2D((int)Math.round(xCoordinateOnViewport), (int)Math.round(yCoordinateOnViewport));
 	}
 
+	private List<Hardpoint> orderHardpointsToDisplayOrder(final List<Hardpoint> hardpoints) {
+		final List<Hardpoint> sorted = new ArrayList<Hardpoint>();
+
+		for (final Hardpoint h : hardpoints)
+			sorted.add(h);
+
+		sorted.sort(new HardpointToCameraDistanceComparator(getCurrentViewDirection()));
+
+		return sorted;
+	}
+
 	private ViewDirection getCurrentViewDirection() {
 		return ViewDirection.values()[directionIndex];
+	}
+
+	private static class HardpointToCameraDistanceComparator implements Comparator<Hardpoint> {
+		private final Point cameraPoint;
+
+		public HardpointToCameraDistanceComparator(final ViewDirection viewDirection) {
+			this.cameraPoint = viewDirection.getCameraPoint();
+		}
+
+		@Override
+		public int compare(final Hardpoint a, final Hardpoint b) {
+			final double aToCamera = a.getPoint().distanceTo(cameraPoint);
+			final double bToCamera = b.getPoint().distanceTo(cameraPoint);
+
+			if (aToCamera < bToCamera)
+				return 1;
+			else if (aToCamera == bToCamera)
+				return 0;
+			else
+				return -1;
+		}
+
 	}
 
 	private static class SetViewDirectionButton extends JButton {
