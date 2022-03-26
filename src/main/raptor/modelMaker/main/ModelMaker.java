@@ -24,13 +24,20 @@ import raptor.modelMaker.components.spriteLibrary.SpriteLibraryPanel;
 import raptor.modelMaker.controller.AnimationPreviewController;
 import raptor.modelMaker.controller.HardpointSelectionEditingController;
 import raptor.modelMaker.controller.HardpointSelectionEditingController.HardpointField;
+import raptor.modelMaker.main.config.Configuration;
 import raptor.modelMaker.model.Model;
+import raptor.modelMaker.spriteLibrary.SpriteLibraryReader;
 
 public class ModelMaker {
 	private static JFrame PARENT_FRAME;
+	private static Configuration CONFIGURATION;
 
 	public static JFrame getParentFrame() {
 		return PARENT_FRAME;
+	}
+
+	public static Configuration getConfiguration() {
+		return CONFIGURATION;
 	}
 
 	private final JFrame frame;
@@ -43,7 +50,9 @@ public class ModelMaker {
 	private AnimationPanel animationEditorPanel;
 	private AnimationPreviewController animationPreviewController;
 
-	public ModelMaker() {
+	public ModelMaker(final Configuration configuration) {
+		CONFIGURATION = configuration;
+
 		// Setup
 		this.frame = new JFrame();
 		PARENT_FRAME = frame;
@@ -138,6 +147,9 @@ public class ModelMaker {
 
 		final SpriteLibraryPanel spriteLibraryPanel = new SpriteLibraryPanel(viewPanel);
 		spriteLibraryPanel.setVisible(true);
+
+		if (ModelMaker.getConfiguration().getDefaultSpriteLibraryPath() != null && !ModelMaker.getConfiguration().getDefaultSpriteLibraryPath().trim().isEmpty())
+			spriteLibraryPanel.setSpriteLibrary(SpriteLibraryReader.read(ModelMaker.getConfiguration().getDefaultSpriteLibraryPath()));
 
 		final JTabbedPane editorPanes = new JTabbedPane();
 		final GridBagConstraints editorPanes_constraints = new GridBagConstraints();

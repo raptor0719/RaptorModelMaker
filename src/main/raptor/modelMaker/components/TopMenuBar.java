@@ -51,7 +51,7 @@ public class TopMenuBar extends JMenuBar {
 					return;
 
 				final FileNameExtensionFilter fileExtensionFilter = new FileNameExtensionFilter("Model Maker File", ModelWriter.MODEL_FILE_EXTENSION);
-				final JFileChooser fileChooser = new JFileChooser(new File(System.getProperty("user.dir")));
+				final JFileChooser fileChooser = new JFileChooser(new File(ModelMaker.getConfiguration().getFileChooserHomePath()));
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fileChooser.setAcceptAllFileFilterUsed(false);
 				fileChooser.addChoosableFileFilter(fileExtensionFilter);
@@ -92,7 +92,7 @@ public class TopMenuBar extends JMenuBar {
 			@Override
 			public void actionPerformed(final ActionEvent arg0) {
 				final FileNameExtensionFilter fileExtensionFilter = new FileNameExtensionFilter("Model Maker File", ModelWriter.MODEL_FILE_EXTENSION);
-				final JFileChooser fileChooser = new JFileChooser(new File(System.getProperty("user.dir")));
+				final JFileChooser fileChooser = new JFileChooser(new File(ModelMaker.getConfiguration().getFileChooserHomePath()));
 				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				fileChooser.setAcceptAllFileFilterUsed(false);
 				fileChooser.addChoosableFileFilter(fileExtensionFilter);

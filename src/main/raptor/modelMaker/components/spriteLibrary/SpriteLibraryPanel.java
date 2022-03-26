@@ -130,7 +130,7 @@ public class SpriteLibraryPanel extends JPanel {
 		private final JTextField nameField;
 
 		public CreateNewSpriteLibraryActionListener(final JTextField nameField) {
-			this.fileChooser = new JFileChooser(new File(System.getProperty("user.dir")));
+			this.fileChooser = new JFileChooser(new File(ModelMaker.getConfiguration().getFileChooserHomePath()));
 			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 			this.nameField = nameField;
@@ -184,7 +184,7 @@ public class SpriteLibraryPanel extends JPanel {
 		private final JTextField nameField;
 
 		public LoadSpriteLibraryActionListener(final JTextField nameField) {
-			this.fileChooser = new JFileChooser(new File(System.getProperty("user.dir")));
+			this.fileChooser = new JFileChooser(new File(ModelMaker.getConfiguration().getFileChooserHomePath()));
 			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			fileChooser.addChoosableFileFilter(SPRITE_LIBRARY_EXTENSION_FILTER);
