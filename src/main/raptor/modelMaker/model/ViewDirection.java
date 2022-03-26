@@ -55,7 +55,7 @@ public enum ViewDirection {
 		final int xVal = getCameraPointValue(x);
 		final int yVal = getCameraPointValue(y);
 
-		return new Point(xVal, yVal, Integer.MAX_VALUE/2);
+		return new Point(xVal, yVal, 0);
 	}
 
 	private static int getCameraPointValue(final int val) {
