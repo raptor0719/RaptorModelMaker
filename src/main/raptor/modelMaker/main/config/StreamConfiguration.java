@@ -16,7 +16,6 @@ public class StreamConfiguration implements Configuration {
 		props.load(configStream);
 
 		this.defaultSpriteLibrary = props.getProperty("default-sprite-library");
-		System.out.println(defaultSpriteLibrary);
 		if (!isValidFile(defaultSpriteLibrary))
 			throw new ConfigurationException("The property 'default-sprite-library' was not a valid file.");
 
