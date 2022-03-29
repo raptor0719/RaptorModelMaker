@@ -214,6 +214,8 @@ public class ModelMaker {
 					viewPanel.setRenderPoints(!viewPanel.renderPoints());
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_C) {
 					viewPanel.setRenderImages(!viewPanel.renderImages());
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_Z) {
+					viewPanel.setCardinalLock(!viewPanel.cardinalLock());
 				}
 			}
 

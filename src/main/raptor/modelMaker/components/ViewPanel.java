@@ -66,6 +66,8 @@ public class ViewPanel extends JPanel {
 	private boolean renderPoints;
 	private boolean renderImages;
 
+	private boolean cardinalLock;
+
 	public ViewPanel() {
 		super(null);
 
@@ -112,6 +114,7 @@ public class ViewPanel extends JPanel {
 
 		this.renderPoints = true;
 		this.renderImages = true;
+		this.cardinalLock = true;
 	}
 
 	@Override
@@ -193,7 +196,9 @@ public class ViewPanel extends JPanel {
 	}
 
 	public void rotateX(final boolean otherWay) {
-		directionIndex = ((otherWay) ? directionIndex - 1 : directionIndex + 1) % ViewDirection.values().length;
+		final int delta = (cardinalLock) ? 2 : 1;
+
+		directionIndex = ((otherWay) ? directionIndex - delta : directionIndex + delta) % ViewDirection.values().length;
 
 		if (directionIndex < 0)
 			directionIndex = ViewDirection.values().length + directionIndex;
@@ -266,6 +271,14 @@ public class ViewPanel extends JPanel {
 	public void setRenderImages(final boolean render) {
 		this.renderImages = render;
 		repaint();
+	}
+
+	public boolean cardinalLock() {
+		return cardinalLock;
+	}
+
+	public void setCardinalLock(final boolean lock) {
+		this.cardinalLock = lock;
 	}
 
 	private Point2D toDrawPoint(final Point point, final Plane viewPlane, final double planeOriginXOnViewport, final double planeOriginYOnViewport) {
