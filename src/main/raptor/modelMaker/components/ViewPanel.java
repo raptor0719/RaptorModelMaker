@@ -64,6 +64,7 @@ public class ViewPanel extends JPanel {
 	private Hardpoint selected;
 
 	private boolean renderPoints;
+	private boolean renderImages;
 
 	public ViewPanel() {
 		super(null);
@@ -108,7 +109,9 @@ public class ViewPanel extends JPanel {
 		directionalButtons[directionIndex].doClick();
 
 		this.selected = null;
+
 		this.renderPoints = true;
+		this.renderImages = true;
 	}
 
 	@Override
@@ -133,7 +136,7 @@ public class ViewPanel extends JPanel {
 		for (final Hardpoint hardpoint : orderHardpointsToDisplayOrder(model.getHardpoints())) {
 			final Point2D translated = toDrawPoint(hardpoint.getPoint(), viewPlane, planeOriginXOnViewport, planeOriginYOnViewport);
 
-			if (spriteLibrary != null) {
+			if (renderImages && spriteLibrary != null) {
 				final SpriteCollection attachedSpriteCollection = spriteLibrary.getSpriteCollection(hardpoint.getSpriteCollectionName());
 
 				if (attachedSpriteCollection != null) {
@@ -253,6 +256,15 @@ public class ViewPanel extends JPanel {
 
 	public void setRenderPoints(final boolean render) {
 		this.renderPoints = render;
+		repaint();
+	}
+
+	public boolean renderImages() {
+		return renderImages;
+	}
+
+	public void setRenderImages(final boolean render) {
+		this.renderImages = render;
 		repaint();
 	}
 

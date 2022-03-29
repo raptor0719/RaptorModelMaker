@@ -212,6 +212,8 @@ public class ModelMaker {
 					hardpointSelectionEditingController.addToField(-1);
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_V) {
 					viewPanel.setRenderPoints(!viewPanel.renderPoints());
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_C) {
+					viewPanel.setRenderImages(!viewPanel.renderImages());
 				}
 			}
 
