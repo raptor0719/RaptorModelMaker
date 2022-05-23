@@ -4,14 +4,16 @@ import raptor.modelMaker.math.Point;
 
 public class Hardpoint {
 	private final Point p;
-	private int rotation;
+	private int northSouthRotation;
+	private int eastWestRotation;
 	private String name;
 	private String spriteCollectionName;
 	private String spritePhase;
 
-	public Hardpoint(final String name, final int rotation, final String spriteCollectionName, final String spritePhase) {
+	public Hardpoint(final String name, final int northSouthRotation, final int eastWestRotation, final String spriteCollectionName, final String spritePhase) {
 		this.p = new Point();
-		this.rotation = normalizeRotation(rotation);
+		this.northSouthRotation = normalizeRotation(northSouthRotation);
+		this.eastWestRotation = normalizeRotation(eastWestRotation);
 		this.name = name;
 		this.spriteCollectionName = spriteCollectionName;
 		this.spritePhase = spritePhase;
@@ -21,12 +23,20 @@ public class Hardpoint {
 		return p;
 	}
 
-	public int getRotation() {
-		return rotation;
+	public int getNorthSouthRotation() {
+		return northSouthRotation;
 	}
 
-	public void setRotation(final int rotation) {
-		this.rotation = normalizeRotation(rotation);
+	public void setNorthSouthRotation(final int rotation) {
+		this.northSouthRotation = normalizeRotation(rotation);
+	}
+
+	public int getEastWestRotation() {
+		return eastWestRotation;
+	}
+
+	public void setEastWestRotation(final int eastWestRotation) {
+		this.eastWestRotation = eastWestRotation;
 	}
 
 	public String getName() {

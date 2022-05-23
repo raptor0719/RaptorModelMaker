@@ -205,7 +205,9 @@ public class ModelMaker {
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_E) {
 					hardpointSelectionEditingController.setField(HardpointField.Z);
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_R) {
-					hardpointSelectionEditingController.setField(HardpointField.ROT);
+					hardpointSelectionEditingController.setField(HardpointField.NSROT);
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_T) {
+					hardpointSelectionEditingController.setField(HardpointField.EWROT);
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_UP) {
 					hardpointSelectionEditingController.addToField(1);
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_DOWN) {

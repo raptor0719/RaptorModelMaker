@@ -12,7 +12,8 @@ public class HardpointSelectionEditingController {
 		X,
 		Y,
 		Z,
-		ROT;
+		NSROT,
+		EWROT;
 	}
 
 	private HardpointField currentField;
@@ -37,9 +38,12 @@ public class HardpointSelectionEditingController {
 		if (currentHardpoint == null)
 			return;
 
-		if (HardpointField.ROT.equals(currentField)) {
+		if (HardpointField.NSROT.equals(currentField)) {
 			final int castValue = (int)value;
-			currentHardpoint.setRotation(currentHardpoint.getRotation() + castValue);
+			currentHardpoint.setNorthSouthRotation(currentHardpoint.getNorthSouthRotation() + castValue);
+		} else if (HardpointField.EWROT.equals(currentField)) {
+			final int castValue = (int)value;
+			currentHardpoint.setEastWestRotation(currentHardpoint.getEastWestRotation() + castValue);
 		} else {
 			final double[] rawVals = currentHardpoint.getPoint().getRaw();
 			int index = -1;
@@ -54,7 +58,8 @@ public class HardpointSelectionEditingController {
 				case Z:
 					index = 2;
 					break;
-				case ROT:
+				case NSROT:
+				case EWROT:
 				default:
 			}
 

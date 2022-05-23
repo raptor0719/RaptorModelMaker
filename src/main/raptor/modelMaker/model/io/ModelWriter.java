@@ -43,7 +43,8 @@ public class ModelWriter {
 			dos.writeDouble(coordinates.get(1));
 			dos.writeDouble(coordinates.get(2));
 
-			dos.writeInt(hardpoint.getRotation());
+			dos.writeInt(hardpoint.getNorthSouthRotation());
+			dos.writeInt(hardpoint.getEastWestRotation());
 
 			dos.write(serializeString(hardpoint.getSpritePhase()));
 			dos.write(serializeString(hardpoint.getSpriteCollectionName()));
@@ -67,7 +68,8 @@ public class ModelWriter {
 				dos.writeDouble(savedPosition.getX());
 				dos.writeDouble(savedPosition.getY());
 				dos.writeDouble(savedPosition.getZ());
-				dos.writeInt(savedPosition.getRot());
+				dos.writeInt(savedPosition.getNsrot());
+				dos.writeInt(savedPosition.getEwrot());
 				dos.write(serializeString(savedPosition.getSpritePhase()));
 			}
 		}

@@ -27,11 +27,11 @@ public class Model {
 		return name;
 	}
 
-	public void addHardpoint(final String name, final int rotation) {
+	public void addHardpoint(final String name, final int northSouthRotation, final int eastWestRotation) {
 		if (getHardpointByName(name) != null)
 			throw new IllegalArgumentException("Hardpoint with that name already exists");
 
-		final Hardpoint newHardpoint = new Hardpoint(name, rotation, null, null);
+		final Hardpoint newHardpoint = new Hardpoint(name, northSouthRotation, eastWestRotation, null, null);
 
 		hardpoints.add(newHardpoint);
 
@@ -119,7 +119,8 @@ public class Model {
 
 			h.setSpritePhase(saved.getSpritePhase());
 
-			h.setRotation(saved.getRot());
+			h.setNorthSouthRotation(saved.getNsrot());
+			h.setEastWestRotation(saved.getEwrot());
 		}
 	}
 

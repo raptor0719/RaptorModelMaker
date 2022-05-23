@@ -147,7 +147,8 @@ public class ViewPanel extends JPanel {
 
 					if (directionalSprite != null) {
 						if (directionalSprite.getSprite(getCurrentViewDirection()).getImage() != null) {
-							final Sprite translatedSprite = RenderUtility.translateSprite(directionalSprite.getSprite(getCurrentViewDirection()), hardpoint.getRotation());
+							final int rotation = (directionIndex == ViewDirection.NORTH.ordinal() || directionIndex == ViewDirection.SOUTH.ordinal()) ? hardpoint.getNorthSouthRotation() : hardpoint.getEastWestRotation();
+							final Sprite translatedSprite = RenderUtility.translateSprite(directionalSprite.getSprite(getCurrentViewDirection()), rotation);
 
 							final BufferedImage image = translatedSprite.getImage();
 							final Point2D attachmentPoint = translatedSprite.getAttachmentPoint();
