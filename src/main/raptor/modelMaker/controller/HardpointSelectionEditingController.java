@@ -11,9 +11,8 @@ public class HardpointSelectionEditingController {
 	public static enum HardpointField {
 		X,
 		Y,
-		Z,
-		NSROT,
-		EWROT;
+		DEPTH,
+		ROT;
 	}
 
 	private HardpointField currentField;
@@ -29,7 +28,7 @@ public class HardpointSelectionEditingController {
 		this.currentField = field;
 	}
 
-	public void addToField(final double value) {
+	public void addToField(final int value) {
 		if (currentField == null)
 			return;
 
@@ -38,32 +37,20 @@ public class HardpointSelectionEditingController {
 		if (currentHardpoint == null)
 			return;
 
-		if (HardpointField.NSROT.equals(currentField)) {
-			final int castValue = (int)value;
-			currentHardpoint.setNorthSouthRotation(currentHardpoint.getNorthSouthRotation() + castValue);
-		} else if (HardpointField.EWROT.equals(currentField)) {
-			final int castValue = (int)value;
-			currentHardpoint.setEastWestRotation(currentHardpoint.getEastWestRotation() + castValue);
-		} else {
-			final double[] rawVals = currentHardpoint.getPoint().getRaw();
-			int index = -1;
-
-			switch (currentField) {
-				case X:
-					index = 0;
-					break;
-				case Y:
-					index = 1;
-					break;
-				case Z:
-					index = 2;
-					break;
-				case NSROT:
-				case EWROT:
-				default:
-			}
-
-			rawVals[index] += value;
+		switch (currentField) {
+			case X:
+				currentHardpoint.getPoint().setX(currentHardpoint.getPoint().getX() + value);
+				break;
+			case Y:
+				currentHardpoint.getPoint().setY(currentHardpoint.getPoint().getY() + value);
+				break;
+			case DEPTH:
+				currentHardpoint.setDrawDepth(currentHardpoint.getDrawDepth() + value);
+				break;
+			case ROT:
+				currentHardpoint.setRotation(currentHardpoint.getRotation() + value);
+				break;
+			default:
 		}
 
 		viewPanel.repaint();

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import raptor.modelMaker.math.Point;
+import raptor.modelMaker.math.Point2D;
 import raptor.modelMaker.model.Animation;
 import raptor.modelMaker.model.Frame;
 import raptor.modelMaker.model.Hardpoint;
@@ -38,13 +38,13 @@ public class ModelWriter {
 		for (final Hardpoint hardpoint : hardpoints) {
 			dos.write(serializeString(hardpoint.getName()));
 
-			final Point coordinates = hardpoint.getPoint();
-			dos.writeDouble(coordinates.get(0));
-			dos.writeDouble(coordinates.get(1));
-			dos.writeDouble(coordinates.get(2));
+			final Point2D coordinates = hardpoint.getPoint();
+			dos.writeInt(coordinates.getX());
+			dos.writeInt(coordinates.getY());
 
-			dos.writeInt(hardpoint.getNorthSouthRotation());
-			dos.writeInt(hardpoint.getEastWestRotation());
+			dos.writeInt(hardpoint.getDrawDepth());
+
+			dos.writeInt(hardpoint.getRotation());
 
 			dos.write(serializeString(hardpoint.getSpritePhase()));
 			dos.write(serializeString(hardpoint.getSpriteCollectionName()));
@@ -65,11 +65,10 @@ public class ModelWriter {
 				dos.write(serializeString(entry.getKey()));
 
 				final Frame.SavedHardpointPosition savedPosition = entry.getValue();
-				dos.writeDouble(savedPosition.getX());
-				dos.writeDouble(savedPosition.getY());
-				dos.writeDouble(savedPosition.getZ());
-				dos.writeInt(savedPosition.getNsrot());
-				dos.writeInt(savedPosition.getEwrot());
+				dos.writeInt(savedPosition.getX());
+				dos.writeInt(savedPosition.getY());
+				dos.writeInt(savedPosition.getDepth());
+				dos.writeInt(savedPosition.getRot());
 				dos.write(serializeString(savedPosition.getSpritePhase()));
 			}
 		}

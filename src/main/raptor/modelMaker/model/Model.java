@@ -3,7 +3,7 @@ package raptor.modelMaker.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import raptor.modelMaker.math.Point;
+import raptor.modelMaker.math.Point2D;
 
 public class Model {
 	private final List<Hardpoint> hardpoints;
@@ -27,11 +27,11 @@ public class Model {
 		return name;
 	}
 
-	public void addHardpoint(final String name, final int northSouthRotation, final int eastWestRotation) {
+	public void addHardpoint(final String name) {
 		if (getHardpointByName(name) != null)
 			throw new IllegalArgumentException("Hardpoint with that name already exists");
 
-		final Hardpoint newHardpoint = new Hardpoint(name, northSouthRotation, eastWestRotation, null, null);
+		final Hardpoint newHardpoint = new Hardpoint(name, 0, null, null);
 
 		hardpoints.add(newHardpoint);
 
@@ -112,15 +112,15 @@ public class Model {
 		for (final Hardpoint h : hardpoints) {
 			final Frame.SavedHardpointPosition saved = frame.getSavedPosition(h.getName());
 
-			final Point p = h.getPoint();
-			p.set(0, saved.getX());
-			p.set(1, saved.getY());
-			p.set(2, saved.getZ());
+			final Point2D p = h.getPoint();
+			p.setX(saved.getX());
+			p.setY(saved.getY());
+
+			h.setDrawDepth(saved.getDepth());
+
+			h.setRotation(saved.getRot());
 
 			h.setSpritePhase(saved.getSpritePhase());
-
-			h.setNorthSouthRotation(saved.getNsrot());
-			h.setEastWestRotation(saved.getEwrot());
 		}
 	}
 

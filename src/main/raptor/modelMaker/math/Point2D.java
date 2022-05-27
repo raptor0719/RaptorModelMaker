@@ -1,11 +1,11 @@
 package raptor.modelMaker.math;
 
 public class Point2D {
-	private final int x;
-	private final int y;
+	private int x;
+	private int y;
 
-	private final double doubleX;
-	private final double doubleY;
+	private double doubleX;
+	private double doubleY;
 
 	public Point2D(final int x, final int y) {
 		this.x = x;
@@ -35,5 +35,25 @@ public class Point2D {
 
 	public double getDoubleY() {
 		return doubleY;
+	}
+
+	public void setX(final int x) {
+		this.x = x;
+		this.doubleX = x;
+	}
+
+	public void setY(final int y) {
+		this.y = y;
+		this.doubleY = y;
+	}
+
+	public void setX(final double x) {
+		this.x = (int)x;
+		this.doubleX = x;
+	}
+
+	public void setY(final double y) {
+		this.y = (int)y;
+		this.doubleY = y;
 	}
 }

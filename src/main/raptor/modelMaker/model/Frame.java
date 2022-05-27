@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import raptor.modelMaker.math.Point;
+import raptor.modelMaker.math.Point2D;
 
 public class Frame {
 	private final HashMap<String, SavedHardpointPosition> savedPositions;
@@ -24,8 +24,8 @@ public class Frame {
 	}
 
 	public void saveHardpoint(final Hardpoint hardpoint) {
-		final Point position = hardpoint.getPoint();
-		final SavedHardpointPosition saved = new SavedHardpointPosition(position.get(0), position.get(1), position.get(2), hardpoint.getNorthSouthRotation(), hardpoint.getEastWestRotation(), hardpoint.getSpritePhase());
+		final Point2D position = hardpoint.getPoint();
+		final SavedHardpointPosition saved = new SavedHardpointPosition(position.getX(), position.getY(), hardpoint.getDrawDepth(), hardpoint.getRotation(), hardpoint.getSpritePhase());
 		savedPositions.put(hardpoint.getName(), saved);
 	}
 
@@ -80,40 +80,34 @@ public class Frame {
 	}
 
 	public static class SavedHardpointPosition {
-		private final double x;
-		private final double y;
-		private final double z;
-		private final int nsrot;
-		private final int ewrot;
+		private final int x;
+		private final int y;
+		private final int depth;
+		private final int rot;
 		private final String spritePhase;
 
-		public SavedHardpointPosition(final double x, final double y, final double z, final int nsrot, final int ewrot, final String spritePhase) {
+		public SavedHardpointPosition(final int x, final int y, final int depth, final int rot, final String spritePhase) {
 			this.x = x;
 			this.y = y;
-			this.z = z;
-			this.nsrot = nsrot;
-			this.ewrot = ewrot;
+			this.depth = depth;
+			this.rot = rot;
 			this.spritePhase = spritePhase;
 		}
 
-		public double getX() {
+		public int getX() {
 			return x;
 		}
 
-		public double getY() {
+		public int getY() {
 			return y;
 		}
 
-		public double getZ() {
-			return z;
+		public int getDepth() {
+			return depth;
 		}
 
-		public int getNsrot() {
-			return nsrot;
-		}
-
-		public int getEwrot() {
-			return ewrot;
+		public int getRot() {
+			return rot;
 		}
 
 		public String getSpritePhase() {

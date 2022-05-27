@@ -334,7 +334,7 @@ public class SpriteCollectionEditorPanel extends JPanel {
 
 		public ViewDirectionComboBoxModel() {
 			this.viewDirections = ViewDirection.values();
-			this.selected = ViewDirection.NORTH;
+			this.selected = ViewDirection.RIGHT;
 		}
 
 		@Override

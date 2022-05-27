@@ -231,7 +231,7 @@ public class FrameEditorPanel extends JPanel {
 			if (model.isHardpointWithName(name))
 				return;
 
-			model.addHardpoint(name, 0, 0);
+			model.addHardpoint(name);
 
 			hardpointTable.modelChanged();
 

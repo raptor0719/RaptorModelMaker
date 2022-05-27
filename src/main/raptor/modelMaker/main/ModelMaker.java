@@ -203,11 +203,9 @@ public class ModelMaker {
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_W) {
 					hardpointSelectionEditingController.setField(HardpointField.Y);
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_E) {
-					hardpointSelectionEditingController.setField(HardpointField.Z);
+					hardpointSelectionEditingController.setField(HardpointField.DEPTH);
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_R) {
-					hardpointSelectionEditingController.setField(HardpointField.NSROT);
-				} else if (e.getExtendedKeyCode() == KeyEvent.VK_T) {
-					hardpointSelectionEditingController.setField(HardpointField.EWROT);
+					hardpointSelectionEditingController.setField(HardpointField.ROT);
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_UP) {
 					hardpointSelectionEditingController.addToField(1);
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_DOWN) {
@@ -216,8 +214,6 @@ public class ModelMaker {
 					viewPanel.setRenderPoints(!viewPanel.renderPoints());
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_C) {
 					viewPanel.setRenderImages(!viewPanel.renderImages());
-				} else if (e.getExtendedKeyCode() == KeyEvent.VK_Z) {
-					viewPanel.setCardinalLock(!viewPanel.cardinalLock());
 				}
 			}
 
@@ -235,22 +231,22 @@ public class ModelMaker {
 		viewPanel.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(final MouseEvent e) {
-				// TODO Auto-generated method stub
+				/* no-op */
 			}
 
 			@Override
 			public void mousePressed(final MouseEvent e) {
-				// TODO Auto-generated method stub
+				/* no-op */
 			}
 
 			@Override
 			public void mouseExited(final MouseEvent e) {
-				// TODO Auto-generated method stub
+				/* no-op */
 			}
 
 			@Override
 			public void mouseEntered(final MouseEvent e) {
-				// TODO Auto-generated method stub
+				/* no-op */
 			}
 
 			@Override

@@ -1,42 +1,42 @@
 package raptor.modelMaker.model;
 
-import raptor.modelMaker.math.Point;
+import raptor.modelMaker.math.Point2D;
 
 public class Hardpoint {
-	private final Point p;
-	private int northSouthRotation;
-	private int eastWestRotation;
+	private final Point2D p;
+	private int drawDepth;
+	private int rotation;
 	private String name;
 	private String spriteCollectionName;
 	private String spritePhase;
 
-	public Hardpoint(final String name, final int northSouthRotation, final int eastWestRotation, final String spriteCollectionName, final String spritePhase) {
-		this.p = new Point();
-		this.northSouthRotation = normalizeRotation(northSouthRotation);
-		this.eastWestRotation = normalizeRotation(eastWestRotation);
+	public Hardpoint(final String name, final int rotation, final String spriteCollectionName, final String spritePhase) {
+		this.p = new Point2D(0, 0);
+		this.drawDepth = 0;
+		this.rotation = normalizeRotation(rotation);
 		this.name = name;
 		this.spriteCollectionName = spriteCollectionName;
 		this.spritePhase = spritePhase;
 	}
 
-	public Point getPoint() {
+	public Point2D getPoint() {
 		return p;
 	}
 
-	public int getNorthSouthRotation() {
-		return northSouthRotation;
+	public int getDrawDepth() {
+		return drawDepth;
 	}
 
-	public void setNorthSouthRotation(final int rotation) {
-		this.northSouthRotation = normalizeRotation(rotation);
+	public void setDrawDepth(final int drawDepth) {
+		this.drawDepth = drawDepth;
 	}
 
-	public int getEastWestRotation() {
-		return eastWestRotation;
+	public int getRotation() {
+		return rotation;
 	}
 
-	public void setEastWestRotation(final int eastWestRotation) {
-		this.eastWestRotation = eastWestRotation;
+	public void setRotation(final int rotation) {
+		this.rotation = normalizeRotation(rotation);
 	}
 
 	public String getName() {

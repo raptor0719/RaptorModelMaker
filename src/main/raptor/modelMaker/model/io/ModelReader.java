@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
-import raptor.modelMaker.math.Point;
+import raptor.modelMaker.math.Point2D;
 import raptor.modelMaker.model.Animation;
 import raptor.modelMaker.model.Frame;
 import raptor.modelMaker.model.Hardpoint;
@@ -36,22 +36,24 @@ public class ModelReader {
 
 		for (int i = 0; i < count; i++) {
 			final String name = deserializeString(dis);
-			final double x = dis.readDouble();
-			final double y = dis.readDouble();
-			final double z = dis.readDouble();
-			final int nsrot = dis.readInt();
-			final int ewrot = dis.readInt();
+			final int x = dis.readInt();
+			final int y = dis.readInt();
+			final int depth = dis.readInt();
+			final int rot = dis.readInt();
 			final String spritePhase = deserializeString(dis);
 			final String spriteCollection = deserializeString(dis);
 
-			model.addHardpoint(name, nsrot, ewrot);
+			model.addHardpoint(name);
 
 			final Hardpoint hardpoint = model.getHardpoint(name);
 
-			final Point coordinates = hardpoint.getPoint();
-			coordinates.set(0, x);
-			coordinates.set(1, y);
-			coordinates.set(2, z);
+			final Point2D coordinates = hardpoint.getPoint();
+			coordinates.setX(x);
+			coordinates.setY(y);
+
+			hardpoint.setDrawDepth(depth);
+
+			hardpoint.setRotation(rot);
 
 			hardpoint.setSpritePhase(spritePhase);
 			hardpoint.setSpriteCollectionName(spriteCollection);
@@ -72,19 +74,19 @@ public class ModelReader {
 
 			for (int j = 0; j < savedPositionCount; j++) {
 				final String hardpointName = deserializeString(dis);
-				final double x = dis.readDouble();
-				final double y = dis.readDouble();
-				final double z = dis.readDouble();
-				final int nsrot = dis.readInt();
-				final int ewrot = dis.readInt();
+				final int x = dis.readInt();
+				final int y = dis.readInt();
+				final int depth = dis.readInt();
+				final int rot = dis.readInt();
 				final String spritePhase = deserializeString(dis);
 
-				final Hardpoint savedPosition = new Hardpoint(hardpointName, nsrot, ewrot, null, spritePhase);
+				final Hardpoint savedPosition = new Hardpoint(hardpointName, rot, null, spritePhase);
 
-				final Point coordinates = savedPosition.getPoint();
-				coordinates.set(0, x);
-				coordinates.set(1, y);
-				coordinates.set(2, z);
+				final Point2D coordinates = savedPosition.getPoint();
+				coordinates.setX(x);
+				coordinates.setY(y);
+
+				savedPosition.setDrawDepth(depth);
 
 				frame.saveHardpoint(savedPosition);
 			}

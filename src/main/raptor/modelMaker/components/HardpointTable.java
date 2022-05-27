@@ -16,7 +16,7 @@ import raptor.modelMaker.model.Hardpoint;
 import raptor.modelMaker.model.Model;
 
 public class HardpointTable extends JTable {
-	private static final String[] COLUMN_NAMES = new String[] {"Name", "x", "y", "z", "nsrot", "ewrot", "Phase", "Sprite Name"};
+	private static final String[] COLUMN_NAMES = new String[] {"Name", "x", "y", "d", "rot", "Phase", "Sprite Name"};
 
 	private final JComponent redrawOnChange;
 
@@ -96,8 +96,8 @@ public class HardpointTable extends JTable {
 
 		@Override
 		public int getColumnCount() {
-			// name, x, y, z, nsrot, ewrot, phase, sprite name
-			return 8;
+			// name, x, y, d, rot, phase, sprite name
+			return 7;
 		}
 
 		@Override
@@ -111,18 +111,16 @@ public class HardpointTable extends JTable {
 
 			switch (col) {
 				case 1:
-					return h.getPoint().get(0);
+					return h.getPoint().getX();
 				case 2:
-					return h.getPoint().get(1);
+					return h.getPoint().getY();
 				case 3:
-					return h.getPoint().get(2);
+					return h.getDrawDepth();
 				case 4:
-					return h.getNorthSouthRotation();
+					return h.getRotation();
 				case 5:
-					return h.getEastWestRotation();
-				case 6:
 					return h.getSpritePhase();
-				case 7:
+				case 6:
 					return h.getSpriteCollectionName();
 				default:
 					return h.getName();
@@ -141,24 +139,21 @@ public class HardpointTable extends JTable {
 
 			switch (col) {
 				case 1:
-					h.getPoint().getRaw()[0] = Double.parseDouble(stringVal);
+					h.getPoint().setX(Integer.parseInt(stringVal));
 					break;
 				case 2:
-					h.getPoint().getRaw()[1] = Double.parseDouble(stringVal);
+					h.getPoint().setY(Integer.parseInt(stringVal));
 					break;
 				case 3:
-					h.getPoint().getRaw()[2] = Double.parseDouble(stringVal);
+					h.setDrawDepth(Integer.parseInt(stringVal));
 					break;
 				case 4:
-					h.setNorthSouthRotation(Integer.parseInt(stringVal));
+					h.setRotation(Integer.parseInt(stringVal));
 					break;
 				case 5:
-					h.setEastWestRotation(Integer.parseInt(stringVal));
-					break;
-				case 6:
 					h.setSpritePhase(stringVal);
 					break;
-				case 7:
+				case 6:
 					h.setSpriteCollectionName(stringVal);
 					break;
 				default:

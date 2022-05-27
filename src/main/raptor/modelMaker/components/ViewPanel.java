@@ -19,10 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import raptor.modelMaker.math.Plane;
-import raptor.modelMaker.math.Point;
 import raptor.modelMaker.math.Point2D;
-import raptor.modelMaker.math.Vector;
 import raptor.modelMaker.model.Hardpoint;
 import raptor.modelMaker.model.Model;
 import raptor.modelMaker.model.ViewDirection;
@@ -33,29 +30,13 @@ import raptor.modelMaker.spriteLibrary.SpriteCollection;
 import raptor.modelMaker.spriteLibrary.SpriteLibrary;
 
 public class ViewPanel extends JPanel {
-	private static final Point ORIGIN;
-	private static final int AXIS_MARKER_ENDPOINT_LENGTH;
-	private static final Point[] AXIS_MARKER_ENDPOINTS;
-	private static final Color[] AXIS_MARKER_COLORS;
+	private static final Point2D ORIGIN;
 	static {
-		ORIGIN = new Point(0, 0, 0);
-		AXIS_MARKER_ENDPOINT_LENGTH = 20;
-		AXIS_MARKER_ENDPOINTS = new Point[] {
-			new Point(AXIS_MARKER_ENDPOINT_LENGTH, 0, 0),
-			new Point(0, AXIS_MARKER_ENDPOINT_LENGTH, 0),
-			new Point(0, 0, AXIS_MARKER_ENDPOINT_LENGTH)
-		};
-		AXIS_MARKER_COLORS = new Color[] {
-			Color.BLUE,
-			Color.GREEN,
-			Color.RED
-		};
+		ORIGIN = new Point2D(0, 0);
 	}
 
 	private Model model;
 	private SpriteLibrary spriteLibrary;
-
-	private Plane viewPlane;
 	private int pointDrawDiameter;
 
 	private final JButton[] directionalButtons;
@@ -66,15 +47,12 @@ public class ViewPanel extends JPanel {
 	private boolean renderPoints;
 	private boolean renderImages;
 
-	private boolean cardinalLock;
-
 	public ViewPanel() {
 		super(null);
 
 		this.model = null;
 		this.spriteLibrary = null;
 
-		this.viewPlane = new Plane();
 		this.pointDrawDiameter = 10;
 
 		this.addMouseListener(new ViewPanelFocus(this));
@@ -82,14 +60,8 @@ public class ViewPanel extends JPanel {
 		final Font directionalButtonFont = new Font("Arial", Font.BOLD, 10);
 		final Insets directionalButtonInsets = new Insets(0, 0, 0, 0);
 		final Point2D[] directionalButtonLocations = new Point2D[] {
-			new Point2D(50, 0),
-			new Point2D(75, 25),
-			new Point2D(100, 50),
-			new Point2D(75, 75),
-			new Point2D(50, 100),
-			new Point2D(25, 75),
-			new Point2D(0, 50),
-			new Point2D(25, 25)
+			new Point2D(25, 25),
+			new Point2D(50, 25)
 		};
 		directionalButtons = new JButton[ViewDirection.values().length];
 
@@ -107,14 +79,13 @@ public class ViewPanel extends JPanel {
 			this.add(button);
 		}
 
-		this.directionIndex = 0;
+		this.directionIndex = 1;
 		directionalButtons[directionIndex].doClick();
 
 		this.selected = null;
 
 		this.renderPoints = true;
 		this.renderImages = true;
-		this.cardinalLock = true;
 	}
 
 	@Override
@@ -130,14 +101,14 @@ public class ViewPanel extends JPanel {
 			return;
 
 		// Calculate plane origin on the viewport
-		final double planeOriginXOnViewport = panelWidth / 2;
-		final double planeOriginYOnViewport = panelHeight / 2;
+		final int planeOriginXOnViewport = panelWidth / 2;
+		final int planeOriginYOnViewport = panelHeight / 2;
 
 		g2.setColor(Color.BLACK);
 		g2.setStroke(new BasicStroke(1));
 
 		for (final Hardpoint hardpoint : orderHardpointsToDisplayOrder(model.getHardpoints())) {
-			final Point2D translated = toDrawPoint(hardpoint.getPoint(), viewPlane, planeOriginXOnViewport, planeOriginYOnViewport);
+			final Point2D translated = toDrawPoint(hardpoint.getPoint(), planeOriginXOnViewport, planeOriginYOnViewport, ViewDirection.values()[directionIndex]);
 
 			if (renderImages && spriteLibrary != null) {
 				final SpriteCollection attachedSpriteCollection = spriteLibrary.getSpriteCollection(hardpoint.getSpriteCollectionName());
@@ -147,7 +118,7 @@ public class ViewPanel extends JPanel {
 
 					if (directionalSprite != null) {
 						if (directionalSprite.getSprite(getCurrentViewDirection()).getImage() != null) {
-							final int rotation = (directionIndex == ViewDirection.NORTH.ordinal() || directionIndex == ViewDirection.SOUTH.ordinal()) ? hardpoint.getNorthSouthRotation() : hardpoint.getEastWestRotation();
+							final int rotation = (directionIndex == ViewDirection.LEFT.ordinal()) ? -hardpoint.getRotation() : hardpoint.getRotation();
 							final Sprite translatedSprite = RenderUtility.translateSprite(directionalSprite.getSprite(getCurrentViewDirection()), rotation);
 
 							final BufferedImage image = translatedSprite.getImage();
@@ -171,15 +142,6 @@ public class ViewPanel extends JPanel {
 				}
 			}
 		}
-
-		final Point2D origin = toDrawPoint(ORIGIN, viewPlane, planeOriginXOnViewport, planeOriginYOnViewport);
-		g2.setStroke(new BasicStroke(3));
-		for (int i = 0; i < AXIS_MARKER_ENDPOINTS.length; i++) {
-			final Point2D endpoint = toDrawPoint(AXIS_MARKER_ENDPOINTS[i], viewPlane, planeOriginXOnViewport, planeOriginYOnViewport);
-			g2.setColor(AXIS_MARKER_COLORS[i]);
-			g2.drawLine(origin.getX() + panelWidth/2 - AXIS_MARKER_ENDPOINT_LENGTH - 5, origin.getY() - panelHeight/2 + AXIS_MARKER_ENDPOINT_LENGTH + 5,
-					endpoint.getX() + panelWidth/2 - AXIS_MARKER_ENDPOINT_LENGTH - 5, endpoint.getY() - panelHeight/2 + AXIS_MARKER_ENDPOINT_LENGTH + 5);
-		}
 	}
 
 	public Model getModel() {
@@ -197,7 +159,7 @@ public class ViewPanel extends JPanel {
 	}
 
 	public void rotateX(final boolean otherWay) {
-		final int delta = (cardinalLock) ? 2 : 1;
+		final int delta = 1;
 
 		directionIndex = ((otherWay) ? directionIndex - delta : directionIndex + delta) % ViewDirection.values().length;
 
@@ -209,12 +171,7 @@ public class ViewPanel extends JPanel {
 
 	public void setDirection(final ViewDirection direction) {
 		directionIndex = direction.ordinal();
-		viewPlane.set(direction.getParameters());
 		repaint();
-	}
-
-	public Plane getViewPlane() {
-		return viewPlane;
 	}
 
 	public int select(final int mouseX, final int mouseY) {
@@ -223,14 +180,14 @@ public class ViewPanel extends JPanel {
 
 		final int panelWidth = this.getWidth();
 		final int panelHeight = this.getHeight();
-		final double planeOriginXOnViewport = panelWidth / 2;
-		final double planeOriginYOnViewport = panelHeight / 2;
+		final int planeOriginXOnViewport = panelWidth / 2;
+		final int planeOriginYOnViewport = panelHeight / 2;
 
 		final int centerTransform = pointDrawDiameter/2;
 
 		int index = 0;
 		for (final Hardpoint h : model.getHardpoints()) {
-			final Point2D hitbox = toDrawPoint(h.getPoint(), viewPlane, planeOriginXOnViewport, planeOriginYOnViewport);
+			final Point2D hitbox = toDrawPoint(h.getPoint(), planeOriginXOnViewport, planeOriginYOnViewport, ViewDirection.values()[directionIndex]);
 
 			if (mouseX >= hitbox.getX() - centerTransform && mouseX <= hitbox.getX() - centerTransform + pointDrawDiameter &&
 					mouseY >= hitbox.getY() - centerTransform && mouseY <= hitbox.getY() + pointDrawDiameter - centerTransform) {
@@ -274,42 +231,9 @@ public class ViewPanel extends JPanel {
 		repaint();
 	}
 
-	public boolean cardinalLock() {
-		return cardinalLock;
-	}
-
-	public void setCardinalLock(final boolean lock) {
-		this.cardinalLock = lock;
-	}
-
-	private Point2D toDrawPoint(final Point point, final Plane viewPlane, final double planeOriginXOnViewport, final double planeOriginYOnViewport) {
-		// Project onto the plane
-		//  1) Create a vector V from Po to A
-		//	2) Project V onto Pn to get Vp
-		//	3) Subtract Vp from A to get Q
-		//	4) Q is the result
-		final Vector planeOriginToPoint = viewPlane.getOrigin().vectorTo(point);
-		final Vector projectionOntoPlaneNormal = planeOriginToPoint.project(viewPlane.getNormal());
-		final Point pointOnPlane = point.subtract(projectionOntoPlaneNormal);
-
-		// Convert Point to Plane Coordinates
-		//	1) Create a vector K from Po to Q
-		//	2) Calculate dot(K, Py) = Dy
-		//	3) Calculate dot(K, Px) = Dx
-		//	4) Create 2D point T with coordinates x = Dx, y = Dy
-		//	5) T is the result
-		final Vector planeOriginToPlanePoint = viewPlane.getOrigin().vectorTo(pointOnPlane);
-		final double xCoordinate = planeOriginToPlanePoint.dot(viewPlane.getxAxisNormal());
-		final double yCoordinate = planeOriginToPlanePoint.dot(viewPlane.getyAxisNormal());
-
-		// Translate to viewport coordinates
-		//	1) Add the x coordinate of T to the x coordinate of the plane origin on the viewport
-		//	2) Subtract the y coordinate of T to the y coordinate of the plane origin on the viewport
-		// NOTE: We subtract the y coordinate because the direction of the y coordinate is reversed for the viewport
-		final double xCoordinateOnViewport = planeOriginXOnViewport + xCoordinate;
-		final double yCoordinateOnViewport = planeOriginYOnViewport - yCoordinate;
-
-		return new Point2D((int)Math.round(xCoordinateOnViewport), (int)Math.round(yCoordinateOnViewport));
+	private Point2D toDrawPoint(final Point2D point, final int originX, final int originY, final ViewDirection viewDirection) {
+		final boolean mirrored = viewDirection == ViewDirection.LEFT;
+		return new Point2D(originX + ((mirrored) ? -point.getX() : point.getX()), originY - point.getY());
 	}
 
 	private List<Hardpoint> orderHardpointsToDisplayOrder(final List<Hardpoint> hardpoints) {
@@ -318,7 +242,7 @@ public class ViewPanel extends JPanel {
 		for (final Hardpoint h : hardpoints)
 			sorted.add(h);
 
-		sorted.sort(new HardpointToCameraDistanceComparator(getCurrentViewDirection()));
+		sorted.sort(new HardpointDrawDepthComparator());
 
 		return sorted;
 	}
@@ -327,26 +251,19 @@ public class ViewPanel extends JPanel {
 		return ViewDirection.values()[directionIndex];
 	}
 
-	private static class HardpointToCameraDistanceComparator implements Comparator<Hardpoint> {
-		private final Point cameraPoint;
-
-		public HardpointToCameraDistanceComparator(final ViewDirection viewDirection) {
-			this.cameraPoint = viewDirection.getCameraPoint();
-		}
-
+	private static class HardpointDrawDepthComparator implements Comparator<Hardpoint> {
 		@Override
 		public int compare(final Hardpoint a, final Hardpoint b) {
-			final double aToCamera = a.getPoint().distanceTo(cameraPoint);
-			final double bToCamera = b.getPoint().distanceTo(cameraPoint);
+			final int dA = a.getDrawDepth();
+			final int dB = b.getDrawDepth();
 
-			if (aToCamera < bToCamera)
+			if (dA < dB)
 				return 1;
-			else if (aToCamera == bToCamera)
+			else if (dA == dB)
 				return 0;
 			else
 				return -1;
 		}
-
 	}
 
 	private static class SetViewDirectionButton extends JButton {
