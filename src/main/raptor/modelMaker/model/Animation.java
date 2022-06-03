@@ -109,6 +109,18 @@ public class Animation {
 		return activations.get(index);
 	}
 
+	public List<String> getFrameNames() {
+		return frameNames;
+	}
+
+	public List<Integer> getHolds() {
+		return holds;
+	}
+
+	public List<Boolean> getActivations() {
+		return activations;
+	}
+
 	public int size() {
 		return frameNames.size();
 	}
