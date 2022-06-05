@@ -46,6 +46,7 @@ public class ViewPanel extends JPanel {
 
 	private boolean renderPoints;
 	private boolean renderImages;
+	private boolean renderDimensions;
 
 	public ViewPanel() {
 		super(null);
@@ -86,6 +87,7 @@ public class ViewPanel extends JPanel {
 
 		this.renderPoints = true;
 		this.renderImages = true;
+		this.renderDimensions = false;
 	}
 
 	@Override
@@ -141,6 +143,13 @@ public class ViewPanel extends JPanel {
 					g2.fillOval(translated.getX() - centerTransform, translated.getY() - centerTransform, pointDrawDiameter, pointDrawDiameter);
 				}
 			}
+		}
+
+		if (renderDimensions) {
+			final int xStart = planeOriginXOnViewport - model.getWidth()/2 + model.getCenterOffsetX();
+			final int yStart = planeOriginYOnViewport - model.getHeight()/2 - model.getCenterOffsetY();
+
+			g2.drawRect(xStart, yStart, model.getWidth(), model.getHeight());
 		}
 	}
 
@@ -228,6 +237,15 @@ public class ViewPanel extends JPanel {
 
 	public void setRenderImages(final boolean render) {
 		this.renderImages = render;
+		repaint();
+	}
+
+	public boolean renderDimensions() {
+		return renderDimensions;
+	}
+
+	public void setRenderDimensions(final boolean render) {
+		this.renderDimensions = render;
 		repaint();
 	}
 

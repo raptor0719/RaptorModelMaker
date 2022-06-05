@@ -12,6 +12,11 @@ public class Model {
 
 	private String name;
 
+	private int width;
+	private int height;
+	private int centerOffsetX;
+	private int centerOffsetY;
+
 	public Model(final String name) {
 		this.hardpoints = new ArrayList<>();
 		this.frames = new ArrayList<>();
@@ -25,6 +30,38 @@ public class Model {
 
 	public String getName() {
 		return name;
+	}
+
+	public void setWidth(final int width) {
+		this.width = width;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setHeight(final int height) {
+		this.height = height;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setCenterOffsetX(final int centerOffsetX) {
+		this.centerOffsetX = centerOffsetX;
+	}
+
+	public int getCenterOffsetX() {
+		return centerOffsetX;
+	}
+
+	public void setCenterOffsetY(final int centerOffsetY) {
+		this.centerOffsetY = centerOffsetY;
+	}
+
+	public int getCenterOffsetY() {
+		return centerOffsetY;
 	}
 
 	public void addHardpoint(final String name) {

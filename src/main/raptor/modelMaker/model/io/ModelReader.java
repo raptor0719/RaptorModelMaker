@@ -22,8 +22,17 @@ public class ModelReader {
 			throw new IllegalArgumentException("Was not a model format.");
 
 		final String name = deserializeString(dis);
+		final int width = dis.readInt();
+		final int height = dis.readInt();
+		final int centerOffsetX = dis.readInt();
+		final int centerOffsetY = dis.readInt();
 
 		final Model model = new Model(name);
+		model.setWidth(width);
+		model.setHeight(height);
+		model.setCenterOffsetX(centerOffsetX);
+		model.setCenterOffsetY(centerOffsetY);
+
 		readHardpoints(model, dis);
 		readFrames(model, dis);
 		readAnimations(model, dis);

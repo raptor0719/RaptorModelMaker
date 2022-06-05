@@ -24,6 +24,10 @@ public class ModelWriter {
 		dos.write(MAGIC_NUMBER);
 
 		dos.write(serializeString(model.getName()));
+		dos.writeInt(model.getWidth());
+		dos.writeInt(model.getHeight());
+		dos.writeInt(model.getCenterOffsetX());
+		dos.writeInt(model.getCenterOffsetY());
 
 		writeHardpoints(model.getHardpoints(), dos);
 

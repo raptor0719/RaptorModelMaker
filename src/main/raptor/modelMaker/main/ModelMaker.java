@@ -17,6 +17,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import raptor.modelMaker.components.AnimationPanel;
+import raptor.modelMaker.components.DimensionModifierPanel;
 import raptor.modelMaker.components.FrameEditorPanel;
 import raptor.modelMaker.components.TopMenuBar;
 import raptor.modelMaker.components.ViewPanel;
@@ -49,6 +50,7 @@ public class ModelMaker {
 	private FrameEditorPanel frameEditorPanel;
 	private AnimationPanel animationEditorPanel;
 	private AnimationPreviewController animationPreviewController;
+	private DimensionModifierPanel dimensionModifierPanel;
 
 	public ModelMaker(final Configuration configuration) {
 		CONFIGURATION = configuration;
@@ -148,6 +150,9 @@ public class ModelMaker {
 		final SpriteLibraryPanel spriteLibraryPanel = new SpriteLibraryPanel(viewPanel);
 		spriteLibraryPanel.setVisible(true);
 
+		this.dimensionModifierPanel = new DimensionModifierPanel(model, viewPanel);
+		dimensionModifierPanel.setVisible(true);
+
 		if (ModelMaker.getConfiguration().getDefaultSpriteLibraryPath() != null && !ModelMaker.getConfiguration().getDefaultSpriteLibraryPath().trim().isEmpty())
 			spriteLibraryPanel.setSpriteLibrary(SpriteLibraryReader.read(ModelMaker.getConfiguration().getDefaultSpriteLibraryPath()));
 
@@ -165,6 +170,7 @@ public class ModelMaker {
 
 		editorPanes.addTab("Frames", frameEditorPanel);
 		editorPanes.addTab("Animations", animationEditorPanel);
+		editorPanes.addTab("Dimensions", dimensionModifierPanel);
 		editorPanes.addTab("Sprite", spriteLibraryPanel);
 
 		editorPanes.addChangeListener(new ChangeListener() {
@@ -214,6 +220,8 @@ public class ModelMaker {
 					viewPanel.setRenderPoints(!viewPanel.renderPoints());
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_C) {
 					viewPanel.setRenderImages(!viewPanel.renderImages());
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_X) {
+					viewPanel.setRenderDimensions(!viewPanel.renderDimensions());
 				}
 			}
 
@@ -288,5 +296,6 @@ public class ModelMaker {
 		frameEditorPanel.setModel(model);
 		animationEditorPanel.setModel(model);
 		animationPreviewController.setModel(model);
+		dimensionModifierPanel.setModel(model);
 	}
 }
