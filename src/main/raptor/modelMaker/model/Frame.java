@@ -82,9 +82,10 @@ public class Frame {
 	public static class SavedHardpointPosition {
 		private final int x;
 		private final int y;
-		private final int depth;
 		private final int rot;
 		private final String spritePhase;
+
+		private int depth;
 
 		public SavedHardpointPosition(final int x, final int y, final int depth, final int rot, final String spritePhase) {
 			this.x = x;
@@ -102,16 +103,20 @@ public class Frame {
 			return y;
 		}
 
-		public int getDepth() {
-			return depth;
-		}
-
 		public int getRot() {
 			return rot;
 		}
 
 		public String getSpritePhase() {
 			return spritePhase;
+		}
+
+		public int getDepth() {
+			return depth;
+		}
+
+		public void setDepth(final int depth) {
+			this.depth = depth;
 		}
 	}
 }

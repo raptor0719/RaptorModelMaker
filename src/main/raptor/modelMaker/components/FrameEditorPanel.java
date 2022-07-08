@@ -61,6 +61,21 @@ public class FrameEditorPanel extends JPanel {
 
 		add(hardpointDeleteButton, hardpointDeleteButton_constraints);
 
+		final JButton copyDepthToAllFramesButton = new JButton("Copy Depth");
+		copyDepthToAllFramesButton.addActionListener(new CopyDepthToAllFramesActionListener());
+		final GridBagConstraints copyDepthToAllFramesButton_constraints = new GridBagConstraints();
+		copyDepthToAllFramesButton_constraints.gridx = 2;
+		copyDepthToAllFramesButton_constraints.gridy = 0;
+		copyDepthToAllFramesButton_constraints.gridwidth = 2;
+		copyDepthToAllFramesButton_constraints.gridheight = 2;
+		copyDepthToAllFramesButton_constraints.weightx = 0.0;
+		copyDepthToAllFramesButton_constraints.weighty = 0.0;
+		copyDepthToAllFramesButton_constraints.fill = GridBagConstraints.NONE;
+		copyDepthToAllFramesButton_constraints.anchor = GridBagConstraints.CENTER;
+		copyDepthToAllFramesButton.setVisible(true);
+
+		add(copyDepthToAllFramesButton, copyDepthToAllFramesButton_constraints);
+
 		final JTextField hardpointAddNameField = new JTextField();
 		final GridBagConstraints hardpointAddNameField_constraints = new GridBagConstraints();
 		hardpointAddNameField_constraints.gridx = 6;
@@ -196,6 +211,17 @@ public class FrameEditorPanel extends JPanel {
 
 	public HardpointTable getHardpointTable() {
 		return hardpointTable;
+	}
+
+	private class CopyDepthToAllFramesActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(final ActionEvent arg0) {
+			for (final Frame frame : model.getFrames()) {
+				for (final Hardpoint hardpoint : model.getHardpoints()) {
+					frame.getSavedPosition(hardpoint.getName()).setDepth(hardpoint.getDrawDepth());
+				}
+			}
+		}
 	}
 
 	private class HardpointDeleteActionListener implements ActionListener {
