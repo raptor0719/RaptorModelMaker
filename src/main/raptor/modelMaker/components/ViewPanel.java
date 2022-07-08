@@ -276,11 +276,11 @@ public class ViewPanel extends JPanel {
 			final int dB = b.getDrawDepth();
 
 			if (dA < dB)
-				return 1;
+				return -1;
 			else if (dA == dB)
 				return 0;
 			else
-				return -1;
+				return 1;
 		}
 	}
 
