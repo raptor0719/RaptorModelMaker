@@ -147,7 +147,7 @@ public class ViewPanel extends JPanel {
 
 		if (renderDimensions) {
 			final int xStart = planeOriginXOnViewport - model.getWidth()/2 + model.getCenterOffsetX();
-			final int yStart = planeOriginYOnViewport - model.getHeight()/2 - model.getCenterOffsetY();
+			final int yStart = planeOriginYOnViewport - model.getCenterOffsetY();
 
 			g2.drawRect(xStart, yStart, model.getWidth(), model.getHeight());
 		}
