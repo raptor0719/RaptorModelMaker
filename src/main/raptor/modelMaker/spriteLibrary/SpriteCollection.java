@@ -5,21 +5,21 @@ import java.util.Map;
 import java.util.Set;
 
 public class SpriteCollection {
-	private final Map<String, DirectionalSprite> phases;
+	private final Map<String, Sprite> phases;
 
 	private String name;
 
 	public SpriteCollection(final String name) {
-		this.phases = new HashMap<String, DirectionalSprite>();
+		this.phases = new HashMap<String, Sprite>();
 		this.name = name;
 	}
 
-	public SpriteCollection(final String name, final Map<String, DirectionalSprite> phases) {
+	public SpriteCollection(final String name, final Map<String, Sprite> phases) {
 		this.phases = phases;
 		this.name = name;
 	}
 
-	public DirectionalSprite getSprite(final String phase) {
+	public Sprite getSprite(final String phase) {
 		return phases.get(phase);
 	}
 
@@ -35,7 +35,7 @@ public class SpriteCollection {
 		if (phases.containsKey(phase))
 			return;
 
-		phases.put(phase, new DirectionalSprite());
+		phases.put(phase, new Sprite());
 	}
 
 	public void removePhase(final String phase) {

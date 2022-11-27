@@ -15,8 +15,6 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import raptor.modelMaker.model.ViewDirection;
-
 public class SpriteLibraryReader {
 	public static SpriteLibrary read(final String filePath) {
 		try {
@@ -49,25 +47,19 @@ public class SpriteLibraryReader {
 		for (int i = 0; i < spriteCollectionCount; i++) {
 			final String spriteCollectionName = deserializeString(dis);
 
-			final Map<String, DirectionalSprite> phases = new HashMap<String, DirectionalSprite>();
+			final Map<String, Sprite> phases = new HashMap<String, Sprite>();
 
 			final int phaseCount = dis.readInt();
 
 			for (int p = 0; p < phaseCount; p++) {
 				final String phaseName = deserializeString(dis);
 
-				final Map<ViewDirection, Sprite> sprites = new HashMap<ViewDirection, Sprite>();
+				final int attachX = dis.readInt();
+				final int attachY = dis.readInt();
 
-				for (final ViewDirection viewDirection : ViewDirection.values()) {
-					final BufferedImage image = readImage(spriteLibraryDirectory, getSpriteImageFileName(spriteCollectionName, phaseName, viewDirection));
+				final BufferedImage image = readImage(spriteLibraryDirectory, getSpriteImageFileName(spriteCollectionName, phaseName));
 
-					final int attachX = dis.readInt();
-					final int attachY = dis.readInt();
-
-					sprites.put(viewDirection, new Sprite(image, attachX, attachY));
-				}
-
-				phases.put(phaseName, new DirectionalSprite(sprites));
+				phases.put(phaseName, new Sprite(image, attachX, attachY));
 			}
 
 			spriteCollections.add(new SpriteCollection(spriteCollectionName, phases));
@@ -84,11 +76,9 @@ public class SpriteLibraryReader {
 
 		try {
 			for (final String phase : spriteCollection.getPhases()) {
-				for (final ViewDirection viewDirection : ViewDirection.values()) {
-					final BufferedImage image = readImage(directory, getSpriteImageFileName(spriteCollection.getName(), phase, viewDirection));
+				final BufferedImage image = readImage(directory, getSpriteImageFileName(spriteCollection.getName(), phase));
 
-					spriteCollection.getSprite(phase).getSprite(viewDirection).setImage(image);
-				}
+				spriteCollection.getSprite(phase).setImage(image);
 			}
 		} catch (final IOException e) {
 			throw new RuntimeException("Error reading images.", e);
@@ -109,8 +99,8 @@ public class SpriteLibraryReader {
 		return ImageIO.read(files[0]);
 	}
 
-	private static String getSpriteImageFileName(final String spriteCollectionName, final String spritePhase, final ViewDirection viewDirection) {
-		return String.format("%s_%s_%s", spriteCollectionName, spritePhase, viewDirection.getAbbreviation());
+	private static String getSpriteImageFileName(final String spriteCollectionName, final String spritePhase) {
+		return String.format("%s_%s", spriteCollectionName, spritePhase);
 	}
 
 	private static String stripExtension(final String fileName) {

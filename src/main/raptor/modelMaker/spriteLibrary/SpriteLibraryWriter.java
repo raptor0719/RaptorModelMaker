@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 import raptor.modelMaker.math.Point2D;
-import raptor.modelMaker.model.ViewDirection;
 
 public class SpriteLibraryWriter {
 	protected static final byte[] MAGIC_NUMBER = new byte[] {'s', 'p', 'r', 'i', 't', 'e'};
@@ -64,12 +63,10 @@ public class SpriteLibraryWriter {
 			for (final String phase : phases) {
 				dos.write(serializeString(phase));
 
-				for (final ViewDirection viewDirection : ViewDirection.values()) {
-					final Point2D attachmentPoint = spriteCollection.getSprite(phase).getSprite(viewDirection).getAttachmentPoint();
+				final Point2D attachmentPoint = spriteCollection.getSprite(phase).getAttachmentPoint();
 
-					dos.writeInt(attachmentPoint.getX());
-					dos.writeInt(attachmentPoint.getY());
-				}
+				dos.writeInt(attachmentPoint.getX());
+				dos.writeInt(attachmentPoint.getY());
 			}
 		}
 	}

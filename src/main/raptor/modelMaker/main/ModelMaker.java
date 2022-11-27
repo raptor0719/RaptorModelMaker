@@ -94,10 +94,10 @@ public class ModelMaker {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getExtendedKeyCode() == KeyEvent.VK_LEFT) {
-					viewPanel.rotateX(true);
+					viewPanel.rotateX(1, true);
 					viewPanel.repaint();
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_RIGHT) {
-					viewPanel.rotateX(false);
+					viewPanel.rotateX(1, false);
 					viewPanel.repaint();
 				}
 			}
@@ -222,6 +222,11 @@ public class ModelMaker {
 					viewPanel.setRenderImages(!viewPanel.renderImages());
 				} else if (e.getExtendedKeyCode() == KeyEvent.VK_X) {
 					viewPanel.setRenderDimensions(!viewPanel.renderDimensions());
+				} else if (e.getExtendedKeyCode() == KeyEvent.VK_F) {
+					final java.awt.Point p = PARENT_FRAME.getMousePosition();
+
+					if (p != null)
+						viewPanel.setRotationToFacePoint((int)p.getX(), (int)p.getY());
 				}
 			}
 

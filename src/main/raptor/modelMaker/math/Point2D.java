@@ -56,4 +56,13 @@ public class Point2D {
 		this.y = (int)y;
 		this.doubleY = y;
 	}
+
+	public static double getAngleBetweenAsVectors(final Point2D p1, final Point2D p2) {
+		final double magnitudeP1 = Math.sqrt(p1.getX()*p1.getX() + p1.getY()*p1.getY());
+		final double magnitudeP2 = Math.sqrt(p2.getX()*p2.getX() + p2.getY()*p2.getY());
+
+		final double dot = p1.getX()*p2.getX() + p1.getY()*p2.getY();
+
+		return Math.acos(dot / (magnitudeP1*magnitudeP2));
+	}
 }

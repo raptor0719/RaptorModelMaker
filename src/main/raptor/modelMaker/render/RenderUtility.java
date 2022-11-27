@@ -15,7 +15,7 @@ public class RenderUtility {
 		final Point2D attachmentPointWithRotationBuffer = accountForRotationBuffer(originalAttachmentPoint, originalImage, imageWithRotationBuffer);
 
 		final BufferedImage rotatedImage = rotateImage(imageWithRotationBuffer, rotation);
-		final Point2D rotatedAttachemntPoint = _rotatePoint(attachmentPointWithRotationBuffer, new Point2D(rotatedImage.getWidth()/2, rotatedImage.getHeight()/2), rotation);
+		final Point2D rotatedAttachemntPoint = rotatePoint(attachmentPointWithRotationBuffer, new Point2D(rotatedImage.getWidth()/2, rotatedImage.getHeight()/2), rotation);
 
 		return new Sprite(rotatedImage, rotatedAttachemntPoint.getX(), rotatedAttachemntPoint.getY());
 	}
@@ -63,7 +63,7 @@ public class RenderUtility {
 		return rotated;
 	}
 
-	private static Point2D _rotatePoint(final Point2D point, final Point2D pivot, final int degrees) {
+	public static Point2D rotatePoint(final Point2D point, final Point2D pivot, final int degrees) {
 		final double sin = Math.sin(Math.toRadians(degrees));
 		final double cos = Math.cos(Math.toRadians(degrees));
 

@@ -22,7 +22,6 @@ import javax.swing.JTextField;
 import javax.swing.event.ListDataListener;
 
 import raptor.modelMaker.main.ModelMaker;
-import raptor.modelMaker.model.ViewDirection;
 import raptor.modelMaker.spriteLibrary.Sprite;
 import raptor.modelMaker.spriteLibrary.SpriteCollection;
 import raptor.modelMaker.spriteLibrary.SpriteLibraryReader;
@@ -30,7 +29,6 @@ import raptor.modelMaker.spriteLibrary.SpriteLibraryReader;
 public class SpriteCollectionEditorPanel extends JPanel {
 	private final JLabel spriteCollectionNameTitle;
 	private final JComboBox<String> phaseChooser;
-	private final JComboBox<ViewDirection> viewDirectionChooser;
 	private final SpriteViewPanel spriteViewPanel;
 
 	private SpriteCollection spriteCollection;
@@ -105,56 +103,8 @@ public class SpriteCollectionEditorPanel extends JPanel {
 
 		add(phaseChooser, phaseChooser_constraints);
 
-		this.viewDirectionChooser = new JComboBox<ViewDirection>();
-		viewDirectionChooser.setModel(new ViewDirectionComboBoxModel());
-		final GridBagConstraints viewDirectionChooser_constraints = new GridBagConstraints();
-		viewDirectionChooser_constraints.gridx = 4;
-		viewDirectionChooser_constraints.gridy = 4;
-		viewDirectionChooser_constraints.gridwidth = 4;
-		viewDirectionChooser_constraints.gridheight = 2;
-		viewDirectionChooser_constraints.weightx = 1.0;
-		viewDirectionChooser_constraints.weighty = 0.0;
-		viewDirectionChooser_constraints.fill = GridBagConstraints.HORIZONTAL;
-		viewDirectionChooser_constraints.anchor = GridBagConstraints.WEST;
-		viewDirectionChooser_constraints.insets = new Insets(3, 3, 3, 3);
-		viewDirectionChooser.setVisible(true);
-
-		add(viewDirectionChooser, viewDirectionChooser_constraints);
-
-		final JLabel viewDirectionNameTitle = new JLabel(((ViewDirection)viewDirectionChooser.getSelectedItem()).name());
-		viewDirectionNameTitle.setFont(new Font("Arial", Font.BOLD, 14));
-		final GridBagConstraints viewDirectionNameTitle_constraints = new GridBagConstraints();
-		viewDirectionNameTitle_constraints.gridx = 0;
-		viewDirectionNameTitle_constraints.gridy = 6;
-		viewDirectionNameTitle_constraints.gridwidth = 6;
-		viewDirectionNameTitle_constraints.gridheight = 2;
-		viewDirectionNameTitle_constraints.weightx = 1.0;
-		viewDirectionNameTitle_constraints.weighty = 0.0;
-		viewDirectionNameTitle_constraints.fill = GridBagConstraints.HORIZONTAL;
-		viewDirectionNameTitle_constraints.anchor = GridBagConstraints.CENTER;
-		viewDirectionNameTitle_constraints.insets = new Insets(3, 3, 3, 3);
-		viewDirectionNameTitle.setVisible(true);
-
-		add(viewDirectionNameTitle, viewDirectionNameTitle_constraints);
-
-		final JButton selectViewDirectionButton = new JButton("Select");
-		selectViewDirectionButton.addActionListener(new SelectViewDirectionActionListener(viewDirectionNameTitle));
-		final GridBagConstraints selectViewDirectionButton_constraints = new GridBagConstraints();
-		selectViewDirectionButton_constraints.gridx = 7;
-		selectViewDirectionButton_constraints.gridy = 6;
-		selectViewDirectionButton_constraints.gridwidth = 1;
-		selectViewDirectionButton_constraints.gridheight = 2;
-		selectViewDirectionButton_constraints.weightx = 0.0;
-		selectViewDirectionButton_constraints.weighty = 0.0;
-		selectViewDirectionButton_constraints.fill = GridBagConstraints.NONE;
-		selectViewDirectionButton_constraints.anchor = GridBagConstraints.EAST;
-		selectViewDirectionButton_constraints.insets = new Insets(3, 3, 3, 3);
-		selectViewDirectionButton.setVisible(true);
-
-		add(selectViewDirectionButton, selectViewDirectionButton_constraints);
-
 		final JButton phaseRemoveButton = new JButton("Remove Phase");
-		phaseRemoveButton.addActionListener(new PhaseRemoveActionListener(selectViewDirectionButton, redrawOnChange));
+		phaseRemoveButton.addActionListener(new PhaseRemoveActionListener(redrawOnChange));
 		final GridBagConstraints phaseRemoveButton_constraints = new GridBagConstraints();
 		phaseRemoveButton_constraints.gridx = 0;
 		phaseRemoveButton_constraints.gridy = 2;
@@ -266,7 +216,7 @@ public class SpriteCollectionEditorPanel extends JPanel {
 		if (phase == null)
 			return;
 
-		spriteViewPanel.setSprite(spriteCollection.getSprite(phase).getSprite((ViewDirection)viewDirectionChooser.getSelectedItem()));
+		spriteViewPanel.setSprite(spriteCollection.getSprite(phase));
 	}
 
 	public SpriteCollection getSpriteCollection() {
@@ -327,49 +277,6 @@ public class SpriteCollectionEditorPanel extends JPanel {
 		}
 	}
 
-	private static class ViewDirectionComboBoxModel implements ComboBoxModel<ViewDirection> {
-		private final ViewDirection[] viewDirections;
-
-		private ViewDirection selected;
-
-		public ViewDirectionComboBoxModel() {
-			this.viewDirections = ViewDirection.values();
-			this.selected = ViewDirection.RIGHT;
-		}
-
-		@Override
-		public ViewDirection getElementAt(int index) {
-			return (index < 0 || index >= viewDirections.length) ? null : viewDirections[index];
-		}
-
-		@Override
-		public int getSize() {
-			return viewDirections.length;
-		}
-
-		@Override
-		public Object getSelectedItem() {
-			return selected;
-		}
-
-		@Override
-		public void setSelectedItem(final Object item) {
-			if (!(item instanceof ViewDirection))
-				return;
-			selected = (ViewDirection) item;
-		}
-
-		@Override
-		public void addListDataListener(final ListDataListener listDataListener) {
-			// no-op
-		}
-
-		@Override
-		public void removeListDataListener(final ListDataListener listDataListener) {
-			// no-op
-		}
-	}
-
 	private class PhaseAddActionListener implements ActionListener {
 		private final JTextField nameSourceField;
 
@@ -392,11 +299,9 @@ public class SpriteCollectionEditorPanel extends JPanel {
 	}
 
 	private class PhaseRemoveActionListener implements ActionListener {
-		private final JButton selectButton;
 		private final JComponent redrawOnChange;
 
-		public PhaseRemoveActionListener(final JButton selectButton, final JComponent redrawOnChange) {
-			this.selectButton = selectButton;
+		public PhaseRemoveActionListener(final JComponent redrawOnChange) {
 			this.redrawOnChange = redrawOnChange;
 		}
 
@@ -412,7 +317,6 @@ public class SpriteCollectionEditorPanel extends JPanel {
 
 			spriteCollection.removePhase(toRemove);
 			phaseChooser.setModel(new PhaseChooserComboBoxModel(spriteCollection.getPhases()));
-			selectButton.doClick();
 			redrawOnChange.repaint();
 		}
 	}
@@ -436,30 +340,6 @@ public class SpriteCollectionEditorPanel extends JPanel {
 			SpriteLibraryReader.loadImages(spriteCollection, spriteLibraryEditorPanel.getSpriteLibrary().getLocation());
 			spriteViewPanel.repaint();
 			redrawOnChange.repaint();
-		}
-	}
-
-	private class SelectViewDirectionActionListener implements ActionListener {
-		private final JLabel viewDirectionNameTitle;
-
-		public SelectViewDirectionActionListener(final JLabel viewDirectionNameTitle) {
-			this.viewDirectionNameTitle = viewDirectionNameTitle;
-		}
-
-		@Override
-		public void actionPerformed(final ActionEvent event) {
-			if (spriteCollection == null)
-				return;
-
-			final String phase = (String) phaseChooser.getSelectedItem();
-
-			if (phase == null)
-				return;
-
-			final ViewDirection viewDirection = (ViewDirection) viewDirectionChooser.getSelectedItem();
-
-			viewDirectionNameTitle.setText(spriteCollection.getName() + " : " + phase + " : " + viewDirection.name());
-			spriteViewPanel.setSprite(spriteCollection.getSprite(phase).getSprite(viewDirection));
 		}
 	}
 
