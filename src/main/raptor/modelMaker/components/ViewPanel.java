@@ -179,11 +179,15 @@ public class ViewPanel extends JPanel {
 		final int planeOriginXOnViewport = panelWidth / 2;
 		final int planeOriginYOnViewport = panelHeight / 2;
 
-		final double radians = Point2D.getAngleBetweenAsVectors(new Point2D(x, y), new Point2D(planeOriginXOnViewport, planeOriginYOnViewport));
+		final int normalX = 0;
+		final int normalY = 1;
 
-		this.rotation = (int)Math.toDegrees(radians);
+		final int mouseX = x - planeOriginXOnViewport;
+		final int mouseY = y - planeOriginYOnViewport;
 
-		System.out.println(x + " " + y + " | " + planeOriginXOnViewport + " " + planeOriginYOnViewport + " = " + radians + " | " + this.rotation);
+		final double radians = Point2D.getAngleBetweenAsVectors(new Point2D(normalX, normalY), new Point2D(mouseX, mouseY));
+
+		this.rotation = (int)Math.toDegrees(radians) * ((mouseX < 0) ? 1 : -1);
 
 		this.repaint();
 	}
